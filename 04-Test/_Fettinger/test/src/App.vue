@@ -24,6 +24,7 @@
     export default {
         name: 'app',
         components: {
+            // eslint-disable-next-line vue/no-unused-components
             HelloWorld
         }
     }
