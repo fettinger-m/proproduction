@@ -1,34 +1,61 @@
 <template>
     <div id="app">
-        <b-container class="bv-example-row">
-            <b-row>
-                <b-col lg="2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-                    ut labore et dolore magna aliquyam
-                </b-col>
-                <b-col lg="6">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-                    ut labore et dolore magna aliquyam
-                </b-col>
-                <b-col lg="2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-                    ut labore et dolore magna aliquyam
-                </b-col>
-            </b-row>
-        </b-container>
-
-
+        <Header></Header>
+        <AddTodo></AddTodo>
+        <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
     </div>
 </template>
 
 <script>
-    import HelloWorld from './components/HelloWorld.vue'
+    import Todos from "@/components/Todos";
+    import Header from "@/components/Layout/Header";
+    import AddTodo from "@/components/AddTodo";
 
     export default {
         name: 'app',
         components: {
-            HelloWorld
+            AddTodo,
+            Header,
+            Todos
+        },
+        data() {
+            return {
+                todos: [
+                    {
+                        id: 1,
+                        title: "Todo One",
+                        completed: false,
+                    },
+                    {
+                        id: 2,
+                        title: "Todo Two",
+                        completed: true,
+                    },
+                    {
+                        id: 3,
+                        title: "Todo Three",
+                        completed: false
+                    }
+                ]
+            }
+        },
+        methods: {
+            deleteTodo(id) {
+                this.todos = this.todos.filter(todo => todo.id != id);
+            }
         }
     }
 </script>
 
 <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
+    body {
+        font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+        line-height: 1.4;
+    }
 </style>
