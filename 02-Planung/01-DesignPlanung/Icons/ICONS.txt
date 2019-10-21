@@ -1,0 +1,24 @@
+arrow-alt-circle-left	https://fontawesome.com/icons/arrow-alt-circle-left?style=regular
+address-book		https://fontawesome.com/icons/address-book?style=regular
+bars			https://fontawesome.com/icons/bars?style=solid
+cloud-download-alt	https://fontawesome.com/icons/cloud-download-alt?style=solid
+clipboard-list		https://fontawesome.com/icons/clipboard-list?style=solid
+compass			https://fontawesome.com/icons/compass?style=regular
+cube			https://fontawesome.com/icons/cube?style=solid
+ellipsis-v		https://fontawesome.com/icons/ellipsis-v?style=solid
+file-medical		https://fontawesome.com/icons/file-medical?style=solid
+image			https://fontawesome.com/icons/image?style=solid
+info-circle		https://fontawesome.com/icons/info-circle?style=solid
+list			https://fontawesome.com/icons/list?style=solid
+map-marker-alt		https://fontawesome.com/icons/map-marker-alt?style=solid
+pen			https://fontawesome.com/icons/pen?style=solid
+sort			https://fontawesome.com/icons/sort?style=solid
+user-edit		https://fontawesome.com/icons/user-edit?style=solid
+trash-alt		https://fontawesome.com/icons/trash-alt?style=regular
+
+
+
+
+
+
+
