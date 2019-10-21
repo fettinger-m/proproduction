@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <Header></Header>
+        <NavBar></NavBar>
         <AddTodo></AddTodo>
         <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
     </div>
@@ -8,14 +8,18 @@
 
 <script>
     import Todos from "@/components/Todos";
-    import Header from "@/components/Layout/Header";
+    //import Header from "@/components/Layout/Header";
     import AddTodo from "@/components/AddTodo";
+    import NavBar from "@/components/Layout/NavBar";
+
+
 
     export default {
         name: 'app',
         components: {
+            NavBar,
             AddTodo,
-            Header,
+            //Header,
             Todos
         },
         data() {
@@ -23,7 +27,7 @@
                 todos: [
                     {
                         id: 1,
-                        title: "Todo One",
+                        title: "Todo Hallo",
                         completed: false,
                     },
                     {
