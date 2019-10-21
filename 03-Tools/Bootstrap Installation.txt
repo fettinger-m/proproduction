@@ -1,0 +1,8 @@
+npm i bootstrap-vue
+
+
+import BootrapVue from 'bootstrap-vue'
+import 'bootrap/dist/css/bootstrap.css'
+import 'bootrap-vue/dist/bootstrap-vue.css'
+
+
