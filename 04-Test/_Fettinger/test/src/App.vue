@@ -1,8 +1,11 @@
 <template>
     <div id="app">
         <NavBar></NavBar>
-        <AddTodo></AddTodo>
-        <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
+        <FilePath></FilePath>
+        <b-container>
+            <b-row><AddTodo></AddTodo></b-row>
+            <b-row><Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/></b-row>
+        </b-container>
     </div>
 </template>
 
@@ -11,12 +14,13 @@
     //import Header from "@/components/Layout/Header";
     import AddTodo from "@/components/AddTodo";
     import NavBar from "@/components/Layout/NavBar";
-
+    import FilePath from "./components/Layout/FilePath";
 
 
     export default {
         name: 'app',
         components: {
+            FilePath,
             NavBar,
             AddTodo,
             //Header,

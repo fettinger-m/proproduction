@@ -7,11 +7,15 @@
     background-color: #eeeeee !important;
 }
 
-.navbar-light a.navbar-brand {
+.navbar-light .navbar-brand {
     color: orangered;
 }
 .btn {
-    border-radius: 0px;
+
+}
+
+.breadcrumb {
+    background-color: transparent;
 }
 
 .btn-danger {
