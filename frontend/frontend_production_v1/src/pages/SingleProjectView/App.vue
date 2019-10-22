@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-    <NavBarSimple></NavBarSimple>
-
-    <h2>Login</h2>
+    <NavBar></NavBar>
+    <FilePath></FilePath>
+    <ProjectNameTitle></ProjectNameTitle>
   </div>
 </template>
 
 <script>
 
-
-import NavBarSimple from "@/components/Layout/NavBarSimple";
+import NavBar from "@/components/Layout/NavBar";
+import FilePath from "@/components/Layout/FilePath";
+import ProjectNameTitle from "@/components/Layout/ProjectNameTitle";
 
 export default {
   name: 'app',
   components: {
-    NavBarSimple
-
+    NavBar,
+    FilePath,
+    ProjectNameTitle
   }
 }
 </script>

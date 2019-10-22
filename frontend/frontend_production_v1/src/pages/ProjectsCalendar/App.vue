@@ -1,13 +1,10 @@
 <template>
   <div id="app">
     <NavBarSimple></NavBarSimple>
-
-    <h2>Login</h2>
   </div>
 </template>
 
 <script>
-
 
 import NavBarSimple from "@/components/Layout/NavBarSimple";
 
@@ -15,7 +12,6 @@ export default {
   name: 'app',
   components: {
     NavBarSimple
-
   }
 }
 </script>
