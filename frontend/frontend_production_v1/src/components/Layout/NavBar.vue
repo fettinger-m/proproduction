@@ -30,7 +30,7 @@
                     <font-awesome-icon :icon="['fas', 'image']" />
                     Moodboard
                 </b-nav-item>
-                <b-nav-item href="http://localhost:8080/contacts">
+                <b-nav-item href="./contacts">
                     <font-awesome-icon :icon="['fas', 'address-book']" />
                     Contacts
                 </b-nav-item>
