@@ -1,6 +1,22 @@
 <template>
   <div id="app">
     <NavBarSimple></NavBarSimple>
+
+    <!-- Projects Section -->
+    <div>
+      <div> Projects </div>
+
+
+
+    </div>
+
+
+    <!-- Calendar section -->
+    <div>
+      <div> Calendar </div>
+
+    </div>
+
   </div>
 </template>
 
@@ -21,7 +37,5 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 </style>

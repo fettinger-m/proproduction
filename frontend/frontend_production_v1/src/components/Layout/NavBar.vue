@@ -8,25 +8,25 @@
         <b-collapse id="nav-collapse" is-nav>
 
             <b-navbar-nav class="mr-auto">
-                <b-nav-item href="http://localhost:8080/projectscalendar" active>
+                <b-nav-item href="./projectscalendar" active>
                         <!--TODO: Dieses Element soll sich von den anderen abheben - sie führt zur Gesamtübersicht-->
                         <font-awesome-icon :icon="['fas', 'layer-group']" />
                         All Projects |
                 </b-nav-item>
 
-                <b-nav-item href="http://localhost:8080/singleprojectview" id="selectedproject">
-                    SelectedProject
+                <b-nav-item href="./singleprojectview" id="selectedproject">
+                    {{ projectname }}
                 </b-nav-item>
 
-                <b-nav-item href="http://localhost:8080/documentsscript">
+                <b-nav-item href="./documentsscript">
                         <font-awesome-icon :icon="['fas', 'file-alt']" />
                         Documents
                 </b-nav-item>
-                <b-nav-item href="http://localhost:8080/shotliststoryboard">
+                <b-nav-item href="./shotliststoryboard">
                     <font-awesome-icon :icon="['fas', 'clipboard-list']" />
                     Shotlist
                 </b-nav-item>
-                <b-nav-item href="http://localhost:8080/moodboard">
+                <b-nav-item href="./moodboard">
                     <font-awesome-icon :icon="['fas', 'image']" />
                     Moodboard
                 </b-nav-item>
@@ -34,11 +34,11 @@
                     <font-awesome-icon :icon="['fas', 'address-book']" />
                     Contacts
                 </b-nav-item>
-                <b-nav-item href="http://localhost:8080/locations">
+                <b-nav-item href="./locations">
                     <font-awesome-icon :icon="['fas', 'map-marker-alt']" />
                     Location
                 </b-nav-item>
-                <b-nav-item href="http://localhost:8080/library">
+                <b-nav-item href="./library">
                     <font-awesome-icon :icon="['fas', 'paperclip']" />
                     Media
                 </b-nav-item>
@@ -55,7 +55,20 @@
 
 <script>
     export default {
-        name: "NavBar"
+        name: "NavBar",
+        data: function () {
+            return {
+                projectname: 'Selected Project'
+            }
+        },
+        /*
+        methods: {
+            updateProjectName(){
+                var stringName = this.projectname;
+                return stringName;
+            }
+        }
+         */
     }
 </script>
 

@@ -1,20 +1,21 @@
 <template>
   <div id="app">
-    <NavBarSimple></NavBarSimple>
-
+    <NavBarSimpleSimple></NavBarSimpleSimple>
     <h2>Login</h2>
+
   </div>
 </template>
 
 <script>
 
 
-import NavBarSimple from "@/components/Layout/NavBarSimple";
 
+import NavBarSimpleSimple from "@/components/Layout/NavBarSimpleSimple";
 export default {
   name: 'app',
   components: {
-    NavBarSimple
+    NavBarSimpleSimple
+
 
   }
 }
