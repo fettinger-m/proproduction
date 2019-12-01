@@ -3,7 +3,6 @@
         <NavBarSimple></NavBarSimple>
         <AnotherDataTable
                 v-bind:project_elements="project_elements"
-                v-bind:edit_mode="edit_mode"
                 v-bind:project_status="project_status"
                 v-bind:themac="themac"
                 v-bind:statusc="statusc"
@@ -11,6 +10,7 @@
                 v-bind:custom1c="custom1c"
                 v-bind:custom2c="custom2c"
         />
+        <hr>
         <!-- <DataTableTest/> -->
         <Calendar></Calendar>
     </div>
@@ -33,23 +33,28 @@
         data() {
             return {
                 project_elements: [{
-                    project_nbr: 0,
+                    project_nbr: '',
                     project_name: '',
                     project_theme: '',
                     project_state:null,
                     customfield1: '',
                     customfield2: '',
+                    priority_stars: 0,
+                    deletedialog: false,
+                    read_only: false,
                 }],
                 project_status: [{
                     text: 'selecte state', value: null
                 },
                     'planning','filming','editing','preview', 'done'],
-                edit_mode: false,
+
+                //booleans if the specific column shows
                 themac: true,
                 statusc: true,
                 priorityc: true,
                 custom1c: true,
                 custom2c: true,
+
                 //todo: vielleicht andere aufteilung
             }
         }
@@ -59,11 +64,7 @@
 <style>
 
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
     }
 </style>
