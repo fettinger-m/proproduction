@@ -13,7 +13,7 @@
                         <font-awesome-icon :icon="['fas', 'plus-square']"/>
                         Add New Project
                     </button>
-                <!-- SETTINGS BUTTON -->
+                    <!-- SETTINGS BUTTON -->
                     <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
                         <template v-slot:button-content>
                             <font-awesome-icon :icon="['fas', 'cog']"/>
@@ -26,7 +26,7 @@
                         <div class="dropdown-divider"></div>
                         <b-dropdown-item>something else</b-dropdown-item>
                     </b-dropdown>
-                </b-col >
+                </b-col>
             </b-row>
         </div>
 
@@ -99,7 +99,13 @@
                                 v-model="project_element.project_name"
                                 :readonly="project_element.read_only"
                                 @click="openProject(project_element.read_only, project_element.project_name)"
+
                         ></b-form-input>
+                        <!-- HOVER
+                               @mouseover="project_element.hover = true"
+                               @mouseleave="project_element.hover = false"
+                               :class="{ activeToClick: project_element.hover }"
+                               -->
                     </b-form-group>
 
                 </td>
@@ -163,11 +169,29 @@
                 <!-- Priority -->
                 <td v-show="priorityc">
                     <div>
-                        <PriorityStars
-                                v-bind:project_element="project_element"
-                                v-bind:project_elements="project_elements"
+                        <font-awesome-icon
+                                :icon="['fas', 'star']"
+                                @click="starClicked(1, project_element)"
+                        />
+                        <font-awesome-icon
+                                :icon="['fas', 'star']"
+                                @click="starClicked(2, project_element)"
+                        />
+                        <font-awesome-icon
+                                :icon="['fas', 'star']"
+                                @click="starClicked(3, project_element)"
+                        />
+                        <font-awesome-icon
+                                :icon="['fas', 'star']"
+                                @click="starClicked(4, project_element)"
+                        />
+                        <font-awesome-icon
+                                :icon="['fas', 'star']"
+                                @click="starClicked(5, project_element)"
                         />
                     </div>
+
+
                 </td>
 
 
@@ -189,12 +213,13 @@
 
                 <!-- Delete button -->
                 <td>
-                    <b-button  @click="$bvModal.show(index.toString())">
+                    <b-button @click="$bvModal.show(index.toString())">
                         <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                     </b-button>
 
                     <b-modal :id="index.toString()" hide-footer title="Delete entire project?">
-                        <b-button variant="outline-danger" block @click="deleteRow(index, project_element); $bvModal.hide(index.toString())">Delete
+                        <b-button variant="outline-danger" block
+                                  @click="deleteRow(index, project_element); $bvModal.hide(index.toString())">Delete
                         </b-button>
                         <b-button variant="outline-warning" block @click="$bvModal.hide(index.toString())">Cancle
                         </b-button>
@@ -206,16 +231,15 @@
 </template>
 
 <script>
-    import PriorityStars from "@/components/PriorityStars";
 
     export default {
         name: "AnotherDataTable",
-        components: {PriorityStars},
+        components: {},
         data() {
             return {
                 dismissSecs: 10,
                 dismissCountDown: 0,
-                showDismissibleAlert: false
+                showDismissibleAlert: false,
             }
         },
 
@@ -256,7 +280,7 @@
                     project_nbr: '',
                     project_name: '',
                     project_theme: '',
-                    project_state:null,
+                    project_state: null,
                     customfield1: '',
                     customfield2: '',
                     priority_stars: 0,
@@ -287,9 +311,9 @@
                 var state = false;
 
                 //CHECK IF ID AND NAME FILLED
-                if((project_element.project_nbr != null) && (project_element.project_name != null)) {
+                if ((project_element.project_nbr != null) && (project_element.project_name != null)) {
 
-                    if((project_element.project_nbr.length > 0) && (project_element.project_name.length > 0)) {
+                    if ((project_element.project_nbr.length > 0) && (project_element.project_name.length > 0)) {
 
                         //TODO check if nbr is unique
                         /*
@@ -312,7 +336,6 @@
 
                         //Save to json file
                         //TODO
-
 
 
                         //change to read_only
@@ -340,9 +363,9 @@
             },
 
             //opens the specific project after the "readonly" textfield has been clicked
-            openProject(read_only,projectname) {
+            openProject(read_only, projectname) {
 
-                if(read_only) {
+                if (read_only) {
                     // eslint-disable-next-line no-console
                     console.log("project opened " + projectname)
 
@@ -357,11 +380,34 @@
             countDownChanged(dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
             },
+
+            starClicked(index, project_element) {
+
+                //Wert der Sterne in Objekt schreiben
+                project_element.priority_stars = index;
+
+                if (index == 1) {
+                    // eslint-disable-next-line no-console
+                    console.log('1. star clicked from ' + project_element.project_name)
+
+                } else if (index == 2) {
+                    // eslint-disable-next-line no-console
+                    console.log('2. star clicked from ' + project_element.project_name)
+                } else if (index == 3) {
+                    // eslint-disable-next-line no-console
+                    console.log('3. star clicked from ' + project_element.project_name)
+                } else if (index == 4) {
+                    // eslint-disable-next-line no-console
+                    console.log('4. star clicked from ' + project_element.project_name)
+                } else if (index == 5) {
+                    // eslint-disable-next-line no-console
+                    console.log('5. star clicked from ' + project_element.project_name)
+                }
+            }
+
+
         },
-        computed: {
-
-
-        }
+        computed: {}
 
     }
 </script>
@@ -382,6 +428,10 @@
 
     #app {
         background: lightgrey;
+    }
+
+    .activeToClick {
+        background-color: orange;
     }
 
 </style>

@@ -42,6 +42,7 @@
                     priority_stars: 0,
                     deletedialog: false,
                     read_only: false,
+                    hover: false,
                 }],
                 project_status: [{
                     text: 'selecte state', value: null
