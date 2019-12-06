@@ -1,8 +1,9 @@
 <template>
-  <div id="moodboard">
-    <NavBar current-page="moodboard"></NavBar>
+  <div id="library">
+    <NavBar current-page="media"></NavBar>
     <FilePath></FilePath>
     <ProjectNameTitle></ProjectNameTitle>
+    <h2>Media Library</h2>
   </div>
 </template>
 
@@ -13,11 +14,11 @@ import FilePath from "../components/Layout/FilePath";
 import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
 
 export default {
-  name: 'moodboard',
+  name: 'library',
   components: {
     NavBar,
     FilePath,
-    ProjectNameTitle,
+    ProjectNameTitle
   }
 }
 </script>
