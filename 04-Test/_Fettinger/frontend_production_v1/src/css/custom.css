@@ -1,0 +1,52 @@
+.navbar-brand {
+    font-weight: bolder;
+    font-size: x-large;
+}
+
+.bg-light {
+    background-color: #eeeeee !important;
+}
+
+.navbar-light .navbar-brand {
+    color: orangered;
+}
+.btn {
+
+}
+
+.breadcrumb {
+    background-color: transparent;
+}
+
+.btn-outline-primary {
+    color: orangered;
+    border-color: orangered;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: orangered;
+    border-color: orangered;
+}
+
+
+ .btn-outline-primary:not(:disabled):not(.disabled):active,
+ .btn-outline-primary:not(:disabled):not(.disabled).active,
+ .show > .btn-outline-primary.dropdown-toggle {
+     color: #fff;
+     background-color: orangered;
+     border-color: orangered;
+ }
+
+.btn-outline-primary:focus,
+.btn-outline-primary.focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-primary.dropdown-toggle:focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+}
