@@ -1,26 +1,24 @@
 <template>
-  <div id="app">
-    <NavBar></NavBar>
+  <div id="shotlist">
+    <NavBar current-page="shotlist"></NavBar>
     <FilePath></FilePath>
     <ProjectNameTitle></ProjectNameTitle>
-    <PageNameSubtitle></PageNameSubtitle>
+    <h2>Shotlist & Storyboard</h2>
   </div>
 </template>
 
 <script>
 
-import NavBar from "@/components/Layout/NavBar";
-import FilePath from "@/components/Layout/FilePath";
-import ProjectNameTitle from "@/components/Layout/ProjectNameTitle";
-import PageNameSubtitle from "@/components/Layout/PageNameSubtitle";
+import NavBar from "../components/Layout/NavBar";
+import FilePath from "../components/Layout/FilePath";
+import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
 
 export default {
-  name: 'app',
+  name: 'shotlist',
   components: {
     NavBar,
     FilePath,
-    ProjectNameTitle,
-    PageNameSubtitle
+    ProjectNameTitle
   }
 }
 </script>

@@ -1,21 +1,18 @@
 <template>
-  <div id="app">
+  <div id="profile">
     <NavBarSimple></NavBarSimple>
-
-    <h2>Login</h2>
+    <h2>My Profile</h2>
   </div>
 </template>
 
 <script>
 
-
-import NavBarSimple from "@/components/Layout/NavBarSimple";
+import NavBarSimple from "../components/Layout/NavBarSimple";
 
 export default {
-  name: 'app',
+  name: 'profile',
   components: {
     NavBarSimple
-
   }
 }
 </script>

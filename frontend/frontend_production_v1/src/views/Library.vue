@@ -1,20 +1,20 @@
 <template>
-  <div id="app">
-    <NavBar></NavBar>
+  <div id="library">
+    <NavBar current-page="media"></NavBar>
     <FilePath></FilePath>
     <ProjectNameTitle></ProjectNameTitle>
-    <h2>Contacts</h2>
+    <h2>Media Library</h2>
   </div>
 </template>
 
 <script>
 
-import NavBar from "@/components/Layout/NavBar";
-import FilePath from "@/components/Layout/FilePath";
-import ProjectNameTitle from "@/components/Layout/ProjectNameTitle";
+import NavBar from "../components/Layout/NavBar";
+import FilePath from "../components/Layout/FilePath";
+import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
 
 export default {
-  name: 'app',
+  name: 'library',
   components: {
     NavBar,
     FilePath,

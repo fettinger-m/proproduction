@@ -9,10 +9,12 @@
         <b-collapse id="nav-collapse" is-nav>
 
             <b-navbar-nav class="mr-auto">
-                <b-nav-item href="http://localhost:8080/projectscalendar" active>
+                <b-nav-item active>
+                    <router-link :to="{name: 'calender'}">
                     <!--TODO: Dieses Element soll sich von den anderen abheben - sie führt zur Gesamtübersicht-->
                     <font-awesome-icon :icon="['fas', 'layer-group']" />
                     All Projects |
+                    </router-link>
                 </b-nav-item>
             </b-navbar-nav>
 
