@@ -3,7 +3,6 @@
     <NavBar current-page="moodboard"></NavBar>
     <FilePath></FilePath>
     <ProjectNameTitle></ProjectNameTitle>
-    <PageNameSubtitle></PageNameSubtitle>
   </div>
 </template>
 
@@ -12,7 +11,6 @@
 import NavBar from "../components/Layout/NavBar";
 import FilePath from "../components/Layout/FilePath";
 import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
-import PageNameSubtitle from "../components/Layout/PageNameSubtitle";
 
 export default {
   name: 'moodboard',
@@ -20,7 +18,6 @@ export default {
     NavBar,
     FilePath,
     ProjectNameTitle,
-    PageNameSubtitle
   }
 }
 </script>
