@@ -3,10 +3,11 @@
 
         <!-- Heading -->
         <h1>{{projectname}}</h1>
-        <hr>
-        <b-container>
+
+        <b-container id="categorysID">
             <b-col v-for="(category_element, index) in category_elements" v-bind:key="index">
                 <CategoryElement v-bind:category_element="category_element"/>
+                <hr>
             </b-col>
         </b-container>
     </div>
@@ -76,6 +77,7 @@
 </script>
 
 <style scoped>
-    #colCategory {
+    #categorysID {
+        padding: 20px;
     }
 </style>

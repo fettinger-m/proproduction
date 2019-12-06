@@ -1,7 +1,8 @@
 <template>
-    <div @click="categoryOnClick(category_element.category_name)" >
 
-        <div id="categoryInActive" class="rounded-lg">
+    <div class="wholeComponent" @click="categoryOnClick(category_element.category_name)" >
+
+        <div>
             <b-row
                     @mouseover="category_element.category_hover = true"
                     @mouseleave="category_element.category_hover = false"
@@ -13,21 +14,20 @@
                 </b-col>
                 <b-col cols="8">
                     <!-- Name -->
-                    <h3 id="title"> {{ category_element.category_name }} </h3>
+                    <h3 id="titleID"> {{ category_element.category_name }} </h3>
                     <!-- Beschreibung -->
-                    <div>
+                    <div id="descrID">
                         {{ category_element.category_desc }}
                     </div>
                 </b-col>
                 <b-col>
                     <!-- Anazhl an Elementen drinnen -->
-                    <div>
+                    <div id="amountID">
                         {{ category_element.category_amount }}
                     </div>
                 </b-col>
             </b-row>
         </div>
-        <hr>
     </div>
 </template>
 
@@ -41,33 +41,45 @@
             }
         },
         methods: {
+
             categoryOnClick(category_name) {
                 // eslint-disable-next-line no-console
                 console.log('Open category: ' + category_name)
 
-                //TODO: Open new window
+                //TODO: Open new window with specific project
             }
         }
     }
 </script>
 
 <style scoped>
-    #title {
+    .wholeComponent {
+    }
+
+    #titleID {
         color: black;
     }
 
     #icon {
         color: #FF6852;
         font-size: 35px;
+        margin-top: 12px;
     }
 
-    #categoryInActive {
-        background-color: lightgrey;
+    #descrID {
+        color: #777777;
+    }
+
+    #amountID{
+
     }
 
     .activeToClick {
-        background-color: orange;
-
+        background-color: lightgrey;
+        border-radius: 7px;
     }
+
+
+
 
 </style>
