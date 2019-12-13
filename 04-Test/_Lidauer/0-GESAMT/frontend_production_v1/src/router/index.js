@@ -42,17 +42,23 @@ export default new VueRouter({
                 path: '/projects',
                 component: ProjectsCalenderApp,
                 name: 'projects',
-
             },
             {
-                path: '/projects/:project',
+                path: '/projects/:project_url',
                 component: SingleProjectViewApp,
                 name: 'project',
+                props(route) {
+                    const props = {
+                        project_element: route.params.project_element
+                    };
+                    return props;
+                }
+                //props: { projectElement:  "project_element" }
             },
             {
                 path: '/projects/:project/contacts',
                 component: ContactsApp,
-                name: 'contacts'
+                name: 'contacts',
             },
             {
                 path: '/projects/:project/documents',
@@ -77,12 +83,24 @@ export default new VueRouter({
             {
                 path: '/projects/:project/moodboard',
                 component: MoodboardApp,
-                name: 'moodboard'
+                name: 'moodboard',
+                props(route) {
+                    const props = {
+                        project_element: route.params.project_element
+                    };
+                    return props;
+                }
             },
             {
                 path: '/projects/:project/shotlist',
                 component: ShotlistStoryboardApp,
-                name: 'shotlist'
+                name: 'shotlist',
+                props(route) {
+                    const props = {
+                        project_element: route.params.project_element
+                    };
+                    return props;
+                }
             },
             {
                 path: '/projects/:project/media',

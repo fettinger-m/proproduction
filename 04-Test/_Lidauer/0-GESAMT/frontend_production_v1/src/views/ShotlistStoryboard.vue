@@ -1,8 +1,13 @@
 <template>
   <div id="shotlist">
-    <NavBar current-page="shotlist"></NavBar>
+    <NavBar
+            current-page="shotlist"
+            v-bind:project_element="project_element"
+    ></NavBar>
     <FilePath></FilePath>
-    <ProjectNameTitle></ProjectNameTitle>
+    <ProjectNameTitle
+            v-bind:project_element="project_element"
+    ></ProjectNameTitle>
     <h2>Shotlist & Storyboard</h2>
   </div>
 </template>
@@ -19,7 +24,14 @@ export default {
     NavBar,
     FilePath,
     ProjectNameTitle
-  }
+  },
+
+  props: {
+    project_element: {
+      type: Object,
+      required: true
+    }
+  },
 }
 </script>
 
