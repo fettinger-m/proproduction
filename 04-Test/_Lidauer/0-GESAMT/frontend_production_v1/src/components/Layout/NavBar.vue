@@ -83,7 +83,12 @@
         },
         props: {
             currentPage: String,
-            smallNav: Boolean
+            smallNav: Boolean,
+
+            project_element: {
+                type: Object,
+                required: false
+            }
         }
     }
 </script>

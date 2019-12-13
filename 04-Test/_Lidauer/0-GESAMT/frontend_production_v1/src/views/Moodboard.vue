@@ -1,8 +1,14 @@
 <template>
   <div id="moodboard">
-    <NavBar current-page="moodboard"></NavBar>
+    <NavBar
+            current-page="moodboard"
+            v-bind:project_element="project_element"
+    ></NavBar>
     <FilePath></FilePath>
-    <ProjectNameTitle></ProjectNameTitle>
+    <ProjectNameTitle
+            v-bind:project_element="project_element"
+    ></ProjectNameTitle>
+    <h2>Moodboard</h2>
   </div>
 </template>
 
@@ -18,7 +24,13 @@ export default {
     NavBar,
     FilePath,
     ProjectNameTitle,
-  }
+  },
+  props: {
+    project_element: {
+      type: Object,
+      required: false
+    }
+  },
 }
 </script>
 

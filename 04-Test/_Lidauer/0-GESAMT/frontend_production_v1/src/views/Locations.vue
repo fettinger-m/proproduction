@@ -1,8 +1,13 @@
 <template>
   <div id="location">
-    <NavBar current-page="location"></NavBar>
+    <NavBar
+            current-page="location"
+            v-bind:project_element="project_element"
+    ></NavBar>
     <FilePath></FilePath>
-    <ProjectNameTitle></ProjectNameTitle>
+    <ProjectNameTitle
+            v-bind:project_element="project_element"
+    ></ProjectNameTitle>
     <h2>Locations</h2>
   </div>
 </template>
@@ -19,7 +24,13 @@ export default {
     NavBar,
     FilePath,
     ProjectNameTitle
-  }
+  },
+  props: {
+    project_element: {
+      type: Object,
+      required: true
+    }
+  },
 }
 </script>
 

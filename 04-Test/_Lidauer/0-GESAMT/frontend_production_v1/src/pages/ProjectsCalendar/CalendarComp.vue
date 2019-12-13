@@ -1,12 +1,16 @@
 <!-- Example: https://www.npmjs.com/package/vue-full-calendar -->
 
 <template>
-    <p>Test</p>
+    <div>
+        <p>
+        <h1>Calendar</h1>
+    </div>
+
 </template>
 
 <script>
     export default {
-        name: "Calendar"
+        name: "CalendarComp"
     }
 </script>
 

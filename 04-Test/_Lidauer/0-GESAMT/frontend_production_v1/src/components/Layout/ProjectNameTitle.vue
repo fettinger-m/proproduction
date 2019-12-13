@@ -2,31 +2,21 @@
 
 <template>
     <div>
-        <h1>{{ projectnametitle }}</h1>
+        <h1>{{ project_element.project_name }}</h1>
     </div>
 </template>
 
 
 <script>
-
     export default {
         name: "ProjectNameTitle",
-        data: function () {
-            return {
-                projectnametitle: 'here comes to project name'
-            }
-        },
 
-
-        //??? How to get projectname from NavBar.vue
-        /*
-        watch: {
-            msg: function () {
-                this.projectnametitle = NavBar.methods.updateProjectName();
-                //this.projectnametitle.push(this.msg());
+        props: {
+            project_element: {
+                type: Object,
+                required: false
             }
         }
-        */
     }
 </script>
 
