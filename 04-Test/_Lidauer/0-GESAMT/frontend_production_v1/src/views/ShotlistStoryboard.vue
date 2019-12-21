@@ -9,6 +9,7 @@
             v-bind:project_element="project_element"
     ></ProjectNameTitle>
     <h2>Shotlist & Storyboard</h2>
+    <ShotlistComp></ShotlistComp>
   </div>
 </template>
 
@@ -17,10 +18,12 @@
 import NavBar from "../components/Layout/NavBar";
 import FilePath from "../components/Layout/FilePath";
 import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
+import ShotlistComp from "@/pages/ShotlistStoryboard/ShotlistComp";
 
 export default {
   name: 'shotlist',
   components: {
+    ShotlistComp,
     NavBar,
     FilePath,
     ProjectNameTitle
