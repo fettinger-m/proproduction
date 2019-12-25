@@ -14,6 +14,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import axios from 'axios'
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
@@ -23,6 +24,7 @@ Vue.use(BootstrapVue);
 
 
 Vue.config.productionTip = false;
+Vue.prototype.$http = axios;
 
 
 new Vue({

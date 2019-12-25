@@ -1,11 +1,24 @@
 <template>
     <div id="shotlist">
 
-        <!-- Button to add a new shotlisttab-->
-        <button type="button" @click="addNewTab()" id="addListTabButton">
-            <font-awesome-icon :icon="['fas', 'plus-square']"/>
-            Add New Shotlist
-        </button>
+        <b-row>
+            <b-col>
+
+            </b-col>
+            <!-- Button to add a new shotlisttab-->
+            <b-col sm="2">
+                <b-button
+                        type="button"
+                        @click="addNewTab()"
+                        id="addListTabButton"
+                        variant="outline-primary"
+                >
+                    <font-awesome-icon :icon="['fas', 'plus-square']"/>
+                    Add New Shotlist
+                </b-button>
+            </b-col>
+        </b-row>
+
 
         <!-- All tabs -->
         <b-tabs content-class="mt-3">
@@ -18,8 +31,7 @@
                         <b-row>
 
                             <!-- SHOTLIST NAME-->
-                            <b-col cols="12" md="auto">
-                                <!-- todo:  space in textfield-->
+                            <b-col>
                                 <div>
                                     <!-- Input file -->
                                     <b-input
@@ -27,11 +39,9 @@
                                             v-model="shotlistTab.listName"
                                             :state="shotlistTab.listName.length >= 4"
                                             placeholder="Enter at least 4 characters"
-                                            v-focus
+
                                     ></b-input>
-                                    <!-- @blur="shotlistTab.edit = false; $emit('update')"
-                                            @keyup.enter="shotlistTab.edit=false; $emit('update')"-->
-                                    <!-- Normal view-->
+                                    <!-- Normal Label-->
                                     <div v-else>
                                         <label> {{shotlistTab.listName}} </label>
                                     </div>
@@ -39,12 +49,13 @@
                             </b-col>
 
                             <!-- Edit & Save Button-->
-                            <b-col>
+                            <b-col cols="2">
                                 <!-- Save Button -->
                                 <div v-show="shotlistTab.edit">
                                     <b-button
                                             @click="saveNameChange(shotlistTabs, shotlistTab)"
-                                            variant="outline-dark"
+                                            variant="outline"
+                                            :disabled="shotlistTab.listName.length < 4"
                                     >
                                         <font-awesome-icon :icon="['fas', 'check']"/>
                                     </b-button>
@@ -53,7 +64,7 @@
                                 <div v-show="!shotlistTab.edit">
                                     <b-button
                                             @click="shotlistTab.edit = true;"
-                                            variant="outline-dark"
+                                            variant="outline"
                                     >
                                         <font-awesome-icon :icon="['fas', 'pen']"/>
                                     </b-button>
@@ -61,15 +72,18 @@
                             </b-col>
 
                             <!-- Dropdown Settings -->
-                            <b-col>
-                                <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
+                            <b-col cols="2">
+                                <b-dropdown variant="outline" toggle-class="text-decoration-none" no-caret>
                                     <template v-slot:button-content>
                                         <font-awesome-icon :icon="['fas', 'cog']"/>
                                     </template>
 
                                     <!-- Delete button -->
                                     <b-form>
-                                        <b-button @click="$bvModal.show(index.toString())">
+                                        <b-button
+                                                @click="$bvModal.show(index.toString())"
+                                                variant="outline-danger"
+                                        >
                                             <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                                             Delete List
                                         </b-button>
@@ -88,24 +102,58 @@
                                     </b-form>
 
                                     <!-- Columns that will be shown -->
-                                    <b-form-checkbox>Frame</b-form-checkbox>
-                                    <b-form-checkbox>Shotsize</b-form-checkbox>
-                                    <b-form-checkbox>Movement</b-form-checkbox>
-                                    <b-form-checkbox>Camera</b-form-checkbox>
-                                    <b-form-checkbox>Lens</b-form-checkbox>
-                                    <b-form-checkbox>Framerate</b-form-checkbox>
-                                    <b-form-checkbox>Special Equipment</b-form-checkbox>
-                                    <b-form-checkbox>Location</b-form-checkbox>
+                                    <b-form-checkbox
+                                            v-model="frame_c"
+                                    >Frame
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="shotsize_c"
+                                    >Shotsize
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="movement_t"
+                                    >Movement
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="camera_c"
+                                    >Camera
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="lens_c"
+                                    >Lens
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="framerate_r"
+                                    >Framerate
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="specialEquip_c"
+                                    >Special Equipment
+                                    </b-form-checkbox>
+
+                                    <b-form-checkbox
+                                            v-model="location_c"
+                                    >Location
+                                    </b-form-checkbox>
+
                                 </b-dropdown>
                             </b-col>
+
                         </b-row>
                     </b-container>
                 </template>
 
                 <!-- Table Content -->
-                <!-- todo: here comes the shotlist / component-->
                 <div>
-                    <SingleShotlist></SingleShotlist>
+                    <SingleShotlist
+                            v-bind:shotlist_tab="shotlistTab"
+                    />
                 </div>
             </b-tab>
         </b-tabs>
@@ -113,27 +161,83 @@
 </template>
 
 <script>
+    //Index for modal
+    //todo: Index für Modal - andere Lösung finden
+    let i = 0;
+
     import SingleShotlist from "@/pages/ShotlistStoryboard/SingleShotlist";
+
     export default {
         name: "ShotlistComp",
         components: {SingleShotlist},
         data() {
             return {
+
                 //Array of all Shotlists
                 shotlistTabs: [{
                     listName: 'First Shotlist',
                     edit: false,
 
-                    //todo list inside
+                    //IDs for Modals
+                    addShot_modal_ID: 'addShotID',    //auto generated
+
+                    shots: [{
+                        frame: 'picture',          //picture to upload
+                        nbr: 0,             //auto generated number
+                        description: 'descr',    //free text
+                        shotsize: null,       //options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
+                        movement: 'Forward',       //free text
+                        camera: 'a7III',         //free text
+                        lens: '50mm 1.4',           //free text
+                        framerate: '23,976',      //free double nbr
+                        specialEquip: 'Gimbal',   //free text
+                        location: null,          //only the locations that are on the location page
+                    }],
+
+                    //Booleans if the specific column is shown
+                    frame_c: true,
+                    shotsize_c: true,
+                    movement_c: true,
+                    camera_c: true,
+                    lens_c: true,
+                    framerate_c: true,
+                    specialEquip_c: true,
+                    location_c: true
                 }],
-                editedListName: null,
             }
         },
         methods: {
             addNewTab() {
+                i++;    //increment variable (defined at the top)
+
                 this.shotlistTabs.push({
                     listName: 'New Shotlist',
-                    edit: false
+                    edit: false,
+
+                    addShot_modal_ID: 'addShotID' + i,    //append incremented index
+
+                    shots: [{
+                        frame: 'picture',
+                        nbr: 0,
+                        description: 'Exapmle Shot',
+                        shotsize: null,
+                        movement: 'Forward',
+                        camera: 'a7III',
+                        lens: '50mm 1.4',
+                        framerate: '23,976',
+                        specialEquip: 'Gimbal',
+                        location: null
+                    }],
+
+                    //Booleans if the specific column is shown
+                    frame_c: true,
+                    shotsize_c: true,
+                    movement_c: true,
+                    camera_c: true,
+                    lens_c: true,
+                    framerate_c: true,
+                    specialEquip_c: true,
+                    location_c: true
                 });
             },
 
@@ -147,13 +251,7 @@
                 }
             },
 
-            editListName: function (shotlistTab) {
-                this.editedListName = shotlistTab
-            },
-
             saveNameChange(shotlistTabs, shotlistTab) {
-                var state = false;
-
                 //CHECK IF ID AND NAME FILLED
                 if (shotlistTab.listName != null) {
 
@@ -164,36 +262,24 @@
                         shotlistTab.edit = false;
                         // eslint-disable-next-line no-console
                         console.log('Edit Mode is now: ' + shotlistTab.edit)
-
-
                     } else {
-                        state = false;
                         // eslint-disable-next-line no-console
                         console.log('Name not filled - State is false')
-                        this.dismissCountDown = this.dismissSecs
                     }
                 } else {
-                    state = false;
                     // eslint-disable-next-line no-console
                     console.log('Name not filled - State is false 2')
-                    this.dismissCountDown = this.dismissSecs
                 }
-
-                return state
             },
         },
         directives: {
-            focus: {
-                inserted(el) {
-                    el.focus()
-                }
-            }
+            focus: {}
         }
     }
 </script>
 
 <style scoped>
     #shotlist {
-        margin: 50px;
+        margin: px;
     }
 </style>

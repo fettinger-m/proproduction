@@ -9,6 +9,7 @@
             v-bind:project_element="project_element"
     ></ProjectNameTitle>
     <h2>Media Library</h2>
+    <LibraryCompTest/>
   </div>
 </template>
 
@@ -17,10 +18,12 @@
 import NavBar from "../components/Layout/NavBar";
 import FilePath from "../components/Layout/FilePath";
 import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
+import LibraryCompTest from "@/pages/MediaLibrary/LibraryCompTest";
 
 export default {
   name: 'library',
   components: {
+    LibraryCompTest,
     NavBar,
     FilePath,
     ProjectNameTitle
