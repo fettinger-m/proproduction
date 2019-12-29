@@ -19,6 +19,7 @@
 
 <script>
     import Vuetable from 'vuetable-2/src/components/Vuetable'
+    import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import Vue from 'vue'
     import CustomActions from './CustomActions'
 
@@ -28,51 +29,54 @@
 
     export default {
         components: {
-            Vuetable
+            Vuetable,
+            VuetablePagination
         },
         name: "ContactsTable",
         data() {
             return {
                 fields: [
                     {
-                        name: '__sequence',   // <----
-                        title: '#',
-                        titleClass: 'center aligned',
-                        dataClass: 'right aligned'
+                        name: 'name',
+                        width: '20%',
+                        dataClass: 'text-left'
                     },
-                    'name', 'email',
                     {
-                        name: 'birthdate',
-                        titleClass: 'center aligned',
-                        dataClass: 'center aligned',
+                        name: 'group.description',
+                        title: 'Group',
+                        width: '14%',
+                        dataClass: 'text-left'
                     },
                     {
                         name: 'nickname',
-                        callback: 'caseUp'
+                        title: 'Role',
+                        callback: 'caseUp',
+                        width: '14%',
+                        dataClass: 'text-left'
                     },
                     {
-                        name: 'gender',
-                        titleClass: 'center aligned',
-                        dataClass: 'center aligned',
+                        name: 'email',
+                        title: 'E-Mail',
+                        width: '20%',
+                        dataClass: 'text-left'
                     },
                     {
-                        name: 'salary',
-                        title: 'gehoit',
-                        titleClass: 'center aligned',
-                        dataClass: 'right aligned'
+                        name: 'address.mobile',
+                        title: 'Phone',
+                        width: '20%',
+                        dataClass: 'text-left'
                     },
                     {
                         name: '__component:custom-actions',
                         title: 'Actions',
-                        titleClass: 'center aligned',
-                        dataClass: 'center aligned'
+                        width: '12%'
                     }
                 ],
                 table: {
                     tableWrapper: '',
                     tableHeaderClass: 'mb-0',
                     tableBodyClass: 'mb-0',
-                    tableClass: ' table table-sm table-borderless table-striped table-hover',
+                    tableClass: ' table table-bordered table-striped table-hover',
                     loadingClass: 'loading',
                     ascendingIcon: 'fa fa-chevron-up',
                     descendingIcon: 'fa fa-chevron-down',
@@ -86,19 +90,16 @@
                     }*/
                 },
                 pagination: {
-                    wrapperClass: 'pagination float-right',
-                    activeClass: 'active',
-                    disabledClass: 'disabled',
-                    pageClass: 'page-link',
-                    linkClass: 'page-link',
-                    paginationClass: 'pagination',
-                    paginationInfoClass: 'float-left',
-                    dropdownClass: 'form-control',
+                    wrapperClass: "pagination pull-right",
+                    activeClass: "btn-primary",
+                    disabledClass: "disabled",
+                    pageClass: "page-link",
+                    linkClass: "page-link",
                     icons: {
-                        first: 'fas fa-chevron-left',
-                        prev: 'fas fa-chevron-left',
-                        next: 'fas fa-chevron-right',
-                        last: 'fas fa-chevron-right',
+                        first: "",
+                        prev: "",
+                        next: "",
+                        last: ""
                     }
                 }
             }

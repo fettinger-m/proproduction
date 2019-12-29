@@ -10,6 +10,7 @@
 .navbar-light .navbar-brand {
     color: orangered;
 }
+
 .btn {
 
 }
@@ -18,25 +19,28 @@
     background-color: transparent;
 }
 
+.form-control {
+    border-radius: 0;
+}
+
 .btn-outline-primary {
     color: orangered;
     border-color: orangered;
+    border-radius: 0;
 }
-
 .btn-outline-primary:hover {
     color: #fff;
     background-color: orangered;
     border-color: orangered;
 }
 
-
- .btn-outline-primary:not(:disabled):not(.disabled):active,
- .btn-outline-primary:not(:disabled):not(.disabled).active,
- .show > .btn-outline-primary.dropdown-toggle {
-     color: #fff;
-     background-color: orangered;
-     border-color: orangered;
- }
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: orangered;
+    border-color: orangered;
+}
 
 .btn-outline-primary:focus,
 .btn-outline-primary.focus {
@@ -51,8 +55,49 @@
     box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
 }
 
+
+.btn-primary {
+    background-color: orangered;
+    border-color: orangered;
+    color: white;
+    border-radius: 0;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: orangered;
+    border-color: orangered;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: orangered;
+    border-color: orangered;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+    background-color: orangered;
+    border-color: orangered;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+}
+
 .btn-secondary {
     color: #fff;
     background-color: #6c757d;
     border-color: #6c757d;
+}
+
+a:not([href]).btn-primary {
+    color: white;
+    text-decoration: none;
 }
