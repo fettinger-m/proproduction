@@ -1,28 +1,47 @@
 <template>
     <div>
+        <!-- TITLE -->
+        <h1>Projects</h1>
+
         <div>
             <b-row align-h="between">
-                <!-- TITLE -->
-                <b-col sm="8">
-                    <h1>Projects</h1>
+
+                <!-- Empty Col for layout -->
+                <b-col>
                 </b-col>
 
-                <b-col sm="4">
-                    <!-- ADD BUTTON -->
-                    <button type="button" @click="addNewRow" id="addprojectButton">
+                <!-- ADD BUTTON -->
+                <b-col cols="2">
+                    <b-button
+                            type="button"
+                            @click="addNewRow"
+                            id="addprojectButton"
+                            variant="outline-primary"
+                    >
                         <font-awesome-icon :icon="['fas', 'plus-square']"/>
                         Add New Project
-                    </button>
-                    <!-- SETTINGS BUTTON -->
-                    <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
+                    </b-button>
+                </b-col>
+
+                <!-- SETTINGS BUTTON -->
+                <b-col cols="2">
+                    <b-dropdown variant="outline" no-caret>
                         <template v-slot:button-content>
                             <font-awesome-icon :icon="['fas', 'cog']"/>
                         </template>
                         <b-form-checkbox v-model="themac">Thema</b-form-checkbox>
                         <b-form-checkbox v-model="statusc">Status</b-form-checkbox>
                         <b-form-checkbox v-model="priorityc">Priority</b-form-checkbox>
-                        <b-form-checkbox v-model="custom1c">Custom 1</b-form-checkbox>
-                        <b-form-checkbox v-model="custom2c">Custom 2</b-form-checkbox>
+
+                        <!-- Custom Textfield 1 - Input or Display-->
+                        <b-form-checkbox v-model="custom1c">
+                            {{custom_field_name1}}
+                        </b-form-checkbox>
+
+                        <b-form-checkbox v-model="custom2c">
+                            {{custom_field_name2}}
+                        </b-form-checkbox>
+
                     </b-dropdown>
                 </b-col>
             </b-row>
@@ -43,6 +62,7 @@
         </div>
 
         <table id="projecttable">
+
             <!-- COLUMN NAMES -->
             <thead>
             <tr>
@@ -52,8 +72,92 @@
                 <th>Name</th>
                 <th v-show="themac">Thema</th>
                 <th v-show="statusc">Status</th>
-                <th v-show="custom1c">CustomField1</th>
-                <th v-show="custom2c">CustomField2</th>
+                <th v-show="custom1c">
+                    <b-row>
+                        <!-- Input / Label -->
+                        <b-col>
+                            <!-- Input Field-->
+                            <b-input
+                                    v-if="editing_custom1"
+                                    v-model="custom_field_name1"
+                                    :state="custom_field_name1.length >= 4"
+                                    placeholder="Enter at least 4 characters"
+                            ></b-input>
+                            <!-- Label -->
+                            <div v-else>
+                                {{custom_field_name1}}
+                            </div>
+                        </b-col>
+
+                        <!-- Button Edit / Save -->
+                        <b-col>
+                            <!-- Save Button -->
+                            <div v-show="editing_custom1">
+                                <b-button
+                                        @click="editing_custom1 = saveFieldNameChange(custom_field_name1)"
+                                        variant="outline"
+                                        :disabled="custom_field_name1.length < 4"
+                                        size="sm"
+                                >
+                                    <font-awesome-icon :icon="['fas', 'check']"/>
+                                </b-button>
+                            </div>
+                            <!-- Edit Button -->
+                            <div v-show="!editing_custom1">
+                                <b-button
+                                        @click="editing_custom1 = true;"
+                                        variant="outline"
+                                        size="sm"
+                                >
+                                    <font-awesome-icon :icon="['fas', 'pen']"/>
+                                </b-button>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </th>
+                <th v-show="custom2c">
+                    <b-row>
+                        <!-- Input / Label -->
+                        <b-col>
+                            <!-- Input Field-->
+                            <b-input
+                                    v-if="editing_custom2"
+                                    v-model="custom_field_name2"
+                                    :state="custom_field_name2.length >= 4"
+                                    placeholder="Enter at least 4 characters"
+                            ></b-input>
+                            <!-- Label -->
+                            <div v-else>
+                                {{custom_field_name2}}
+                            </div>
+                        </b-col>
+
+                        <!-- Button Edit / Save -->
+                        <b-col>
+                            <!-- Save Button -->
+                            <div v-show="editing_custom2">
+                                <b-button
+                                        @click="editing_custom2 = saveFieldNameChange(custom_field_name2)"
+                                        variant="outline"
+                                        :disabled="custom_field_name2.length < 4"
+                                        size="sm"
+                                >
+                                    <font-awesome-icon :icon="['fas', 'check']"/>
+                                </b-button>
+                            </div>
+                            <!-- Edit Button-->
+                            <div v-show="!editing_custom2">
+                                <b-button
+                                        @click="editing_custom2 = true;"
+                                        variant="outline"
+                                        size="sm"
+                                >
+                                    <font-awesome-icon :icon="['fas', 'pen']"/>
+                                </b-button>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </th>
                 <th v-show="priorityc">Priority</th>
                 <th></th>
                 <th></th>
@@ -101,16 +205,13 @@
                         <!-- Wenn im ReadOnly Modus-->
                         <div v-if="project_element.read_only">
 
-                            <router-link :to="{ name: 'project', params: { project_url: project_element.project_name, project_element: project_element} }">
-                                <b-button id="openProjectButton" variant="outline-primary"> Open {{project_element.project_name}} </b-button>
+                            <router-link
+                                    :to="{ name: 'project', params: { project_url: project_element.project_name, project_element: project_element} }">
+                                <b-button id="openProjectButton" variant="outline-primary">
+                                    {{project_element.project_name}}
+                                </b-button>
                             </router-link>
                         </div>
-
-                        <!-- HOVER
-                               @mouseover="project_element.hover = true"
-                               @mouseleave="project_element.hover = false"
-                               :class="{ activeToClick: project_element.hover }"
-                               -->
                     </b-form-group>
 
                 </td>
@@ -212,21 +313,30 @@
 
                 <!-- Save Button -->
                 <td v-show="!project_element.read_only">
-                    <b-button @click="saveSettings(project_elements, project_element)">
+                    <b-button
+                            @click="saveSettings(project_elements, project_element)"
+                            variant="outline"
+                    >
                         <font-awesome-icon :icon="['fas', 'check']"/>
                     </b-button>
                 </td>
 
                 <!-- Edit Button -->
                 <td v-show="project_element.read_only">
-                    <b-button @click="editColumn(project_element)">
+                    <b-button
+                            @click="editColumn(project_element)"
+                            variant="outline"
+                    >
                         <font-awesome-icon :icon="['fas', 'pen']"/>
                     </b-button>
                 </td>
 
                 <!-- Delete button -->
                 <td>
-                    <b-button @click="$bvModal.show(index.toString())">
+                    <b-button
+                            @click="$bvModal.show(index.toString())"
+                            variant="outline"
+                    >
                         <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                     </b-button>
 
@@ -284,11 +394,34 @@
                 type: Boolean,
                 required: true
             },
+            custom_field_name1: {
+                type: String,
+                required: true
+            },
+            custom_field_name2: {
+                type: String,
+                required: true
+            },
+            editing_custom1: {
+                type: Boolean,
+                required: true
+            },
+            editing_custom2: {
+                type: Boolean,
+                required: true
+            }
         },
         watch: {
-          project_elements: function () {
+            project_elements: function () {
 
-          }
+            }
+        },
+        //TODO
+        computed: {
+            editing_custom1_comp: function () {
+                return this.editing_custom1
+            }
+
         },
         methods: {
             //Creates a new Row
@@ -300,7 +433,11 @@
                     project_state: null,
                     customfield1: '',
                     customfield2: '',
-                    priority_stars: 0,
+                    star1: false,
+                    star2: false,
+                    star3: false,
+                    star4: false,
+                    star5: false,
                     deletedialog: false,
                     read_only: false,
                 });
@@ -379,6 +516,30 @@
                 return state
             },
 
+            saveFieldNameChange(customField) {
+                var state = false;
+
+                //CHECK IF ID AND NAME FILLED
+                if (customField != null) {
+                    if (customField.length > 0) {
+                        state = true;
+
+                    } else {
+                        state = false;
+                        // eslint-disable-next-line no-console
+                        console.log('Name not filled - State is false')
+                        this.dismissCountDown = this.dismissSecs
+                    }
+                } else {
+                    state = false;
+                    // eslint-disable-next-line no-console
+                    console.log('Name not filled - State is false 2')
+                    this.dismissCountDown = this.dismissSecs
+                }
+
+                return !state
+            },
+
             countDownChanged(dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
             },
@@ -439,7 +600,6 @@
 
 
         },
-        computed: {}
 
     }
 </script>

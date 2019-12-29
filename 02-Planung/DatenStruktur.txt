@@ -1,0 +1,110 @@
+
+user [{
+
+	username: '',
+	password: '',
+	//...
+	
+	//Which columns are shown in the project table
+	thema_cc: true,
+    status_c: true,
+    priority_c: true,
+    custom1_c: true,
+    custom2_c: true,
+	
+	projects: [{
+	
+		project_nbr: '',
+        project_name: '',
+        project_theme: '',
+        project_state: null,		//options on website: planning, filming, editing, preview, done
+        customfield1: '',
+        customfield2: '',
+		
+        star1: false,
+        star2: false,
+        star3: false,
+        star4: false,
+        star5: false,
+		
+		//Specific Stuff
+        deletedialog: false,
+        read_only: false,
+		
+		
+     
+	 
+		documents: [{
+		
+		
+		}],
+		documents_amount: 0,
+		
+		
+		shotlists: [{
+            listName: 'First Shotlist',
+            edit: false,
+
+            shots: [{
+                frame: '', 			//picture to upload
+                nbr: 0, 			//auto generated number
+                description: '', 	//free text
+                shotsize: '', 		//options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
+                movement: '', 		//free text
+                camera: '', 		//free text
+                lens: '', 			//free text
+                framerate: '', 		//free double nbr
+                specialEquip: '', 	//free text
+                location: '',   	//only the locations that are on the location page
+            }],
+			
+
+            //Which columns are shown
+            frame_c: true,
+            shotsize_c: true,
+            movement_c: true,
+            camera_c: true,
+            lens_c: true,
+            framerate_c: true,
+            specialEquip_c: true,
+            location_c: true
+        }],
+		shotlists_amount: 0,
+		
+		
+		moodboards: [{
+			boardName: '',
+			edit: false,
+			
+			pictures: [{
+			
+			}]
+		
+		}],
+		moodboards_amount: 0,
+		
+		
+		contacts: [{
+			firstname: '',
+			lastname: '',
+			group: '',
+			role: '',
+			email: '',
+			phonenbr: '',
+		
+		}],
+		contacts_amount: 0,
+		
+		
+		locations: [{
+		
+		}],
+		locations_amount: 0,
+		
+		
+		media: [{
+		
+		}],
+		medias_amount: 0,
+	}]
+}]

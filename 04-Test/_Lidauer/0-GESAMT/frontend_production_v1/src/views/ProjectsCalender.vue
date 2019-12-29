@@ -11,6 +11,10 @@
                         v-bind:priorityc="priorityc"
                         v-bind:custom1c="custom1c"
                         v-bind:custom2c="custom2c"
+                        v-bind:custom_field_name1="customFieldName1"
+                        v-bind:custom_field_name2="customFieldName2"
+                        v-bind:editing_custom1="editingCustom1"
+                        v-bind:editing_custom2="editingCustom2"
                 />
 
                 <CalendarComp></CalendarComp>
@@ -49,7 +53,6 @@
                     star5: false,
                     deletedialog: false,
                     read_only: false,
-                    hover: false,
                     //todo: maybe amount elements
                 }],
                 project_status: [{
@@ -63,6 +66,13 @@
                 priorityc: true,
                 custom1c: true,
                 custom2c: true,
+
+                customFieldName1: 'Custom 1',
+                customFieldName2: 'Custom 2',
+
+                editingCustom1: false,
+                editingCustom2: false,
+
 
                 //todo: vielleicht andere aufteilung
             }
