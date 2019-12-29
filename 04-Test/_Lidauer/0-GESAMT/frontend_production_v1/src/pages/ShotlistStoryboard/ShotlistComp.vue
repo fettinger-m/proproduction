@@ -1,17 +1,15 @@
 <template>
     <div id="shotlist">
 
-        <b-row>
-            <b-col>
-
-            </b-col>
+        <b-row align-h="end">
             <!-- Button to add a new shotlisttab-->
-            <b-col sm="2">
+            <b-col cols="3">
                 <b-button
                         type="button"
                         @click="addNewTab()"
                         id="addListTabButton"
                         variant="outline-primary"
+                        class="float-right"
                 >
                     <font-awesome-icon :icon="['fas', 'plus-square']"/>
                     Add New Shotlist
@@ -24,8 +22,12 @@
         <b-tabs content-class="mt-3">
 
             <!-- ONE SHOTLIST TAB -->
-            <b-tab active v-for="(shotlistTab, index) in shotlistTabs" v-bind:key="index">
-                <template v-slot:title>
+            <b-tab
+                    active
+                    v-for="(shotlistTab, index) in shotlistTabs"
+                    v-bind:key="index"
+            >
+                <template v-slot:title >
 
                     <b-container>
                         <b-row>
@@ -43,7 +45,7 @@
                                     ></b-input>
                                     <!-- Normal Label-->
                                     <div v-else>
-                                        <label> {{shotlistTab.listName}} </label>
+                                        <label class="tabtitle"> {{shotlistTab.listName}} </label>
                                     </div>
                                 </div>
                             </b-col>
@@ -181,6 +183,22 @@
                     //IDs for Modals
                     addShot_modal_ID: 'addShotID',    //auto generated
 
+
+                    fields: [
+                        { key: 'frame', label: 'Frame'},
+                        { key: 'nbr', label: 'Number' },
+                        { key: 'description', label: 'Description'},
+                        { key: 'shotsize', label: 'Shotsize' },
+                        { key: 'movement', label: 'Movement'},
+                        { key: 'camera', label: 'Camera' },
+                        { key: 'lens', label: 'Lens' },
+                        { key: 'framerate', label: 'Framerate' },
+                        { key: 'specialEquip', label: 'Special Equipment' },
+                        { key: 'location', label: 'Location' },
+                        { key: 'actions', label: '' },
+                    ],
+
+
                     shots: [{
                         frame: 'picture',          //picture to upload
                         nbr: 0,             //auto generated number
@@ -215,6 +233,20 @@
                     edit: false,
 
                     addShot_modal_ID: 'addShotID' + i,    //append incremented index
+
+                    fields: [
+                        { key: 'frame', label: 'Frame'},
+                        { key: 'nbr', label: 'Number' },
+                        { key: 'description', label: 'Description'},
+                        { key: 'shotsize', label: 'Shotsize' },
+                        { key: 'movement', label: 'Movement'},
+                        { key: 'camera', label: 'Camera' },
+                        { key: 'lens', label: 'Lens' },
+                        { key: 'framerate', label: 'Framerate' },
+                        { key: 'specialEquip', label: 'Special Equipment' },
+                        { key: 'location', label: 'Location' },
+                        { key: 'actions', label: '' },
+                    ],
 
                     shots: [{
                         frame: 'picture',
@@ -280,6 +312,10 @@
 
 <style scoped>
     #shotlist {
-        margin: px;
+
+    }
+
+    .tabtitle{
+        color: #FF6852;
     }
 </style>

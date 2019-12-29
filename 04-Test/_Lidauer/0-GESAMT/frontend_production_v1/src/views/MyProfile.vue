@@ -1,18 +1,18 @@
 <template>
   <div id="profile">
-    <NavBarSimple></NavBarSimple>
+    <NavBar small-nav></NavBar>
     <h2>My Profile</h2>
   </div>
 </template>
 
 <script>
 
-import NavBarSimple from "../components/Layout/NavBarSimple";
+import NavBar from "@/components/Layout/NavBar";
 
 export default {
   name: 'profile',
   components: {
-    NavBarSimple
+    NavBar,
   }
 }
 </script>

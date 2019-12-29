@@ -6,11 +6,27 @@ user [{
 	//...
 	
 	//Which columns are shown in the project table
-	thema_cc: true,
+	thema_c: true,
     status_c: true,
     priority_c: true,
     custom1_c: true,
     custom2_c: true,
+	
+	//Which projects are shown in the table
+	planning_r: true,
+	filming_r: true,
+	editing_r: true,
+	preview_r: true,
+	done_r: true,
+	//priority
+    pr0: true,
+    pr1: false,
+    pr2: false,
+    pr3: false,
+    pr4: false,
+    pr5: false,
+	
+	
 	
 	projects: [{
 	
@@ -106,5 +122,13 @@ user [{
 		
 		}],
 		medias_amount: 0,
+	}],
+	
+	calendarelement: [{
+		title: '',
+		description: '',
+		startdate: '',
+		enddate: '',
+		
 	}]
 }]

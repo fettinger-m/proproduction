@@ -4,4 +4,8 @@ Calendar https://madewithvuejs.com/vuejs-functional-calendar
 
 sort list https://sagalbot.github.io/vue-sortable/
 
-bootstrap table https://examples.bootstrap-table.com/
+bootstrap table 
+https://examples.bootstrap-table.com/
+https://bootstrap-vue.js.org/docs/components/table/#complete-example
+https://bootstrap-vue.js.org/docs/components/table/#custom-data-rendering
+

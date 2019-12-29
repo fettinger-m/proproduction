@@ -10,8 +10,9 @@
                 <b-col>
                 </b-col>
 
-                <!-- ADD BUTTON -->
-                <b-col cols="2">
+
+                <b-col cols="3">
+                    <!-- ADD BUTTON -->
                     <b-button
                             type="button"
                             @click="addNewRow"
@@ -21,10 +22,7 @@
                         <font-awesome-icon :icon="['fas', 'plus-square']"/>
                         Add New Project
                     </b-button>
-                </b-col>
-
-                <!-- SETTINGS BUTTON -->
-                <b-col cols="2">
+                    <!-- SETTINGS BUTTON -->
                     <b-dropdown variant="outline" no-caret>
                         <template v-slot:button-content>
                             <font-awesome-icon :icon="['fas', 'cog']"/>
@@ -44,6 +42,7 @@
 
                     </b-dropdown>
                 </b-col>
+
             </b-row>
         </div>
 
@@ -71,7 +70,30 @@
                 </th>
                 <th>Name</th>
                 <th v-show="themac">Thema</th>
-                <th v-show="statusc">Status</th>
+                <th v-show="statusc">
+                    <b-dropdown variant="outline" title="Status">
+                        <template v-slot:button-content>
+                            Status
+                        </template>
+                        <div class="dropdownstyle">
+                            <b-form-checkbox v-model="planning_r">
+                                show planning
+                            </b-form-checkbox>
+                            <b-form-checkbox v-model="filming_r">
+                                show filming
+                            </b-form-checkbox>
+                            <b-form-checkbox v-model="editing_r">
+                                show editing
+                            </b-form-checkbox>
+                            <b-form-checkbox v-model="preview_r">
+                                show preview
+                            </b-form-checkbox>
+                            <b-form-checkbox v-model="done_r">
+                                show done
+                            </b-form-checkbox>
+                        </div>
+                    </b-dropdown>
+                </th>
                 <th v-show="custom1c">
                     <b-row>
                         <!-- Input / Label -->
@@ -158,22 +180,41 @@
                         </b-col>
                     </b-row>
                 </th>
-                <th v-show="priorityc">Priority</th>
+                <!-- TODO -->
+                <th v-show="priorityc">
+                    <b-dropdown variant="outline">
+                        <template v-slot:button-content>
+                            Priority
+                        </template>
+                        <b-form-radio-group class="dropdownstyle">
+                            <b-form-radio v-model="pr0">show 0 Stars or higher</b-form-radio>
+                            <b-form-radio v-model="pr1">show 1 Stars or higher</b-form-radio>
+                            <b-form-radio v-model="pr2">show 2 Stars or higher</b-form-radio>
+                            <b-form-radio v-model="pr3">show 3 Stars or higher</b-form-radio>
+                            <b-form-radio v-model="pr4">show 4 Stars or higher</b-form-radio>
+                            <b-form-radio v-model="pr5">show 5 Stars</b-form-radio>
+                        </b-form-radio-group>
+                    </b-dropdown>
+
+                </th>
                 <th></th>
                 <th></th>
             </tr>
             </thead>
 
             <!-- INPUT FIELDS -->
-            <tr v-for="(project_element, index)  in project_elements" v-bind:key="index">
+            <tr
+                    v-for="(project_element, index)  in project_elements"
+                    v-bind:key="index"
+                    v-show="checkState(project_element) && checkPriority(project_element)"
+            >
 
                 <!-- Nummer -->
                 <td>
                     <!-- INPUT -->
                     <div>
-                        <b-form-group id="input-group-1" label-for="input-1">
+                        <b-form-group >
                             <b-form-input
-                                    id="input-1"
                                     type="text"
                                     required
                                     v-model="project_element.project_nbr"
@@ -192,7 +233,6 @@
                         <!-- Wenn im Editing Modus-->
                         <div v-if="!project_element.read_only">
                             <b-form-input
-                                    id="input-2"
                                     type="text"
                                     required
                                     placeholder="name"
@@ -218,9 +258,8 @@
 
                 <!-- Thema  -->
                 <td v-show="themac">
-                    <b-form-group id="input-group-3" label-for="input-3">
+                    <b-form-group>
                         <b-form-input
-                                id="input-3"
                                 type="text"
                                 required
                                 placeholder="thema"
@@ -232,9 +271,8 @@
 
                 <!-- Status -->
                 <td v-show="statusc">
-                    <b-form-group id="input-group-4" label-for="input-3">
+                    <b-form-group >
                         <b-form-select
-                                id="input-4"
                                 v-model="project_element.project_state"
                                 :options="project_status"
                                 required
@@ -245,9 +283,8 @@
 
                 <!-- Custom1  -->
                 <td v-show="custom1c">
-                    <b-form-group id="input-group-5" label-for="input-3">
+                    <b-form-group>
                         <b-form-input
-                                id="input-5"
                                 type="text"
                                 required
                                 placeholder="custom"
@@ -259,9 +296,8 @@
 
                 <!-- Custom2  -->
                 <td v-show="custom2c">
-                    <b-form-group id="input-group-6" label-for="input-3">
+                    <b-form-group>
                         <b-form-input
-                                id="input-6"
                                 type="text"
                                 required
                                 placeholder="custom"
@@ -307,7 +343,6 @@
                         />
                     </div>
                 </td>
-
 
                 <!-- NAVIGATION SECTION -->
 
@@ -409,7 +444,52 @@
             editing_custom2: {
                 type: Boolean,
                 required: true
-            }
+            },
+            planning_r: {
+                type: Boolean,
+                required: true
+            },
+            filming_r: {
+                type: Boolean,
+                required: true
+            },
+            editing_r: {
+                type: Boolean,
+                required: true
+            },
+            preview_r: {
+                type: Boolean,
+                required: true
+            },
+            done_r: {
+                type: Boolean,
+                required: true
+            },
+            pr0: {
+                type: Boolean,
+                required: true
+            },
+            pr1: {
+                type: Boolean,
+                required: true
+            },
+            pr2: {
+                type: Boolean,
+                required: true
+            },
+            pr3: {
+                type: Boolean,
+                required: true
+            },
+            pr4: {
+                type: Boolean,
+                required: true
+            },
+            pr5: {
+                type: Boolean,
+                required: true
+            },
+
         },
         watch: {
             project_elements: function () {
@@ -596,6 +676,47 @@
                     project_element.star4 = true;
                     project_element.star5 = true;
                 }
+            },
+
+            //Checks if the specific project should be shown or not - depending on its filter
+            checkState(project_element) {
+
+                if(project_element.project_state === "planning" && this.planning_r == true) {
+                    return true;
+                } else if (project_element.project_state === "filming" && this.filming_r == true) {
+                    return true;
+                } else if (project_element.project_state === "editing" && this.editing_r == true) {
+                    return true;
+                } else if (project_element.project_state === "preview" && this.preview_r == true) {
+                    return true;
+                } else if (project_element.project_state === "done" && this.done_r == true) {
+                    return true;
+                } else if (project_element.project_state == null) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+
+            checkPriority(project_element) {
+
+                if(project_element.star5 == false && this.pr5 == true) {
+                    return false
+                } else if (project_element.star4 == false && this.pr4 == true) {
+                    return false
+                } else if (project_element.star3 == false && this.pr3 == true) {
+                    return false
+                } else if (project_element.star2 == false && this.pr2 == true) {
+                    return false
+                } else if (project_element.star1 == false && this.pr1 == true) {
+                    return false
+                } else if (this.pr0 == true) {
+                    return true
+                } else {
+                    return true
+                }
+
             }
 
 
@@ -631,6 +752,10 @@
 
     .starON {
         color: #FF6852;
+    }
+
+    .dropdownstyle {
+        font-size: small;
     }
 
 
