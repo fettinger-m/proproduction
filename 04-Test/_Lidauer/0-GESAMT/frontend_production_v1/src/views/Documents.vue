@@ -4,26 +4,26 @@
             current-page="documents"
             v-bind:project_element="project_element"
     ></NavBar>
-    <FilePath></FilePath>
-    <ProjectNameTitle
-            v-bind:project_element="project_element"
-    ></ProjectNameTitle>
     <h2>Documents & Scripts</h2>
+    <DocumentMenu></DocumentMenu>
+    <DocumentPlugin></DocumentPlugin>
+
+
   </div>
 </template>
 
 <script>
 
 import NavBar from "../components/Layout/NavBar";
-import FilePath from "../components/Layout/FilePath";
-import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
+import DocumentPlugin from "@/pages/Documents/DocumentPlugin";
+import DocumentMenu from "@/pages/Documents/DocumentMenu";
 
 export default {
   name: 'documents',
   components: {
+    DocumentMenu,
+    DocumentPlugin,
     NavBar,
-    FilePath,
-    ProjectNameTitle
   },
   props: {
     project_element: {
@@ -35,11 +35,4 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 </style>

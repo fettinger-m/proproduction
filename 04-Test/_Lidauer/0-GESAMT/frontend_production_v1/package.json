@@ -18,6 +18,8 @@
     "fs-write-stream-atomic": "^1.0.10",
     "mdbvue": "^6.1.1",
     "sockjs": "^0.3.19",
+    "tiptap": "^1.26.6",
+    "tiptap-extensions": "^1.28.6",
     "vue": "^2.6.10",
     "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-file-agent": "^1.5.0",

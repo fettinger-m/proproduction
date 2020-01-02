@@ -9,3 +9,7 @@ https://examples.bootstrap-table.com/
 https://bootstrap-vue.js.org/docs/components/table/#complete-example
 https://bootstrap-vue.js.org/docs/components/table/#custom-data-rendering
 
+text editor https://github.com/scrumpy/tiptap
+
+
+unique id https://github.com/termosa/vue-uniq-ids

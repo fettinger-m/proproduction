@@ -66,7 +66,7 @@
         name: "NavBar",
         data() {
             return {
-                projectName: "Vienna2019"
+                projectName: "ToDoName"
             }
         },
         methods: {

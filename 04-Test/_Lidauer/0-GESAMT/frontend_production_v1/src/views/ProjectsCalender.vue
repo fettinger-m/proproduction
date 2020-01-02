@@ -1,14 +1,9 @@
 <template>
-    <div id="calender">
+    <div>
         <NavBar small-nav></NavBar>
 
         <div class="card-body">
 
-            <!-- TODO:
-            * Projekte sortieren
-            * Projekte mit gewissem Status / Priorität ausblenden
-            * v-show Booleans in computed section setzen
-            -->
             <ProjectTable
                     v-bind:project_elements="project_elements"
                     v-bind:project_status="project_status"
@@ -19,32 +14,20 @@
                     v-bind:custom2c="custom2c"
                     v-bind:custom_field_name1="customFieldName1"
                     v-bind:custom_field_name2="customFieldName2"
-                    v-bind:editing_custom1="editingCustom1"
-                    v-bind:editing_custom2="editingCustom2"
                     v-bind:planning_r="planningr"
                     v-bind:filming_r="filmingr"
                     v-bind:editing_r="editingr"
                     v-bind:preview_r="previewr"
                     v-bind:done_r="doner"
-                    v-bind:pr0="pr0"
-                    v-bind:pr1="pr1"
-                    v-bind:pr2="pr2"
-                    v-bind:pr3="pr3"
-                    v-bind:pr4="pr4"
-                    v-bind:pr5="pr5"
+                    v-bind:prioritysshown="prioritysshown"
             />
 
-            <hr>
-
-            <!-- TODO:
-            * ID erstellen
-            * erstes ungwolltes Element nicht erstellen
-            * ...
-            -->
             <CalendarComp
                     v-bind:events="events"
             />
 
+
+            <Footer/>
 
         </div>
 
@@ -55,10 +38,12 @@
     import ProjectTable from "@/pages/ProjectsCalendar/ProjectTable";
     import NavBar from "../components/Layout/NavBar";
     import CalendarComp from "@/pages/ProjectsCalendar/CalendarComp";
+    import Footer from "@/components/Layout/Footer";
 
     export default {
         name: 'projectcalendar',
         components: {
+            Footer,
             ProjectTable,
             NavBar,
             CalendarComp
@@ -80,7 +65,6 @@
                     star5: false,
                     deletedialog: false,
                     read_only: false,
-                    //todo: maybe amount elements
                 }],
                 project_status: [{
                     text: 'selecte state', value: null
@@ -92,7 +76,7 @@
                     startDate: new Date(),
                     endDate: new Date(),
                     title: '',
-                    description: '',
+                    url: '',
                 }],
 
                 //booleans if the specific column shows
@@ -110,22 +94,11 @@
                 previewr: true,
                 doner: true,
                 //priority
-                pr0: true,
-                pr1: false,
-                pr2: false,
-                pr3: false,
-                pr4: false,
-                pr5: false,
+                prioritysshown: '0',
 
 
                 customFieldName1: 'Custom 1',
                 customFieldName2: 'Custom 2',
-
-                editingCustom1: false,
-                editingCustom2: false,
-
-
-                //todo: vielleicht andere aufteilung
             }
         }
 
@@ -133,11 +106,5 @@
 </script>
 
 <style>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-    }
+
 </style>
