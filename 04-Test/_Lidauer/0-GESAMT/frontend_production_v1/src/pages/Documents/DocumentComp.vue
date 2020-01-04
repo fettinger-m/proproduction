@@ -28,109 +28,115 @@
                 </b-col>
             </b-row>
 
-            <!-- All tabs -->
-            <b-tabs content-class="mt-3">
-
-                <!-- ONE SHOTLIST TAB -->
-                <b-tab
-                        active
-                        v-for="(doc, index) in docs"
-                        v-bind:key="index"
+            <b-card no-body>
+                <!-- All tabs -->
+                <b-tabs
+                        content-class="mt-3"
+                        pills card vertical
                 >
-                    <template v-slot:title>
 
-                        <b-container>
-                            <b-row>
-                                <!-- DOCUMENT NAME-->
-                                <b-col>
-                                    <div>
-                                        <!-- Input file -->
-                                        <b-input
-                                                v-if="doc.edit"
-                                                v-model="doc.doc_name"
-                                                :state="doc.doc_name.length >= 4"
-                                                placeholder="Enter at least 4 characters"
+                    <!-- ONE SHOTLIST TAB -->
+                    <b-tab
+                            active
+                            v-for="(doc, index) in docs"
+                            v-bind:key="index"
+                    >
+                        <template v-slot:title>
 
-                                        ></b-input>
-                                        <!-- Normal Label-->
-                                        <div v-else>
-                                            <label class="tabtitle"> {{doc.doc_name}} </label>
+                            <b-container>
+                                <b-row>
+                                    <!-- DOCUMENT NAME-->
+                                    <b-col>
+                                        <div>
+                                            <!-- Input file -->
+                                            <b-input
+                                                    v-if="doc.edit"
+                                                    v-model="doc.doc_name"
+                                                    :state="doc.doc_name.length >= 4"
+                                                    placeholder="Enter at least 4 characters"
+
+                                            ></b-input>
+                                            <!-- Normal Label-->
+                                            <div v-else>
+                                                <label class="tabtitle"> {{doc.doc_name}} </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                </b-col>
+                                    </b-col>
 
-                                <!-- Edit & Save Button-->
-                                <b-col cols="2">
-                                    <!-- Save Button -->
-                                    <div v-show="doc.edit">
-                                        <b-button
-                                                @click="saveNameChange(docs, doc)"
-                                                variant="outline"
-                                                :disabled="doc.doc_name.length < 4"
-                                        >
-                                            <font-awesome-icon :icon="['fas', 'check']"/>
-                                        </b-button>
-                                    </div>
-                                    <!-- Edit Button -->
-                                    <div v-show="!doc.edit">
-                                        <b-button
-                                                @click="doc.edit = true;"
-                                                variant="outline"
-                                        >
-                                            <font-awesome-icon :icon="['fas', 'pen']"/>
-                                        </b-button>
-                                    </div>
-                                </b-col>
-
-                                <!-- Option Dropdown  -->
-                                <b-col cols="2">
-                                    <b-dropdown variant="outline" toggle-class="text-decoration-none" no-caret>
-                                        <template v-slot:button-content>
-                                            <font-awesome-icon :icon="['fas', 'ellipsis-v']"/>
-                                        </template>
-
-                                        <b-form>
-                                            <!-- Delete button -->
+                                    <!-- Edit & Save Button-->
+                                    <b-col cols="2">
+                                        <!-- Save Button -->
+                                        <div v-show="doc.edit">
                                             <b-button
-                                                    @click="$bvModal.show(index.toString())"
-                                                    variant="outline-danger"
+                                                    @click="saveNameChange(docs, doc)"
+                                                    variant="outline"
+                                                    :disabled="doc.doc_name.length < 4"
                                             >
-                                                <font-awesome-icon :icon="['fas', 'trash-alt']"/>
-                                                Delete
+                                                <font-awesome-icon :icon="['fas', 'check']"/>
                                             </b-button>
-
-                                            <!-- Delete Dialog-->
-                                            <b-modal :id="index.toString()" hide-footer title="Delete this document?">
-                                                <b-button variant="outline-danger" block
-                                                          @click="deleteDocument(index, doc); $bvModal.hide(index.toString())">
-                                                    Delete
-                                                </b-button>
-                                                <b-button variant="outline-warning" block
-                                                          @click="$bvModal.hide(index.toString())">
-                                                    Cancle
-                                                </b-button>
-                                            </b-modal>
-                                            <!-- Rename Button -->
+                                        </div>
+                                        <!-- Edit Button -->
+                                        <div v-show="!doc.edit">
                                             <b-button
-                                                    variant="outline-secondary"
+                                                    @click="doc.edit = true;"
+                                                    variant="outline"
                                             >
                                                 <font-awesome-icon :icon="['fas', 'pen']"/>
-                                                Rename
                                             </b-button>
-                                        </b-form>
+                                        </div>
+                                    </b-col>
 
-                                    </b-dropdown>
-                                </b-col>
-                            </b-row>
-                        </b-container>
-                    </template>
+                                    <!-- Option Dropdown  -->
+                                    <b-col cols="2">
+                                        <b-dropdown variant="outline" toggle-class="text-decoration-none" no-caret>
+                                            <template v-slot:button-content>
+                                                <font-awesome-icon :icon="['fas', 'ellipsis-v']"/>
+                                            </template>
 
-                    <!-- Document Content -->
-                    <div>
-                        <DocumentEditor/>
-                    </div>
-                </b-tab>
-            </b-tabs>
+                                            <b-form>
+                                                <!-- Delete button -->
+                                                <b-button
+                                                        @click="$bvModal.show(index.toString())"
+                                                        variant="outline-danger"
+                                                >
+                                                    <font-awesome-icon :icon="['fas', 'trash-alt']"/>
+                                                    Delete
+                                                </b-button>
+
+                                                <!-- Delete Dialog-->
+                                                <b-modal :id="index.toString()" hide-footer
+                                                         title="Delete this document?">
+                                                    <b-button variant="outline-danger" block
+                                                              @click="deleteDocument(index, doc); $bvModal.hide(index.toString())">
+                                                        Delete
+                                                    </b-button>
+                                                    <b-button variant="outline-warning" block
+                                                              @click="$bvModal.hide(index.toString())">
+                                                        Cancle
+                                                    </b-button>
+                                                </b-modal>
+                                                <!-- Rename Button -->
+                                                <b-button
+                                                        variant="outline-secondary"
+                                                >
+                                                    <font-awesome-icon :icon="['fas', 'pen']"/>
+                                                    Rename
+                                                </b-button>
+                                            </b-form>
+
+                                        </b-dropdown>
+                                    </b-col>
+                                </b-row>
+                            </b-container>
+                        </template>
+
+                        <!-- Document Content -->
+                        <div>
+                            <DocumentEditor/>
+                        </div>
+                    </b-tab>
+                </b-tabs>
+            </b-card>
         </b-container>
     </div>
 </template>

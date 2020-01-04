@@ -4,7 +4,7 @@
                 current-page="documents"
                 v-bind:project_element="project_element"
         ></NavBar>
-        <h2>Documents & Scripts</h2>
+        <h2 class="categorytitle">Documents & Scripts</h2>
 
 
         <DocumentComp/>

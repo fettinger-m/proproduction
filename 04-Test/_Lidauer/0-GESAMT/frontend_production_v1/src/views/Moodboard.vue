@@ -8,7 +8,7 @@
             current-page="moodboard"
             v-bind:project_element="project_element"
     ></NavBar>
-    <h2>Moodboard</h2>
+    <h2 class="categorytitle">Moodboard</h2>
     <MoodboardComp></MoodboardComp>
   </div>
 </template>

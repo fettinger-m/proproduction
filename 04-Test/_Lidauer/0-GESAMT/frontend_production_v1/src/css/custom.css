@@ -101,3 +101,7 @@ a:not([href]).btn-primary {
     color: white;
     text-decoration: none;
 }
+
+.categorytitle {
+    margin: 20px;
+}

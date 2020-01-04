@@ -4,7 +4,7 @@
             current-page="media"
             v-bind:project_element="project_element"
     ></NavBar>
-    <h2>Media Library</h2>
+    <h2 class="categorytitle">Media Library</h2>
     <LibraryCompTest/>
   </div>
 </template>

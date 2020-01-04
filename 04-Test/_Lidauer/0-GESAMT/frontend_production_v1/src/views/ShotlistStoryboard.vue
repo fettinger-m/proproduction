@@ -4,7 +4,7 @@
                 current-page="shotlist"
                 v-bind:project_element="project_element"
         ></NavBar>
-        <h2>Shotlist & Storyboard</h2>
+        <h2 class="categorytitle">Shotlist & Storyboard</h2>
         <ShotlistComp></ShotlistComp>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div id="location">
     <NavBar current-page="location"></NavBar>
-    <h2>Locations</h2>
+    <h2 class="categorytitle">Locations</h2>
     <b-container>
       <b-row>
         <b-col cols="4">
