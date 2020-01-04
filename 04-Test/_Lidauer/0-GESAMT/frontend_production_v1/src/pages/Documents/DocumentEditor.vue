@@ -1,6 +1,5 @@
 <template>
     <div class="editor">
-        <b-container>
             <!-- Editing Bar-->
             <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
                 <div class="menubar">
@@ -150,7 +149,6 @@
 
             <!-- Writing Field -->
             <editor-content class="editor__content" :editor="editor"/>
-        </b-container>
     </div>
 </template>
 
@@ -205,6 +203,8 @@
     }
 
     .editor__content {
+        padding: 30px;
+        text-align: left;
         border-style: solid;
         border-width: 2px;
         border-color: #777777;

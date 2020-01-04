@@ -56,6 +56,14 @@
                 :fields="shotlist_tab.fields"
                 :items="shotlist_tab.shots">
 
+            <template v-slot:cell(frame)>
+
+                <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
+                <!--
+                <img src="../../assets/logo.png" height="50" width="50" alt="frame"/>
+                -->
+            </template>
+
             <!-- Buttons die neben jeder Zeile stehen sollen -->
             <template v-slot:cell(actions)>
 
@@ -78,17 +86,17 @@
 
                         <!-- Delete button -->
                         <b-button
-                                @click="$bvModal.show('todo2')"
+                                @click="$bvModal.show(component_index)"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                         </b-button>
                         <!-- Modal to open after click -->
-                        <b-modal id="todo2" hide-footer title="Delete this shot?">
+                        <b-modal :id="component_index" hide-footer title="Delete this shot?">
                             <b-button variant="outline-danger" block
-                                      @click="deleteShot(); $bvModal.hide('todo2')">Delete
+                                      @click="deleteShot(); $bvModal.hide(component_index)">Delete
                             </b-button>
-                            <b-button variant="outline-warning" block @click="$bvModal.hide('todo2')">Cancle
+                            <b-button variant="outline-warning" block @click="$bvModal.hide(component_index)">Cancle
                             </b-button>
                         </b-modal>
 
@@ -113,6 +121,10 @@
         props: {
             shotlist_tab: {
                 type: Object,
+                required: true
+            },
+            component_index: {
+                type: Number,
                 required: true
             }
         },
@@ -141,5 +153,8 @@
 </script>
 
 <style scoped>
+    .icon {
+        font-size: 35px;
+    }
 
 </style>

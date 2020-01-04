@@ -17,8 +17,9 @@
                 <!-- Description -->
                 <b-col class="m-1">
                     <b-form-input
-                            placeholder="shot description"
-                            v-model="shotlist_tab.shots.description"
+                            placeholder="shot description must be filled"
+                            v-model="curr_description"
+                            :state="curr_description.length >= 1 "
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -26,7 +27,7 @@
                 <!-- Shotsize -->
                 <b-col class="m-1">
                     <b-form-select
-                            v-model="shotlist_tab.shots.shotsize"
+                            v-model="curr_shotsize"
                             :options="shotsize_options"
                             required
                     ></b-form-select>
@@ -35,7 +36,7 @@
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="movement"
-                            v-model="shotlist_tab.shots.movement"
+                            v-model="curr_movement"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -45,14 +46,14 @@
 
                     <b-form-input
                             placeholder="camera"
-                            v-model="shotlist_tab.shots.camera"
+                            v-model="curr_camera"
                     ></b-form-input>
                 </b-col>
                 <!-- Lens -->
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="lens"
-                            v-model="shotlist_tab.shots.lens"
+                            v-model="curr_lens"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -61,14 +62,14 @@
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="framerate"
-                            v-model="shotlist_tab.shots.framerate"
+                            v-model="curr_framerate"
                     ></b-form-input>
                 </b-col>
                 <!-- Special Equipment -->
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="special equipment"
-                            v-model="shotlist_tab.shots.specialEquip"
+                            v-model="curr_specialEquip"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -78,7 +79,7 @@
                     <b-form-select
                             placeholder="Location"
                             :options="location_options"
-                            v-model="shotlist_tab.shots.location"
+                            v-model="curr_location"
                     ></b-form-select>
                 </b-col>
                 <!-- Empty Col -->
@@ -106,17 +107,19 @@
                             type="submit"
                             block
                             @click="addNewShot(
-                          shotlist_tab.shots.description,
-                          shotlist_tab.shots.shotsize,
-                          shotlist_tab.shots.movement,
-                          shotlist_tab.shots.camera,
-                          shotlist_tab.shots.lens,
-                          shotlist_tab.shots.framerate,
-                          shotlist_tab.shots.specialEquip,
-                          shotlist_tab.shots.location
+                          curr_description,
+                          curr_shotsize,
+                          curr_movement,
+                          curr_camera,
+                          curr_lens,
+                          curr_framerate,
+                          curr_specialEquip,
+                          curr_location
                           );
                           $bvModal.hide(shotlist_tab.addShot_modal_ID);
-                          clearModalInputFields()">
+                          clearModalInputFields()"
+                            :disabled="curr_description.length < 1"
+                    >
                         Add Shot
                     </b-button>
                 </b-col>
@@ -131,6 +134,16 @@
         data() {
             return {
                 selectedFile: null,
+
+                curr_description: '',
+                curr_shotsize: '',
+                curr_movement: '',
+                curr_camera: '',
+                curr_lens: '',
+                curr_framerate: '',
+                curr_specialEquip: '',
+                curr_location: '',
+
 
                 //Options to select
                 shotsize_options: [{

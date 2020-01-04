@@ -11,5 +11,6 @@ https://bootstrap-vue.js.org/docs/components/table/#custom-data-rendering
 
 text editor https://github.com/scrumpy/tiptap
 
-
 unique id https://github.com/termosa/vue-uniq-ids
+
+vuex https://www.youtube.com/watch?v=2CSr2vBApSI

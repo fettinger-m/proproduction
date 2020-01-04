@@ -64,7 +64,6 @@
                 <thead>
                 <tr>
                     <th>Nbr
-                        <font-awesome-icon :icon="['fas', 'sort']"/>
                     </th>
                     <th>Name</th>
                     <th v-show="themac">Thema</th>
@@ -382,6 +381,7 @@
                 </tr>
             </table>
         </b-container>
+        <hr>
     </div>
 </template>
 

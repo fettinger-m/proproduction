@@ -1,23 +1,32 @@
 <template>
     <div id="shotlist">
         <b-container>
-
+            <!-- Add Shotlist Button & Modal -->
             <b-row align-h="end">
-                <!-- Button to add a new shotlisttab-->
                 <b-col cols="3">
+                    <!-- Add Button-->
                     <b-button
                             type="button"
-                            @click="addNewTab()"
-                            id="addListTabButton"
+                            @click="$bvModal.show('listcreation')"
                             variant="outline-primary"
                             class="float-right"
                     >
                         <font-awesome-icon :icon="['fas', 'plus-square']"/>
                         Add New Shotlist
                     </b-button>
+
+                    <!-- Add Shot Dialog-->
+                    <b-modal id="listcreation" hide-footer >
+                        <template v-slot:modal-title>
+                            <font-awesome-icon :icon="['fas', 'clipboard-list']"/>
+                            Create a new shotlist
+                        </template>
+                        <CreateEditShotListModal
+                                v-bind:shotlist-tabs="shotlistTabs"
+                        />
+                    </b-modal>
                 </b-col>
             </b-row>
-
 
             <!-- All tabs -->
             <b-tabs content-class="mt-3">
@@ -147,7 +156,6 @@
 
                                     </b-dropdown>
                                 </b-col>
-
                             </b-row>
                         </b-container>
                     </template>
@@ -156,6 +164,7 @@
                     <div>
                         <SingleShotlist
                                 v-bind:shotlist_tab="shotlistTab"
+                                v-bind:component_index="index"
                         />
                     </div>
                 </b-tab>
@@ -165,18 +174,14 @@
 </template>
 
 <script>
-    //Index for modal
-    //todo: Index für Modal - andere Lösung finden
-    let i = 0;
-
+    import CreateEditShotListModal from "@/pages/ShotlistStoryboard/CreateEditShotListModal";
     import SingleShotlist from "@/pages/ShotlistStoryboard/SingleShotlist";
 
     export default {
         name: "ShotlistComp",
-        components: {SingleShotlist},
+        components: {CreateEditShotListModal, SingleShotlist},
         data() {
             return {
-
                 //Array of all Shotlists
                 shotlistTabs: [{
                     listName: 'First Shotlist',
@@ -202,7 +207,7 @@
 
 
                     shots: [{
-                        frame: 'picture',          //picture to upload
+                        frame: '',          //picture to upload
                         nbr: 0,             //auto generated number
                         description: 'descr',    //free text
                         shotsize: null,       //options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
@@ -227,54 +232,6 @@
             }
         },
         methods: {
-            addNewTab() {
-                i++;    //increment variable (defined at the top)
-
-                this.shotlistTabs.push({
-                    listName: 'New Shotlist',
-                    edit: false,
-
-                    addShot_modal_ID: 'addShotID' + i,    //append incremented index
-
-                    fields: [
-                        {key: 'frame', label: 'Frame'},
-                        {key: 'nbr', label: 'Number'},
-                        {key: 'description', label: 'Description'},
-                        {key: 'shotsize', label: 'Shotsize'},
-                        {key: 'movement', label: 'Movement'},
-                        {key: 'camera', label: 'Camera'},
-                        {key: 'lens', label: 'Lens'},
-                        {key: 'framerate', label: 'Framerate'},
-                        {key: 'specialEquip', label: 'Special Equipment'},
-                        {key: 'location', label: 'Location'},
-                        {key: 'actions', label: ''},
-                    ],
-
-                    shots: [{
-                        frame: 'picture',
-                        nbr: 0,
-                        description: 'Exapmle Shot',
-                        shotsize: null,
-                        movement: 'Forward',
-                        camera: 'a7III',
-                        lens: '50mm 1.4',
-                        framerate: '23,976',
-                        specialEquip: 'Gimbal',
-                        location: null
-                    }],
-
-                    //Booleans if the specific column is shown
-                    frame_c: true,
-                    shotsize_c: true,
-                    movement_c: true,
-                    camera_c: true,
-                    lens_c: true,
-                    framerate_c: true,
-                    specialEquip_c: true,
-                    location_c: true
-                });
-            },
-
             //Deletes the current Tab
             deleteTab(index, shotlistTab) {
                 var idx = this.shotlistTabs.indexOf(shotlistTab);

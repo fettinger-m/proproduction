@@ -33,6 +33,8 @@ Vue.use(datePicker);
 import axios from 'axios'
 Vue.prototype.$http = axios;
 
+//Vuex
+
 
 //Google Maps
 import * as VueGoogleMaps from "vue2-google-maps";
