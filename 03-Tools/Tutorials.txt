@@ -14,3 +14,8 @@ text editor https://github.com/scrumpy/tiptap
 unique id https://github.com/termosa/vue-uniq-ids
 
 vuex https://www.youtube.com/watch?v=2CSr2vBApSI
+
+image gallary https://github.com/RobinCK/vue-gallery#readme
+
+movable components https://github.com/probil/vue-moveable		https://github.com/lee88688/vue-movable-element#readme
+

@@ -464,18 +464,6 @@
                 required: true
             }
         },
-        watch: {
-            project_elements: function () {
-
-            }
-        },
-        //TODO
-        computed: {
-            editing_custom1_comp: function () {
-                return this.editing_custom1
-            }
-
-        },
         methods: {
             //Creates a new Row
             addNewRow() {
@@ -521,30 +509,6 @@
                 if ((project_element.project_nbr != null) && (project_element.project_name != null)) {
 
                     if ((project_element.project_nbr.length > 0) && (project_element.project_name.length > 0)) {
-
-                        //TODO check if nbr is unique
-                        /*
-                        // eslint-disable-next-line no-console
-                        console.log('check if id is unique')
-
-                        // CHECK if ID is unique
-                        project_elements.forEach(element => {
-                            if (element.project_nbr === project_element.project_nbr) {    //if nbr already exists
-                                state = false;
-                                // eslint-disable-next-line no-console
-                                console.log('Nbr not unique - State is false ---- Current' + (element.project_nbr) + '')
-                            } else if (element.project_nbr !== project_element.project_nbr) { //if number is unique
-                                state = true;
-                                // eslint-disable-next-line no-console
-                                console.log('Nbr is unique - State is true')
-                            }
-                        });
-                         */
-
-                        //Save to json file
-                        //TODO
-
-
                         //change to read_only
                         // eslint-disable-next-line no-console
                         console.log('change to read_only where NBR: ' + project_element.project_nbr + ' and NAME: ' + project_element.project_name)

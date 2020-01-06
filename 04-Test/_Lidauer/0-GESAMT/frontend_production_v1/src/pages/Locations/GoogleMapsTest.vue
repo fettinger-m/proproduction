@@ -3,8 +3,8 @@
         <gmap-map
                 :center="center"
                 :zoom="12"
-                :options="options"
-                style="width:100%;  height:15rem;"
+                :options="optionsReal"
+                style="width:100%;  height:35rem;"
 
         >
             <gmap-marker
@@ -16,12 +16,18 @@
         </gmap-map>
         <div class="m-3">
             <b-input-group>
-                    <gmap-autocomplete
-                            @place_changed="setPlace"
-                            class="form-control">
-                    </gmap-autocomplete>
+                <gmap-autocomplete
+                        @place_changed="setPlace"
+                        class="form-control"
+                        :disabled="disableField"
+                        :options="{
+                            radius: 10000,
+                            location: currentLocation
+                        }"
+                >
+                </gmap-autocomplete>
                 <b-input-group-append>
-                    <b-btn @click="addMarker" variant="primary">Add</b-btn>
+                    <b-btn @click="addMarker" variant="primary" :disabled="disableField">Add</b-btn>
                 </b-input-group-append>
             </b-input-group>
         </div>
@@ -44,10 +50,11 @@
                     streetViewControl: false,
                     zoomControl: false,
                     fullscreenControl: false,
-                }
+                    draggable: true
+                },
+                currentLocation: null
             };
         },
-
         mounted() {
             this.geolocate();
         },
@@ -59,6 +66,8 @@
             },
             addMarker() {
                 if (this.currentPlace) {
+                    this.$emit('update-location', this.currentPlace);
+
                     const marker = {
                         lat: this.currentPlace.geometry.location.lat(),
                         lng: this.currentPlace.geometry.location.lng()
@@ -67,15 +76,37 @@
                     this.places.push(this.currentPlace);
                     this.center = marker;
                     this.currentPlace = null;
+
                 }
+            },
+            changeCenter(lat, lng) {
+                this.center = {
+                    lat: lat,
+                    lng: lng
+                };
             },
             geolocate: function () {
                 navigator.geolocation.getCurrentPosition(position => {
-                    this.center = {
+                    this.currentLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
+                    this.center = this.currentLocation;
                 });
+            },
+        },
+        props: {
+            disableField: {
+                type: Boolean,
+                default: false
+            }
+        },
+        computed: {
+            optionsReal() {
+                let options = this.options;
+                options.draggable = !this.disableField;
+
+                return options
             }
         }
     };

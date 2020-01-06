@@ -121,7 +121,7 @@
 
                     <!-- Table Content -->
                     <div>
-                        Content
+                        <OneMoodboard/>
                     </div>
                 </b-tab>
             </b-tabs>
@@ -131,9 +131,10 @@
 
 <script>
     import CreateEditMoodboardModal from "@/pages/Moodboard/CreateEditMoodboardModal";
+    import OneMoodboard from "@/pages/Moodboard/OneMoodboard";
     export default {
         name: "MoodboardComp",
-        components: {CreateEditMoodboardModal},
+        components: {OneMoodboard, CreateEditMoodboardModal},
         data() {
             return {
                 moodboards: [{

@@ -32,6 +32,7 @@ import axios from 'axios'
 Vue.prototype.$http = axios;
 
 //Vuex
+import store from './store';
 
 //File Agent
 import VueFileAgent from 'vue-file-agent';
@@ -53,5 +54,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app');

@@ -26,7 +26,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Description -->
                             <b-col class="m-1">
                                 <b-input
-                                        v-model="currentURL"
+                                        v-model="currentDescription"
                                         placeholder="description"
                                 ></b-input>
                             </b-col>
@@ -62,7 +62,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <b-col>
                                 <b-button
                                         @click="
-                                        addEvent(currentStartDate, currentEndDate, currentTitle, currentURL);
+                                        addEvent(currentStartDate, currentEndDate, currentTitle, currentDescription);
                                         currentTitle = ''; currentEndDate = new Date(); currentStartDate = new Date(); currentDescription = '' "
                                         :disabled="currentTitle.toString() === ''"
                                 >
@@ -138,7 +138,7 @@ https://github.com/richardtallent/vue-simple-calendar
                 currentTitle: '',
                 currentStartDate: new Date(),
                 currentEndDate: new Date(),
-                currentURL: '',
+                currentDescription: '',
 
                 //Date that has been selected
                 selectedDate: {
@@ -146,7 +146,7 @@ https://github.com/richardtallent/vue-simple-calendar
                     startDate: Date(),
                     endDate: Date(),
                     title: 'Event details',
-                    url: "select an event",
+                    description: "select an event",
                 },
 
                 //Format how to set the new Date
@@ -180,7 +180,7 @@ https://github.com/richardtallent/vue-simple-calendar
                     startDate: new Date(startD),
                     endDate: new Date(endD),
                     title: title,
-                    url: description,
+                    description: description,
                 });
             },
 
@@ -189,7 +189,7 @@ https://github.com/richardtallent/vue-simple-calendar
                 console.log("Item Clicked: " + e.title);
 
                 this.selectedDate.title = e.title;
-                this.selectedDate.url = e.url;
+                this.selectedDate.description = e.description;
                 this.selectedDate.startDate = e.startDate;
                 this.selectedDate.endDate = e.endDate;
             },
