@@ -4,11 +4,7 @@
             current-page="media"
             v-bind:project_element="project_element"
     ></NavBar>
-    <FilePath></FilePath>
-    <ProjectNameTitle
-            v-bind:project_element="project_element"
-    ></ProjectNameTitle>
-    <h2>Media Library</h2>
+    <h2 class="categorytitle">Media Library</h2>
     <LibraryCompTest/>
   </div>
 </template>
@@ -16,8 +12,6 @@
 <script>
 
 import NavBar from "../components/Layout/NavBar";
-import FilePath from "../components/Layout/FilePath";
-import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
 import LibraryCompTest from "@/pages/MediaLibrary/LibraryCompTest";
 
 export default {
@@ -25,8 +19,6 @@ export default {
   components: {
     LibraryCompTest,
     NavBar,
-    FilePath,
-    ProjectNameTitle
   },
   props: {
     project_element: {

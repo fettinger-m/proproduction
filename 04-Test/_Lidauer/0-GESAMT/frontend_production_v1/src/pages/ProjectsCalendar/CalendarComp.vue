@@ -3,14 +3,13 @@ https://github.com/richardtallent/vue-simple-calendar
 -->
 
 <template>
-    <div id="app">
+    <div>
         <h1>Calendar</h1>
 
         <b-container>
             <b-row>
-
+                <!-- Calendar Event Input -->
                 <b-col>
-                    <!-- Calendar entry Input -->
                     <b-card>
                         <div class="eventlable">Add a new Event</div>
                         <b-row>
@@ -27,7 +26,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Description -->
                             <b-col class="m-1">
                                 <b-input
-                                        v-model="currentDescription"
+                                        v-model="currentURL"
                                         placeholder="description"
                                 ></b-input>
                             </b-col>
@@ -39,9 +38,9 @@ https://github.com/richardtallent/vue-simple-calendar
                                 <label>Start Date: </label>
                             </b-col>
                             <b-col class="m-1" md="4">
-                                    <date-picker
-                                            v-model="currentStartDate"
-                                            :config="options"></date-picker>
+                                <date-picker
+                                        v-model="currentStartDate"
+                                        :config="options"></date-picker>
                             </b-col>
 
                             <!-- End Date -->
@@ -63,7 +62,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <b-col>
                                 <b-button
                                         @click="
-                                        addEvent(currentStartDate, currentEndDate, currentTitle, currentDescription);
+                                        addEvent(currentStartDate, currentEndDate, currentTitle, currentURL);
                                         currentTitle = ''; currentEndDate = new Date(); currentStartDate = new Date(); currentDescription = '' "
                                         :disabled="currentTitle.toString() === ''"
                                 >
@@ -76,40 +75,39 @@ https://github.com/richardtallent/vue-simple-calendar
 
                     </b-card>
                 </b-col>
+                <!-- Infos zu ausgewähltem Element-->
                 <b-col>
-                    <!-- Infos zu ausgewählem Element-->
                     <b-card>
-                        <!-- Todo: Event Name-->
-                        <div class="eventlable">Event {{ this.selectedDate.title }} description</div>
+                        <div class="eventlable">{{ this.selectedDate.title }}</div>
                         <div class="descriptiontext">
-                            {{ this.selectedDate.description }}
+                            {{ this.selectedDate.url }}
                         </div>
                     </b-card>
                 </b-col>
             </b-row>
+
+            <p></p>
+
+            <!-- Calendar display -->
+            <calendar-view
+                    :show-date="showDate"
+                    :events="events"
+                    class="theme-default holiday-us-traditional holiday-us-official"
+                    @click-event="onClickItem"
+                    :startingDayOfWeek="startingDoW"
+                    wrap-event-title-on-hover
+            >
+                <calendar-view-header
+                        slot="header"
+                        slot-scope="t"
+                        :header-props="t.headerProps"
+                        @input="setShowDate"
+                />
+
+            </calendar-view>
+
+
         </b-container>
-
-        <p></p>
-
-
-        <!-- Calendar display -->
-        <calendar-view
-                :show-date="showDate"
-                :events="events"
-                class="theme-default holiday-us-traditional holiday-us-official"
-                @click-date="onClickDate"
-        >
-            <calendar-view-header
-                    slot="header"
-                    slot-scope="t"
-                    :header-props="t.headerProps"
-                    @input="setShowDate"
-            />
-        </calendar-view>
-
-        <Footer></Footer>
-
-
     </div>
 
 </template>
@@ -117,7 +115,6 @@ https://github.com/richardtallent/vue-simple-calendar
 <script>
 
     import {CalendarView, CalendarViewHeader} from "vue-simple-calendar"
-    import Footer from "@/components/Layout/Footer";
     // The next two lines are processed by webpack. If you're using the component without webpack compilation,
     // you should just create <link> elements for these. Both are optional, you can create your own theme if you prefer.
     require("vue-simple-calendar/static/css/default.css")
@@ -135,21 +132,22 @@ https://github.com/richardtallent/vue-simple-calendar
         data: function () {
             return {
                 showDate: new Date(),
+                startingDoW: 1,
 
                 //Current vaules of the input fields
                 currentTitle: '',
                 currentStartDate: new Date(),
                 currentEndDate: new Date(),
-                currentDescription: '',
+                currentURL: '',
 
+                //Date that has been selected
                 selectedDate: {
                     id: '',
                     startDate: Date(),
                     endDate: Date(),
-                    title: '',
-                    description: '',
+                    title: 'Event details',
+                    url: "select an event",
                 },
-
 
                 //Format how to set the new Date
                 options: {
@@ -159,14 +157,13 @@ https://github.com/richardtallent/vue-simple-calendar
             }
         },
         props: {
-          events: {
-              type: Array,
-              required: true
-          },
+            events: {
+                type: Array,
+                required: true
+            },
 
         },
         components: {
-            Footer,
             CalendarView,
             CalendarViewHeader,
             datePicker
@@ -183,28 +180,25 @@ https://github.com/richardtallent/vue-simple-calendar
                     startDate: new Date(startD),
                     endDate: new Date(endD),
                     title: title,
-                    description: description
+                    url: description,
                 });
             },
 
-            onClickDate(d) {
+            onClickItem(e) {
                 // eslint-disable-next-line no-console
-                console.log('Date clicked');
-                this.selectedDate = { [d.toISOString().substring(0,10)]: ["ClassForSelectedDate"] }
-            }
+                console.log("Item Clicked: " + e.title);
+
+                this.selectedDate.title = e.title;
+                this.selectedDate.url = e.url;
+                this.selectedDate.startDate = e.startDate;
+                this.selectedDate.endDate = e.endDate;
+            },
+
         }
     }
 </script>
 
 <style scoped>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        color: #2c3e50;
-        height: 50vh;
-        width: 70vw;
-        margin-left: auto;
-        margin-right: auto;
-    }
 
     .eventlable {
         text-align: left;
@@ -216,5 +210,9 @@ https://github.com/richardtallent/vue-simple-calendar
     .descriptiontext {
         text-align: left;
         margin: 5px;
+    }
+
+    wrap-event-title-on-hover {
+        color: red;
     }
 </style>

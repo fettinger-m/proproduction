@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <b-container>
         <VueFileAgent :uploadUrl="uploadUrl" v-model="filesData"></VueFileAgent>
-    </div>
+    </b-container>
 </template>
 
 <script>

@@ -31,7 +31,7 @@
                 </b-nav-item>
 
                 <b-nav-item :to="{name: 'moodboard', params: { project: projectName }}" :active="isActive('moodboard')" v-show="isShown()">
-                    <font-awesome-icon :icon="['fas', 'image']"/>
+                    <font-awesome-icon :icon="['fas', 'images']"/>
                     Moodboard
                 </b-nav-item>
 
@@ -66,7 +66,7 @@
         name: "NavBar",
         data() {
             return {
-                projectName: "Vienna2019"
+                projectName: "ToDoName"
             }
         },
         methods: {

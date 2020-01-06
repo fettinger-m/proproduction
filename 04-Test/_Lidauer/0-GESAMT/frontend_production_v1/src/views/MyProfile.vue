@@ -1,7 +1,7 @@
 <template>
   <div id="profile">
     <NavBar small-nav></NavBar>
-    <h2>My Profile</h2>
+    <h2 class="categorytitle">My Profile</h2>
   </div>
 </template>
 

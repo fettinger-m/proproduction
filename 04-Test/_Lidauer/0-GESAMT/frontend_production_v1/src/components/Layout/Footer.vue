@@ -26,6 +26,5 @@
 
     .footerbasic {
         color: #777777;
-        margin: 30px;
     }
 </style>

@@ -48,7 +48,7 @@
                         category_route: 'shotlist'
                     },
                     {
-                        category_icon: 'image',
+                        category_icon: 'images',
                         category_name: 'Moodboard',
                         category_desc: 'add any pictures to a feed to get a feel of the look of your film',
                         category_amount: 9,

@@ -1,35 +1,37 @@
 
 user [{
 
+	//Standard user values
 	username: '',
 	password: '',
 	//...
 	
 	//Which columns are shown in the project table
+	//maybe dont save in firebase
 	thema_c: true,
     status_c: true,
     priority_c: true,
     custom1_c: true,
     custom2_c: true,
 	
+	
 	//Which projects are shown in the table
+	//maybe dont save in firebase
 	planning_r: true,
 	filming_r: true,
 	editing_r: true,
 	preview_r: true,
 	done_r: true,
-	//priority
-    pr0: true,
-    pr1: false,
-    pr2: false,
-    pr3: false,
-    pr4: false,
-    pr5: false,
+	
+	//Which prioritys are shown
+	//maybe dont save in firebase
+    prioritysshown: '0',
 	
 	
 	
 	projects: [{
 	
+		//Specific values of one project
 		project_nbr: '',
         project_name: '',
         project_theme: '',
@@ -37,6 +39,7 @@ user [{
         customfield1: '',
         customfield2: '',
 		
+		//Which priority stars are highlighted
         star1: false,
         star2: false,
         star3: false,
@@ -44,14 +47,16 @@ user [{
         star5: false,
 		
 		//Specific Stuff
+		//maybe dont save in firebase
         deletedialog: false,
         read_only: false,
 		
 		
      
-	 
+		//TODO
 		documents: [{
-		
+			doc_name: '',
+			doc_content: '',	
 		
 		}],
 		documents_amount: 0,
@@ -59,10 +64,11 @@ user [{
 		
 		shotlists: [{
             listName: 'First Shotlist',
+			//maybe dont save in firebase
             edit: false,
 
             shots: [{
-                frame: '', 			//picture to upload
+                frame: '', 			//TODO picture to upload
                 nbr: 0, 			//auto generated number
                 description: '', 	//free text
                 shotsize: '', 		//options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
@@ -76,6 +82,7 @@ user [{
 			
 
             //Which columns are shown
+			//maybe dont save in firebase
             frame_c: true,
             shotsize_c: true,
             movement_c: true,
@@ -88,6 +95,7 @@ user [{
 		shotlists_amount: 0,
 		
 		
+		//TODO
 		moodboards: [{
 			boardName: '',
 			edit: false,

@@ -17,8 +17,6 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-
-
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 library.add(fas, far, fab);
 
@@ -33,6 +31,12 @@ Vue.use(datePicker);
 import axios from 'axios'
 Vue.prototype.$http = axios;
 
+//Vuex
+
+//File Agent
+import VueFileAgent from 'vue-file-agent';
+import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css';
+Vue.use(VueFileAgent, VueFileAgentStyles);
 
 //Google Maps
 import * as VueGoogleMaps from "vue2-google-maps";
