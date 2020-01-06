@@ -1,185 +1,183 @@
-[
-  {
-    "username": "flotschi",
-    "password": "testpwd",
-    "thema_c": true,
-    "status_c": true,
-    "priority_c": true,
-    "custom1_c": true,
-    "custom2_c": false,
-    "projects": [
-      {
-        "project_nbr": "P17-2",
-        "project_name": "Testvideoproj",
-        "project_theme": "Musicvideo",
-        "project_state": "filming",
-        "customfield1": "400€",
-        "customfield2": "",
-        "star1": true,
-        "star2": true,
-        "star3": true,
-        "star4": false,
-        "star5": false,
-        "documents": [
-          {
-            "doc_name": "Document1"
-          },
-          {
-            "doc_name": "Docu2"
-          }
-        ],
-        "shotlists": [
-          {
-            "listName": "Shotlist123",
-            "shots": [
-              {
-                "frame": null,
-                "nbr": 1,
-                "description": "Mein erster Shot",
-                "shotsize": "Wide",
-                "movement": "Forward",
-                "camera": "a7iii",
-                "lens": "50mm",
-                "framerate": "23.976",
-                "specialEquip": "Gimbal",
-                "location": "Timelkam"
-              },
-              {
-                "frame": null,
-                "nbr": 2,
-                "description": "zweiter shot",
-                "shotsize": "Wide",
-                "movement": "Forward",
-                "camera": "a7iii",
-                "lens": "50mm",
-                "framerate": "23.976",
-                "specialEquip": null,
-                "location": "VB"
-              }
-            ]
-          }
-        ],
-        "moodboards": [
-          {
-            "boardName": "Moodboard1"
-          }
-        ],
-        "contacts": [
-          {
-            "name": "Manuel Lidauer",
-            "group": "A",
-            "role": "Director",
-            "email": "manuel.lidauer@gmail.com",
-            "phonenbr": "+436509974228"
-          }
-        ],
-        "locations": [
-          {
-            "place": {
-              "street_number": null,
-              "route": null,
-              "locality": "New York City",
-              "country": "USA",
-              "postal_code": "10036",
-              "name": "Times Square",
-              "lat": 40.7579747,
-              "lng": -73.98554260000003
+{
+  "username": "flotschi",
+  "password": "testpwd",
+  "thema_c": true,
+  "status_c": true,
+  "priority_c": true,
+  "custom1_c": true,
+  "custom2_c": false,
+  "projects": [
+    {
+      "project_nbr": "P17-2",
+      "project_name": "Testvideoproj",
+      "project_theme": "Musicvideo",
+      "project_state": "filming",
+      "customfield1": "400€",
+      "customfield2": "",
+      "star1": true,
+      "star2": true,
+      "star3": true,
+      "star4": false,
+      "star5": false,
+      "documents": [
+        {
+          "doc_name": "Document1"
+        },
+        {
+          "doc_name": "Docu2"
+        }
+      ],
+      "shotlists": [
+        {
+          "listName": "Shotlist123",
+          "shots": [
+            {
+              "frame": null,
+              "nbr": 1,
+              "description": "Mein erster Shot",
+              "shotsize": "Wide",
+              "movement": "Forward",
+              "camera": "a7iii",
+              "lens": "50mm",
+              "framerate": "23.976",
+              "specialEquip": "Gimbal",
+              "location": "Timelkam"
+            },
+            {
+              "frame": null,
+              "nbr": 2,
+              "description": "zweiter shot",
+              "shotsize": "Wide",
+              "movement": "Forward",
+              "camera": "a7iii",
+              "lens": "50mm",
+              "framerate": "23.976",
+              "specialEquip": null,
+              "location": "VB"
             }
+          ]
+        }
+      ],
+      "moodboards": [
+        {
+          "boardName": "Moodboard1"
+        }
+      ],
+      "contacts": [
+        {
+          "name": "Manuel Lidauer",
+          "group": "A",
+          "role": "Director",
+          "email": "manuel.lidauer@gmail.com",
+          "phonenbr": "+436509974228"
+        }
+      ],
+      "locations": [
+        {
+          "place": {
+            "street_number": null,
+            "route": null,
+            "locality": "New York City",
+            "country": "USA",
+            "postal_code": "10036",
+            "name": "Times Square",
+            "lat": 40.7579747,
+            "lng": -73.98554260000003
           }
-        ],
-        "media": [
-          {
-            "name": "testname"
-          }
-        ]
-      },
-      {
-        "project_nbr": "P20-3",
-        "project_name": "Zweitesprojekt",
-        "project_theme": "Imagevideo",
-        "project_state": "done",
-        "customfield1": "700€",
-        "customfield2": "",
-        "star1": true,
-        "star2": true,
-        "star3": true,
-        "star4": true,
-        "star5": false,
-        "documents": [
-          {
-            "doc_name": "Document2"
-          }
-        ],
-        "shotlists": [
-          {
-            "listName": "MeineShotliste",
-            "shots": [
-              {
-                "frame": null,
-                "nbr": 1,
-                "description": "Ein Shot",
-                "shotsize": "Medium",
-                "movement": "Static",
-                "camera": "a7iii",
-                "lens": "50mm",
-                "framerate": "23.976",
-                "specialEquip": null,
-                "location": "Timelkam"
-              }
-            ]
-          }
-        ],
-        "moodboards": [
-          {
-            "boardName": "Moodboard2"
-          }
-        ],
-        "contacts": [
-          {
-            "name": "Manuel Lidauer",
-            "group": "A",
-            "role": "Director",
-            "email": "manuel.lidauer@gmail.com",
-            "phonenbr": "+436509974228"
-          },
-          {
-            "name": "Fetti",
-            "group": "A",
-            "role": "Production",
-            "email": "max.fetti@gmail.com",
-            "phonenbr": null
-          }
-        ],
-        "locations": [
-          {
-            "place": {
-              "street_number": "16",
-              "route": "Voitelau-Straße",
-              "locality": "Timelkam",
-              "country": "Österreich",
-              "postal_code": "4850",
-              "name": "Voitelau-Straße 16",
-              "lat": 47.99815089999999,
-              "lng": 13.608417099999997
+        }
+      ],
+      "media": [
+        {
+          "name": "testname"
+        }
+      ]
+    },
+    {
+      "project_nbr": "P20-3",
+      "project_name": "Zweitesprojekt",
+      "project_theme": "Imagevideo",
+      "project_state": "done",
+      "customfield1": "700€",
+      "customfield2": "",
+      "star1": true,
+      "star2": true,
+      "star3": true,
+      "star4": true,
+      "star5": false,
+      "documents": [
+        {
+          "doc_name": "Document2"
+        }
+      ],
+      "shotlists": [
+        {
+          "listName": "MeineShotliste",
+          "shots": [
+            {
+              "frame": null,
+              "nbr": 1,
+              "description": "Ein Shot",
+              "shotsize": "Medium",
+              "movement": "Static",
+              "camera": "a7iii",
+              "lens": "50mm",
+              "framerate": "23.976",
+              "specialEquip": null,
+              "location": "Timelkam"
             }
+          ]
+        }
+      ],
+      "moodboards": [
+        {
+          "boardName": "Moodboard2"
+        }
+      ],
+      "contacts": [
+        {
+          "name": "Manuel Lidauer",
+          "group": "A",
+          "role": "Director",
+          "email": "manuel.lidauer@gmail.com",
+          "phonenbr": "+436509974228"
+        },
+        {
+          "name": "Fetti",
+          "group": "A",
+          "role": "Production",
+          "email": "max.fetti@gmail.com",
+          "phonenbr": null
+        }
+      ],
+      "locations": [
+        {
+          "place": {
+            "street_number": "16",
+            "route": "Voitelau-Straße",
+            "locality": "Timelkam",
+            "country": "Österreich",
+            "postal_code": "4850",
+            "name": "Voitelau-Straße 16",
+            "lat": 47.99815089999999,
+            "lng": 13.608417099999997
           }
-        ],
-        "media": [
-          {
-            "name": "testmed2"
-          }
-        ]
-      }
-    ],
-    "calendarevent": [
-      {
-        "title": "Videodreh 2",
-        "description": null,
-        "startdate": "2019-01-12",
-        "enddate": "2019-01-12"
-      }
-    ],
-    "customFieldName1": "Preis",
-    "customFieldName2": "Custom2"
-  }
-]
+        }
+      ],
+      "media": [
+        {
+          "name": "testmed2"
+        }
+      ]
+    }
+  ],
+  "calendarevent": [
+    {
+      "title": "Videodreh 2",
+      "description": null,
+      "startdate": "2019-01-12",
+      "enddate": "2019-01-12"
+    }
+  ],
+  "customFieldName1": "Preis",
+  "customFieldName2": "Custom2"
+}
