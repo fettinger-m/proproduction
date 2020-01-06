@@ -47,13 +47,6 @@ export default new VueRouter({
                 path: '/projects/:project_url',
                 component: SingleProjectViewApp,
                 name: 'project',
-                props(route) {
-                    const props = {
-                        project_element: route.params.project_element
-                    };
-                    return props;
-                }
-                //props: { projectElement:  "project_element" }
             },
             {
                 path: '/projects/:project/contacts',
@@ -84,23 +77,11 @@ export default new VueRouter({
                 path: '/projects/:project/moodboard',
                 component: MoodboardApp,
                 name: 'moodboard',
-                props(route) {
-                    const props = {
-                        project_element: route.params.project_element
-                    };
-                    return props;
-                }
             },
             {
                 path: '/projects/:project/shotlist',
                 component: ShotlistStoryboardApp,
                 name: 'shotlist',
-                props(route) {
-                    const props = {
-                        project_element: route.params.project_element
-                    };
-                    return props;
-                }
             },
             {
                 path: '/projects/:project/media',

@@ -34,7 +34,7 @@
                             <!-- ADD BUTTON -->
                             <b-button
                                     type="button"
-                                    @click="addNewRow"
+                                    @click="addProject"
                                     variant="outline-primary"
                             >
                                 <font-awesome-icon :icon="['fas', 'plus-square']"/>
@@ -58,7 +58,7 @@
                 </b-alert>
             </div>
 
-            <table id="projecttable">
+            <table>
 
                 <!-- COLUMN NAMES -->
                 <thead>
@@ -73,19 +73,19 @@
                                 Status
                             </template>
                             <div class="dropdownstyle">
-                                <b-form-checkbox v-model="planning_r">
+                                <b-form-checkbox v-model="planningr">
                                     show planning
                                 </b-form-checkbox>
-                                <b-form-checkbox v-model="filming_r">
+                                <b-form-checkbox v-model="filmingr">
                                     show filming
                                 </b-form-checkbox>
-                                <b-form-checkbox v-model="editing_r">
+                                <b-form-checkbox v-model="editingr">
                                     show editing
                                 </b-form-checkbox>
-                                <b-form-checkbox v-model="preview_r">
+                                <b-form-checkbox v-model="previewr">
                                     show preview
                                 </b-form-checkbox>
-                                <b-form-checkbox v-model="done_r">
+                                <b-form-checkbox v-model="doner">
                                     show done
                                 </b-form-checkbox>
                             </div>
@@ -200,10 +200,12 @@
 
                 <!-- INPUT FIELDS -->
                 <tr
-                        v-for="(project_element, index)  in project_elements"
+                        v-for="(project_element, index) in projects"
                         v-bind:key="index"
-                        v-show="checkState(project_element) && checkPriority(project_element)"
+
+                        class="tablerow"
                 >
+                    <!--TODO v-show="checkState(project_element) && checkPriority(project_element)"-->
 
                     <!-- Nummer -->
                     <td>
@@ -344,7 +346,7 @@
                     <!-- Save Button -->
                     <td v-show="!project_element.read_only">
                         <b-button
-                                @click="saveSettings(project_elements, project_element)"
+                                @click="saveSettings(project_element)"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'check']"/>
@@ -386,12 +388,18 @@
 </template>
 
 <script>
-
+    import { mapMultiRowFields  } from "vuex-map-fields";
+    import { mapGetters, mapActions, mapMutations } from "vuex";
     export default {
         name: "ProjectTable",
         components: {},
         data() {
             return {
+
+
+                //-----SAVE LOCALLY-----
+
+                //Values for the Alert
                 dismissSecs: 10,
                 dismissCountDown: 0,
                 showDismissibleAlert: false,
@@ -400,17 +408,24 @@
                 editing_custom1: false,
                 editing_custom2: false,
 
+                //state options to be chosen
+                project_status: [{
+                    text: 'selecte state', value: null
+                },
+                    'planning', 'filming', 'editing', 'preview', 'done'],
+
+                //Values that define if a project is shown
+                //from Sate
+                planningr: true,
+                filmingr: true,
+                editingr: true,
+                previewr: true,
+                doner: true,
+                //from priority
+                prioritysshown: '0',
             }
         },
         props: {
-            project_elements: {
-                type: Array,
-                required: true
-            },
-            project_status: {
-                type: Array,
-                required: true
-            },
             themac: {
                 type: Boolean,
                 required: true
@@ -439,50 +454,11 @@
                 type: String,
                 required: true
             },
-            planning_r: {
-                type: Boolean,
-                required: true
-            },
-            filming_r: {
-                type: Boolean,
-                required: true
-            },
-            editing_r: {
-                type: Boolean,
-                required: true
-            },
-            preview_r: {
-                type: Boolean,
-                required: true
-            },
-            done_r: {
-                type: Boolean,
-                required: true
-            },
-            prioritysshown: {
-                type: String,
-                required: true
-            }
         },
         methods: {
-            //Creates a new Row
-            addNewRow() {
-                this.project_elements.push({
-                    project_nbr: '',
-                    project_name: '',
-                    project_theme: '',
-                    project_state: null,
-                    customfield1: '',
-                    customfield2: '',
-                    star1: false,
-                    star2: false,
-                    star3: false,
-                    star4: false,
-                    star5: false,
-                    deletedialog: false,
-                    read_only: false,
-                });
-            },
+
+            ...mapActions(["fetchProjects", "addProject", "updateProject"]),
+            ...mapMutations(['addProjectRow']),
 
             //Deletes the current row
             deleteRow(index, project_element) {
@@ -502,34 +478,26 @@
             },
 
 
-            saveSettings(project_elements, project_element) {
+            saveSettings(project_element) {
                 var state = false;
-
                 //CHECK IF ID AND NAME FILLED
                 if ((project_element.project_nbr != null) && (project_element.project_name != null)) {
 
                     if ((project_element.project_nbr.length > 0) && (project_element.project_name.length > 0)) {
-                        //change to read_only
-                        // eslint-disable-next-line no-console
-                        console.log('change to read_only where NBR: ' + project_element.project_nbr + ' and NAME: ' + project_element.project_name)
                         project_element.read_only = true;
-                        // eslint-disable-next-line no-console
-                        console.log('read_only is now: ' + project_element.read_only)
 
+                        //Update Backend
+                        // eslint-disable-next-line no-console
+                        console.log(project_element);
+                        this.updateProject(project_element)
 
                     } else {
                         state = false;
-                        // eslint-disable-next-line no-console
-                        console.log('Nbr or Name not filled - State is false')
                         this.dismissCountDown = this.dismissSecs
                     }
                 } else {
-                    state = false;
-                    // eslint-disable-next-line no-console
-                    console.log('Nbr or Name not filled - State is false 2')
                     this.dismissCountDown = this.dismissSecs
                 }
-
                 return state
             },
 
@@ -618,15 +586,15 @@
             //Checks if the specific project should be shown or not - depending on its filter
             checkState(project_element) {
 
-                if (project_element.project_state === "planning" && this.planning_r == true) {
+                if (project_element.project_state === "planning" && this.planningr == true) {
                     return true;
-                } else if (project_element.project_state === "filming" && this.filming_r == true) {
+                } else if (project_element.project_state === "filming" && this.filmingr == true) {
                     return true;
-                } else if (project_element.project_state === "editing" && this.editing_r == true) {
+                } else if (project_element.project_state === "editing" && this.editingr == true) {
                     return true;
-                } else if (project_element.project_state === "preview" && this.preview_r == true) {
+                } else if (project_element.project_state === "preview" && this.previewr == true) {
                     return true;
-                } else if (project_element.project_state === "done" && this.done_r == true) {
+                } else if (project_element.project_state === "done" && this.doner == true) {
                     return true;
                 } else if (project_element.project_state == null) {
                     return true;
@@ -655,6 +623,14 @@
 
             }
 
+        },
+        computed: {
+            ...mapGetters(["allProjects"]),
+            ...mapMultiRowFields(['projects']),
+        },
+
+        created() {
+            this.fetchProjects();
 
         },
 
@@ -662,13 +638,10 @@
 </script>
 
 <style scoped>
-    #projecttable {
+
+    .tablerow {
 
     }
-
-    #openProjectButton {
-    }
-
 
     .starON {
         color: #FF6852;

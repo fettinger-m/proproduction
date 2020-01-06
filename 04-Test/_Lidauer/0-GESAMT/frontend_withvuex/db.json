@@ -1,14 +1,19 @@
 {
-  "username": "flotschi",
-  "password": "testpwd",
-  "thema_c": true,
-  "status_c": true,
-  "priority_c": true,
-  "custom1_c": true,
-  "custom2_c": false,
+  "general": {
+    "username": "flotschi",
+    "password": "testpwd",
+    "thema_c": true,
+    "status_c": true,
+    "priority_c": true,
+    "custom1_c": true,
+    "custom2_c": false,
+    "customFieldName1": "Preis",
+    "customFieldName2": "Custom2"
+  },
   "projects": [
     {
-      "project_nbr": "P17-2",
+      "id": 1,
+      "project_nbr": "P17-1",
       "project_name": "Testvideoproj",
       "project_theme": "Musicvideo",
       "project_state": "filming",
@@ -19,19 +24,25 @@
       "star3": true,
       "star4": false,
       "star5": false,
+      "deletedialog": false,
+      "read_only": true,
       "documents": [
         {
+          "id": 1,
           "doc_name": "Document1"
         },
         {
+          "id": 2,
           "doc_name": "Docu2"
         }
       ],
       "shotlists": [
         {
+          "id": 1,
           "listName": "Shotlist123",
           "shots": [
             {
+              "id": 1,
               "frame": null,
               "nbr": 1,
               "description": "Mein erster Shot",
@@ -44,6 +55,7 @@
               "location": "Timelkam"
             },
             {
+              "id": 2,
               "frame": null,
               "nbr": 2,
               "description": "zweiter shot",
@@ -60,11 +72,13 @@
       ],
       "moodboards": [
         {
+          "id": 1,
           "boardName": "Moodboard1"
         }
       ],
       "contacts": [
         {
+          "id": 1,
           "name": "Manuel Lidauer",
           "group": "A",
           "role": "Director",
@@ -74,6 +88,7 @@
       ],
       "locations": [
         {
+          "id": 1,
           "place": {
             "street_number": null,
             "route": null,
@@ -88,11 +103,13 @@
       ],
       "media": [
         {
+          "id": 1,
           "name": "testname"
         }
       ]
     },
     {
+      "id": 2,
       "project_nbr": "P20-3",
       "project_name": "Zweitesprojekt",
       "project_theme": "Imagevideo",
@@ -104,16 +121,21 @@
       "star3": true,
       "star4": true,
       "star5": false,
+      "deletedialog": false,
+      "read_only": true,
       "documents": [
         {
+          "id": 1,
           "doc_name": "Document2"
         }
       ],
       "shotlists": [
         {
+          "id": 1,
           "listName": "MeineShotliste",
           "shots": [
             {
+              "id": 1,
               "frame": null,
               "nbr": 1,
               "description": "Ein Shot",
@@ -130,11 +152,13 @@
       ],
       "moodboards": [
         {
+          "id": 1,
           "boardName": "Moodboard2"
         }
       ],
       "contacts": [
         {
+          "id": 1,
           "name": "Manuel Lidauer",
           "group": "A",
           "role": "Director",
@@ -142,6 +166,7 @@
           "phonenbr": "+436509974228"
         },
         {
+          "id": 2,
           "name": "Fetti",
           "group": "A",
           "role": "Production",
@@ -151,6 +176,7 @@
       ],
       "locations": [
         {
+          "id": 1,
           "place": {
             "street_number": "16",
             "route": "Voitelau-Straße",
@@ -165,19 +191,99 @@
       ],
       "media": [
         {
+          "id": 1,
           "name": "testmed2"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "project_nbr": "",
+      "project_name": "",
+      "project_theme": "",
+      "project_state": "",
+      "customfield1": "",
+      "customfield2": "",
+      "star1": false,
+      "star2": false,
+      "star3": false,
+      "star4": false,
+      "star5": false,
+      "deletedialog": false,
+      "read_only": false,
+      "documents": [
+        {
+          "id": 1,
+          "doc_name": ""
+        }
+      ],
+      "shotlists": [
+        {
+          "id": 1,
+          "listName": "",
+          "shots": [
+            {
+              "id": 1,
+              "frame": null,
+              "nbr": 1,
+              "description": "",
+              "shotsize": "",
+              "movement": "",
+              "camera": "",
+              "lens": "",
+              "framerate": "",
+              "specialEquip": "",
+              "location": ""
+            }
+          ]
+        }
+      ],
+      "moodboards": [
+        {
+          "id": 1,
+          "boardName": ""
+        }
+      ],
+      "contacts": [
+        {
+          "id": 1,
+          "name": "",
+          "group": "",
+          "role": "",
+          "email": "",
+          "phonenbr": ""
+        }
+      ],
+      "locations": [
+        {
+          "id": 1,
+          "place": {
+            "street_number": null,
+            "route": null,
+            "locality": "New York City",
+            "country": "USA",
+            "postal_code": "10036",
+            "name": "Times Square",
+            "lat": 40.7579747,
+            "lng": -73.98554260000003
+          }
+        }
+      ],
+      "media": [
+        {
+          "id": 1,
+          "name": ""
         }
       ]
     }
   ],
   "calendarevent": [
     {
+      "id": 1,
       "title": "Videodreh 2",
       "description": null,
       "startdate": "2019-01-12",
       "enddate": "2019-01-12"
     }
-  ],
-  "customFieldName1": "Preis",
-  "customFieldName2": "Custom2"
+  ]
 }

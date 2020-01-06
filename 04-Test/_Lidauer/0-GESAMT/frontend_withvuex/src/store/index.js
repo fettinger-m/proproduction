@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 // Create store
 export default new Vuex.Store({
+    strict: true,
     modules: {
         test
     }
