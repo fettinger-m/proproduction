@@ -68,7 +68,7 @@
                                         <!-- Save Button -->
                                         <div v-show="doc.edit">
                                             <b-button
-                                                    @click="saveNameChange(docs, doc)"
+                                                    @click="doc.edit = false"
                                                     variant="outline"
                                                     :disabled="doc.doc_name.length < 4"
                                             >
@@ -157,6 +157,10 @@
             }
         },
         methods: {
+
+
+            //---WONT NEED AFTER VUEX SWITCH
+
             //Deletes the selected Document
             deleteDocument(index, doc) {
                 var idx = this.docs.indexOf(doc);
@@ -164,27 +168,6 @@
                 console.log('Document deleted: ' + index);
                 if (idx > -1) {
                     this.docs.splice(idx, 1);
-                }
-            },
-
-            saveNameChange(docs, doc) {
-                //CHECK IF ID AND NAME FILLED
-                if (doc.doc_name != null) {
-
-                    if (doc.doc_name.length > 0) {
-
-                        // eslint-disable-next-line no-console
-                        console.log('change to read_only where Name: ' + doc.doc_name)
-                        doc.edit = false;
-                        // eslint-disable-next-line no-console
-                        console.log('Edit Mode is now: ' + doc.edit)
-                    } else {
-                        // eslint-disable-next-line no-console
-                        console.log('Name not filled - State is false')
-                    }
-                } else {
-                    // eslint-disable-next-line no-console
-                    console.log('Name not filled - State is false 2')
                 }
             },
         }
@@ -197,4 +180,5 @@
         color: #FF6852;
         font-size: large;
     }
+
 </style>

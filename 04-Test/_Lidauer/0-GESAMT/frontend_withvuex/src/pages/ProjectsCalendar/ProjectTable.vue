@@ -459,7 +459,9 @@
         },
         methods: {
 
+            //VUEX ACTIONS
             ...mapActions(["fetchProjects", "addProject", "updateProject"]),
+            //VUEX MUTATIONS
             ...mapMutations(['addProjectRow']),
 
             //Is called after the User wants to save a project row

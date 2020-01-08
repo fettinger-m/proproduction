@@ -277,13 +277,20 @@
       ]
     }
   ],
-  "calendarevent": [
+  "calendarevents": [
     {
       "id": 1,
-      "title": "Videodreh 2",
-      "description": null,
+      "title": "Videodreh 1",
+      "description": "Termin um 20 Uhr",
       "startdate": "2019-01-12",
-      "enddate": "2019-01-12"
+      "enddate": "2019-04-12"
+    },
+	{
+      "id": 2,
+      "title": "Videodreh 2",
+      "description": "Drohnen Aufnahmen",
+      "startdate": "2019-08-12",
+      "enddate": "2019-09-12"
     }
   ]
 }

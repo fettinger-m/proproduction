@@ -46,12 +46,9 @@
                 //GET FROM VUEX STORE - to ProjectTable
 
                 events: [{
-                    id: '',
-                    startDate: new Date(),
-                    endDate: new Date(),
-                    title: '',
-                    url: '',
                 }],
+
+
                 //booleans if the specific column shows
                 themac: true,
                 statusc: true,

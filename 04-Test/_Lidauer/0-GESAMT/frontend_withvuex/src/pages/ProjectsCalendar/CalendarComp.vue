@@ -11,7 +11,7 @@ https://github.com/richardtallent/vue-simple-calendar
                 <!-- Calendar Event Input -->
                 <b-col>
                     <b-card>
-                        <div class="eventlable">Add a new Event</div>
+                        <div class="eventlabel">Add a new Event</div>
                         <b-row>
                             <!-- Title -->
                             <b-col class="m-1">
@@ -78,7 +78,7 @@ https://github.com/richardtallent/vue-simple-calendar
                 <!-- Infos zu ausgewähltem Element-->
                 <b-col>
                     <b-card>
-                        <div class="eventlable">{{ this.selectedDate.title }}</div>
+                        <div class="eventlabel">{{ this.selectedDate.title }}</div>
                         <div class="descriptiontext">
                             {{ this.selectedDate.url }}
                         </div>
@@ -88,24 +88,25 @@ https://github.com/richardtallent/vue-simple-calendar
 
             <p></p>
 
-            <!-- Calendar display -->
-            <calendar-view
-                    :show-date="showDate"
-                    :events="events"
-                    class="theme-default holiday-us-traditional holiday-us-official"
-                    @click-event="onClickItem"
-                    :startingDayOfWeek="startingDoW"
-                    wrap-event-title-on-hover
-            >
-                <calendar-view-header
-                        slot="header"
-                        slot-scope="t"
-                        :header-props="t.headerProps"
-                        @input="setShowDate"
-                />
+            <div class="calendardiv">
+                <!-- Calendar display -->
+                <calendar-view
+                        :show-date="showDate"
+                        :events="events"
+                        class="theme-default holiday-us-traditional holiday-us-official"
+                        @click-event="onClickItem"
+                        :startingDayOfWeek="startingDoW"
 
-            </calendar-view>
+                >
+                    <calendar-view-header
+                            slot="header"
+                            slot-scope="t"
+                            :header-props="t.headerProps"
+                            @input="setShowDate"
+                    />
 
+                </calendar-view>
+            </div>
 
         </b-container>
     </div>
@@ -126,6 +127,7 @@ https://github.com/richardtallent/vue-simple-calendar
     // Import date picker css
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
+    import { mapGetters, mapActions } from "vuex";
 
     export default {
         name: "CalendarComp",
@@ -161,7 +163,6 @@ https://github.com/richardtallent/vue-simple-calendar
                 type: Array,
                 required: true
             },
-
         },
         components: {
             CalendarView,
@@ -169,19 +170,13 @@ https://github.com/richardtallent/vue-simple-calendar
             datePicker
         },
         methods: {
+
+            //VUEX ACTIONS
+            ...mapActions(["fetchEvents"]),
+
+
             setShowDate(d) {
                 this.showDate = d;
-            },
-
-            //Adds a new event after the user clicks on the Button
-            addEvent(startD, endD, title, description) {
-                this.events.push({
-                    id: '',
-                    startDate: new Date(startD),
-                    endDate: new Date(endD),
-                    title: title,
-                    description: description,
-                });
             },
 
             onClickItem(e) {
@@ -194,13 +189,35 @@ https://github.com/richardtallent/vue-simple-calendar
                 this.selectedDate.endDate = e.endDate;
             },
 
-        }
+
+            //---WONT NEED AFTER VUEX SWITCH
+
+            //Adds a new event after the user clicks on the Button
+            addEvent(startD, endD, title, description) {
+                this.events.push({
+                    id: '',
+                    startDate: new Date(startD),
+                    endDate: new Date(endD),
+                    title: title,
+                    description: description,
+                });
+            },
+
+        },
+        computed: {
+            ...mapGetters(["allEvents"]),
+
+        },
+        created() {
+            this.fetchEvents();
+
+        },
     }
 </script>
 
 <style scoped>
 
-    .eventlable {
+    .eventlabel {
         text-align: left;
         margin: 5px;
         color: #FF6852;
@@ -212,7 +229,8 @@ https://github.com/richardtallent/vue-simple-calendar
         margin: 5px;
     }
 
-    wrap-event-title-on-hover {
-        color: red;
+    .calendardiv {
+        height: 500px;
     }
+
 </style>

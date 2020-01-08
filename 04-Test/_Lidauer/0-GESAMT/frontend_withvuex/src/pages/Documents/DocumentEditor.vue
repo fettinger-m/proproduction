@@ -39,7 +39,7 @@
                     >
                         <font-awesome-icon :icon="['fas', 'underline']"/>
                     </b-button>
-                    <!-- Button Code -->
+                    <!-- Button Code
                     <b-button
                             class="menubar__button"
                             :class="{ 'is-active': isActive.code() }"
@@ -48,6 +48,7 @@
                     >
                         <font-awesome-icon :icon="['fas', 'code']"/>
                     </b-button>
+                    -->
                     <!-- Button Paragraph-->
                     <b-button
                             class="menubar__button"
@@ -111,7 +112,7 @@
                     >
                         <font-awesome-icon :icon="['fas', 'quote-right']"/>
                     </b-button>
-                    <!-- Button CodeBlock -->
+                    <!-- Button CodeBlock
                     <b-button
                             class="menubar__button"
                             :class="{ 'is-active': isActive.code_block() }"
@@ -120,6 +121,7 @@
                     >
                         <font-awesome-icon :icon="['fas', 'file-code']"/>
                     </b-button>
+                    -->
                     <!-- Button Horizontal Rule -->
                     <b-button
                             class="menubar__button"

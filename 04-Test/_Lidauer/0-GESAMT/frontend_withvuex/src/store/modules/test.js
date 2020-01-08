@@ -2,10 +2,11 @@ import axios from 'axios';
 import {getField, updateField} from 'vuex-map-fields';
 import skeleton from './Dataskeleton'
 
-
 //App-level state/data
 const state = {
-    projects: []
+    projects: [],
+
+    events: [],
 };
 
 //Get pieces of state or computed values from state
@@ -13,12 +14,15 @@ const getters = {
     allProjects: state => state.projects,
     getField,
 
+    allEvents: state => state.events,
+
 
 };
 
 //Called from components to commit a mutation
 const actions = {
 
+    //PROJECTS
 
     async fetchProjects({commit}) {
         const response = await axios.get(
@@ -51,11 +55,24 @@ const actions = {
         commit('addProjectRow', response.data);
     },
 
+    //EVENTS
+    async fetchEvents({commit}) {
+        const response = await axios.get(
+            'http://localhost:3000/calendarevents'
+        );
+        commit('setEvents', response.data);
+
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+    },
+
 
 };
 
 //Mutate the state (Update data, etc)
 const mutations = {
+
+    //PROJECTS
 
     setProjects: (state, projects) => (state.projects = projects),
 
@@ -68,7 +85,11 @@ const mutations = {
 
     updateField,
 
-    addProjectRow: (state, project) => state.projects.unshift(project)
+    addProjectRow: (state, project) => state.projects.unshift(project),
+
+
+    //EVENTS
+    setEvents: (state, events) => (state.events = events),
 
 };
 
