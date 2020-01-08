@@ -113,7 +113,7 @@
                                 <!-- Save Button -->
                                 <div v-show="editing_custom1">
                                     <b-button
-                                            @click="editing_custom1 = saveFieldNameChange(custom_field_name1)"
+                                            @click="editing_custom1 = false"
                                             variant="outline"
                                             :disabled="custom_field_name1.length < 4"
                                             size="sm"
@@ -156,7 +156,7 @@
                                 <!-- Save Button -->
                                 <div v-show="editing_custom2">
                                     <b-button
-                                            @click="editing_custom2 = saveFieldNameChange(custom_field_name2)"
+                                            @click="editing_custom2 = false"
                                             variant="outline"
                                             :disabled="custom_field_name2.length < 4"
                                             size="sm"
@@ -356,7 +356,7 @@
                     <!-- Edit Button -->
                     <td v-show="project_element.read_only">
                         <b-button
-                                @click="editColumn(project_element)"
+                                @click="project_element.read_only = false"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'pen']"/>
@@ -426,6 +426,8 @@
             }
         },
         props: {
+
+            //GET FROM VUEX AFTER SWITCH
             themac: {
                 type: Boolean,
                 required: true
@@ -460,29 +462,12 @@
             ...mapActions(["fetchProjects", "addProject", "updateProject"]),
             ...mapMutations(['addProjectRow']),
 
-            //Deletes the current row
-            deleteRow(index, project_element) {
-                var idx = this.project_elements.indexOf(project_element);
-                // eslint-disable-next-line no-console
-                console.log('Column deleted: ' + index);
-                if (idx > -1) {
-                    this.project_elements.splice(idx, 1);
-                }
-            },
-
-            //Is called after the user clicks on the "Edit" Button
-            editColumn(project_element) {
-                //make read_only false
-                project_element.read_only = false
-
-            },
-
-
+            //Is called after the User wants to save a project row
             saveSettings(project_element) {
-                var state = false;
                 //CHECK IF ID AND NAME FILLED
+                //if the fields are not null
                 if ((project_element.project_nbr != null) && (project_element.project_name != null)) {
-
+                    //if the fields are not empty
                     if ((project_element.project_nbr.length > 0) && (project_element.project_name.length > 0)) {
                         project_element.read_only = true;
 
@@ -490,45 +475,22 @@
                         // eslint-disable-next-line no-console
                         console.log(project_element);
                         this.updateProject(project_element)
-
                     } else {
-                        state = false;
+                        //Start the warning block
                         this.dismissCountDown = this.dismissSecs
                     }
                 } else {
+                    //Start the warning block
                     this.dismissCountDown = this.dismissSecs
                 }
-                return state
             },
 
-            saveFieldNameChange(customField) {
-                var state = false;
-
-                //CHECK IF ID AND NAME FILLED
-                if (customField != null) {
-                    if (customField.length > 0) {
-                        state = true;
-
-                    } else {
-                        state = false;
-                        // eslint-disable-next-line no-console
-                        console.log('Name not filled - State is false')
-                        this.dismissCountDown = this.dismissSecs
-                    }
-                } else {
-                    state = false;
-                    // eslint-disable-next-line no-console
-                    console.log('Name not filled - State is false 2')
-                    this.dismissCountDown = this.dismissSecs
-                }
-
-                return !state
-            },
-
+            //Is used for the warning block
             countDownChanged(dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
             },
 
+            //Is called when the user clicks on a star
             starClicked(index, project_element) {
 
                 if (index === 1) {
@@ -621,7 +583,7 @@
                     return true
                 }
 
-            }
+            },
 
         },
         computed: {

@@ -1,5 +1,0 @@
-Für Filmmaker und Videoproduzenten
-die ihre Projekte planen und koordinieren wollen
-ist unsere Diplomarbeit eine Webanwendung
-die es sowohl Anfänger als auch Fortgeschrittene ermöglicht, ihre Filme in ToDo Listen zu koordinieren und sämtliche Dokumente zu erstellen und verwalten.
-anders als die kostenpflichtigen Programme, wird unsere Diplomarbeit konstenlos und übersichtlicher gestaltet sein.
