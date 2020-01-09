@@ -5,55 +5,6 @@
         <ProjectNameTitle></ProjectNameTitle>
         <h2>Locations</h2>
         <b-container>
-            <b-row v-if="false" align-h="center">
-                <b-carousel
-                        id="carousel-1"
-                        controls
-                        indicators
-                >
-                    <b-carousel-slide>
-                        <template v-slot:img>
-                            <b-card-group deck>
-                                <b-card
-                                        tag="article"
-                                        style="max-width: 20rem; min-width: 20rem"
-                                        class="mb-2"
-                                        no-body
-                                >
-                                    <GoogleMapsTest @update-location="updateLocation"
-                                                    :disable-field="disableField"></GoogleMapsTest>
-
-                                    <b-card-body>
-                                        <p v-for="value in location" :key="value.id">
-                                            {{value}}
-                                        </p>
-                                        <b-btn @click="lockButtons" variant="primary">Edit</b-btn>
-                                    </b-card-body>
-
-                                </b-card>
-                                <b-card
-                                        tag="article"
-                                        style="max-width: 20rem; min-width: 20rem"
-                                        class="mb-2"
-                                        no-body
-                                >
-                                    <GoogleMapsTest class="card-img-top"></GoogleMapsTest>
-                                </b-card>
-                                <b-card
-                                        tag="article"
-                                        style="max-width: 20rem; min-width: 20rem"
-                                        class="mb-2"
-                                        no-body
-                                >
-                                    <GoogleMapsTest class="card-img-top"></GoogleMapsTest>
-                                </b-card>
-
-
-                            </b-card-group>
-                        </template>
-                    </b-carousel-slide>
-                </b-carousel>
-            </b-row>
             <b-row>
                 <b-col>
                     <GoogleMapsTest
@@ -95,6 +46,8 @@
         methods: {
             updateLocation(e) {
                 //let arr = e.formatted_address.split(", ");
+                // eslint-disable-next-line no-console
+                console.log(e);
                 let arr = e.address_components;
                 var address = {};
 
