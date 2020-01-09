@@ -35,7 +35,7 @@ const actions = {
     async updateProject({commit}, updProject) {
         // eslint-disable-next-line no-console
         const response = await axios.put(
-            `https://jsonplaceholder.typicode.com/todos/${updProject.id}`,
+            `http://localhost:3000/projects/${updProject.id}`,
             updProject
         );
 
@@ -90,7 +90,7 @@ const mutations = {
 
     updateField,
 
-    addProjectRow: (state, project) => state.projects.unshift(project),
+    addProjectRow: (state, project) => state.projects.push(project),
     removeProject: (state, id) =>
         (state.projects = state.projects.filter(project => project.id !== id)),
 

@@ -378,7 +378,7 @@
                                 Delete entire project "{{project_element.project_name}}"?
                             </template>
                             <b-button variant="outline-danger" block
-                                      @click="deleteProject(project_element.id);">Delete
+                                      @click="deleteProject(project_element.id); $bvModal.hide(index.toString())">Delete
                             </b-button>
                             <b-button variant="outline-warning" block @click="$bvModal.hide(index.toString())">Cancle
                             </b-button>
