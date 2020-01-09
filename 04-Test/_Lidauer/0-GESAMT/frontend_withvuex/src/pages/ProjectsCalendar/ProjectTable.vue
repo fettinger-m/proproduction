@@ -236,6 +236,7 @@
                                         placeholder="name"
                                         v-model="project_element.project_name"
                                         :readonly="project_element.read_only"
+                                        class="name-btn"
                                 ></b-form-input>
 
                             </div>
@@ -245,7 +246,7 @@
 
                                 <router-link
                                         :to="{ name: 'project', params: { project_url: project_element.project_name, project_element: project_element} }">
-                                    <b-button id="openProjectButton" variant="outline-primary">
+                                    <b-button id="openProjectButton" variant="outline-primary" class="name-btn">
                                         {{project_element.project_name}}
                                     </b-button>
                                 </router-link>
@@ -374,7 +375,7 @@
 
                         <b-modal :id="index.toString()" hide-footer title="Delete entire project?">
                             <b-button variant="outline-danger" block
-                                      @click="deleteRow(index, project_element); $bvModal.hide(index.toString())">Delete
+                                      @click="deleteProject(project_element.id);">Delete
                             </b-button>
                             <b-button variant="outline-warning" block @click="$bvModal.hide(index.toString())">Cancle
                             </b-button>
@@ -460,7 +461,7 @@
         methods: {
 
             //VUEX ACTIONS
-            ...mapActions(["fetchProjects", "addProject", "updateProject"]),
+            ...mapActions(["fetchProjects", "addProject", "updateProject", "deleteProject"]),
             //VUEX MUTATIONS
             ...mapMutations(['addProjectRow']),
 
@@ -615,5 +616,30 @@
         font-size: small;
     }
 
+    .name-btn {
+        width: 10rem !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+    }
+
+    .custom-select {
+        border-radius: 0;
+
+    }
+
+    .custom-select:focus {
+        box-shadow: none;
+        border-color: #ced4da;
+    }
+
+    .form-control {
+        margin-right: 0;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #ced4da;
+    }
 
 </style>

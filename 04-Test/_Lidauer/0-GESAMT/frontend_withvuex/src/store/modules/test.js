@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {getField, updateField} from 'vuex-map-fields';
-import skeleton from './Dataskeleton'
 
 //App-level state/data
 const state = {
@@ -49,11 +48,17 @@ const actions = {
     async addProject({commit}) {
         const response = await axios.post(
             'http://localhost:3000/projects',
-            skeleton
+            {}
         );
 
         commit('addProjectRow', response.data);
     },
+    async deleteProject({ commit }, id) {
+        await axios.delete(`http://localhost:3000/projects/${id}`);
+
+        commit('removeProject', id);
+    },
+
 
     //EVENTS
     async fetchEvents({commit}) {
@@ -86,6 +91,8 @@ const mutations = {
     updateField,
 
     addProjectRow: (state, project) => state.projects.unshift(project),
+    removeProject: (state, id) =>
+        (state.projects = state.projects.filter(project => project.id !== id)),
 
 
     //EVENTS
