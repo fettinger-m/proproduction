@@ -1,7 +1,12 @@
 {
-  "general": {
+  "userdetails": {
     "username": "flotschi",
     "password": "testpwd",
+    "firstname": "Florian",
+    "lastname": "Linnert",
+    "email": "flotschi@gmail.com"
+  },
+  "tableview": {
     "thema_c": true,
     "status_c": true,
     "priority_c": true,
@@ -195,86 +200,6 @@
           "name": "testmed2"
         }
       ]
-    },
-    {
-      "id": 3,
-      "project_nbr": "",
-      "project_name": "",
-      "project_theme": "",
-      "project_state": "",
-      "customfield1": "",
-      "customfield2": "",
-      "star1": false,
-      "star2": false,
-      "star3": false,
-      "star4": false,
-      "star5": false,
-      "deletedialog": false,
-      "read_only": false,
-      "documents": [
-        {
-          "id": 1,
-          "doc_name": ""
-        }
-      ],
-      "shotlists": [
-        {
-          "id": 1,
-          "listName": "",
-          "shots": [
-            {
-              "id": 1,
-              "frame": null,
-              "nbr": 1,
-              "description": "",
-              "shotsize": "",
-              "movement": "",
-              "camera": "",
-              "lens": "",
-              "framerate": "",
-              "specialEquip": "",
-              "location": ""
-            }
-          ]
-        }
-      ],
-      "moodboards": [
-        {
-          "id": 1,
-          "boardName": ""
-        }
-      ],
-      "contacts": [
-        {
-          "id": 1,
-          "name": "",
-          "group": "",
-          "role": "",
-          "email": "",
-          "phonenbr": ""
-        }
-      ],
-      "locations": [
-        {
-          "id": 1,
-          "place": {
-            "street_number": null,
-            "route": null,
-            "locality": "New York City",
-            "country": "USA",
-            "postal_code": "10036",
-            "name": "Times Square",
-            "lat": 40.7579747,
-            "lng": -73.98554260000003
-          }
-        }
-      ],
-      "media": [
-        {
-          "id": 1,
-          "name": ""
-        }
-      ]
     }
   ],
   "calendarevents": [
@@ -285,7 +210,7 @@
       "startdate": "2019-01-12",
       "enddate": "2019-04-12"
     },
-	{
+    {
       "id": 2,
       "title": "Videodreh 2",
       "description": "Drohnen Aufnahmen",

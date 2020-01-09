@@ -373,7 +373,10 @@
                             <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                         </b-button>
 
-                        <b-modal :id="index.toString()" hide-footer title="Delete entire project?">
+                        <b-modal :id="index.toString()" hide-footer >
+                            <template v-slot:modal-title>
+                                Delete entire project "{{project_element.project_name}}"?
+                            </template>
                             <b-button variant="outline-danger" block
                                       @click="deleteProject(project_element.id);">Delete
                             </b-button>

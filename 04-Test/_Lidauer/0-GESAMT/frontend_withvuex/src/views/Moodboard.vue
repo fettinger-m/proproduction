@@ -6,7 +6,6 @@
   <div id="moodboard">
     <NavBar
             current-page="moodboard"
-            v-bind:project_element="project_element"
     ></NavBar>
     <h2 class="categorytitle">Moodboard</h2>
     <MoodboardComp></MoodboardComp>
@@ -23,12 +22,6 @@ export default {
   components: {
     MoodboardComp,
     NavBar,
-  },
-  props: {
-    project_element: {
-      type: Object,
-      required: false
-    }
   },
 }
 </script>

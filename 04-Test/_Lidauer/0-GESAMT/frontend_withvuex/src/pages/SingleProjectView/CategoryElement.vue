@@ -38,10 +38,6 @@
             category_element: {
                 type: Object,
                 required: true
-            },
-            project_element: {
-                type: Object,
-                required: true
             }
         },
         methods: {

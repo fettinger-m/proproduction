@@ -2,7 +2,6 @@
     <div id="documents">
         <NavBar
                 current-page="documents"
-                v-bind:project_element="project_element"
         ></NavBar>
         <h2 class="categorytitle">Documents & Scripts</h2>
 
@@ -23,12 +22,6 @@
         components: {
             DocumentComp,
             NavBar,
-        },
-        props: {
-            project_element: {
-                type: Object,
-                required: true
-            }
         },
     }
 </script>

@@ -84,11 +84,6 @@
         props: {
             currentPage: String,
             smallNav: Boolean,
-
-            project_element: {
-                type: Object,
-                required: false
-            }
         }
     }
 </script>

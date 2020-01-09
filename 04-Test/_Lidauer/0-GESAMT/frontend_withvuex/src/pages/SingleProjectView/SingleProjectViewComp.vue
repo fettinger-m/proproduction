@@ -5,7 +5,6 @@
             <b-col v-for="(category_element, index) in category_elements" v-bind:key="index">
                 <CategoryElement
                         v-bind:category_element="category_element"
-                        v-bind:project_element="project_element"
                 />
                 <hr>
             </b-col>
@@ -21,12 +20,6 @@
         name: "SingleProjectView",
         components: {
             CategoryElement
-        },
-        props: {
-            project_element: {
-                type: Object,
-                required: true
-            }
         },
         data() {
             return {

@@ -263,9 +263,6 @@
                 }
             },
         },
-        directives: {
-            focus: {}
-        }
     }
 </script>
 

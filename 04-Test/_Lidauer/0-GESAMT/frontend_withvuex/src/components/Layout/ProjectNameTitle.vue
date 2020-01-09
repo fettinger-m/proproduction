@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <h1>{{ project_element.project_name }}</h1>
+        <h1>{{ projectname }}</h1>
     </div>
 </template>
 
@@ -10,13 +10,11 @@
 <script>
     export default {
         name: "ProjectNameTitle",
-
-        props: {
-            project_element: {
-                type: Object,
-                required: false
+        data() {
+            return {
+                projectname: "TestProject"
             }
-        }
+        },
     }
 </script>
 

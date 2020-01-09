@@ -2,15 +2,12 @@
     <div id="project">
         <NavBar
                 current-page="project"
-                v-bind:project_element="project_element"
         ></NavBar>
 
         <ProjectNameTitle
-                v-bind:project_element="project_element"
         ></ProjectNameTitle>
 
         <SingleProjectViewComp
-                v-bind:project_element="project_element"
         />
     </div>
 </template>
@@ -27,12 +24,6 @@
             NavBar,
             ProjectNameTitle,
             SingleProjectViewComp
-        },
-        props: {
-            project_element: {
-                type: Object,
-                required: true
-            }
         },
         data() {
             return {

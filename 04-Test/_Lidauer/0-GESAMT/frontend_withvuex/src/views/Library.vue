@@ -2,7 +2,6 @@
   <div id="library">
     <NavBar
             current-page="media"
-            v-bind:project_element="project_element"
     ></NavBar>
     <h2 class="categorytitle">Media Library</h2>
     <LibraryCompTest/>
@@ -19,12 +18,6 @@ export default {
   components: {
     LibraryCompTest,
     NavBar,
-  },
-  props: {
-    project_element: {
-      type: Object,
-      required: true
-    }
   },
 }
 </script>

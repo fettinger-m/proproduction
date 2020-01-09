@@ -2,7 +2,6 @@
     <div id="shotlist">
         <NavBar
                 current-page="shotlist"
-                v-bind:project_element="project_element"
         ></NavBar>
         <h2 class="categorytitle">Shotlist & Storyboard</h2>
         <ShotlistComp></ShotlistComp>
@@ -19,13 +18,6 @@
         components: {
             ShotlistComp,
             NavBar,
-        },
-
-        props: {
-            project_element: {
-                type: Object,
-                required: true
-            }
         },
     }
 </script>
