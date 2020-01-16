@@ -66,11 +66,11 @@
                     <th>Nbr
                     </th>
                     <th>Name</th>
-                    <th v-show="themac">Thema</th>
+                    <th v-show="themac">Theme</th>
                     <th v-show="statusc">
                         <b-dropdown variant="outline" title="Status">
                             <template v-slot:button-content>
-                                Status
+                                State
                             </template>
                             <div class="dropdownstyle">
                                 <b-form-checkbox v-model="planningr">
@@ -202,10 +202,10 @@
                 <tr
                         v-for="(project_element, index) in projects"
                         v-bind:key="index"
-
+                        v-show="checkState(project_element) "
                         class="tablerow"
                 >
-                    <!--TODO v-show="checkState(project_element) && checkPriority(project_element)"-->
+                    <!-- && checkPriority(project_element) -->
 
                     <!-- Nummer -->
                     <td>
@@ -273,10 +273,14 @@
                         <b-form-group>
                             <b-form-select
                                     v-model="project_element.project_state"
-                                    :options="project_status"
-                                    required
+                                    :options="project_state_options"
                                     :disabled="project_element.read_only"
-                            ></b-form-select>
+                            >
+                                <template v-slot:first>
+                                    <b-form-select-option value="" disabled>-- Please select an option --</b-form-select-option>
+                                </template>
+
+                            </b-form-select>
                         </b-form-group>
                     </td>
 
@@ -373,7 +377,7 @@
                             <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                         </b-button>
 
-                        <b-modal :id="index.toString()" hide-footer >
+                        <b-modal :id="index.toString()" hide-footer>
                             <template v-slot:modal-title>
                                 Delete entire project "{{project_element.project_name}}"?
                             </template>
@@ -392,8 +396,9 @@
 </template>
 
 <script>
-    import { mapMultiRowFields  } from "vuex-map-fields";
-    import { mapGetters, mapActions, mapMutations } from "vuex";
+    import {mapMultiRowFields} from "vuex-map-fields";
+    import {mapActions, mapMutations} from "vuex";
+
     export default {
         name: "ProjectTable",
         components: {},
@@ -413,10 +418,13 @@
                 editing_custom2: false,
 
                 //state options to be chosen
-                project_status: [{
-                    text: 'selecte state', value: null
-                },
-                    'planning', 'filming', 'editing', 'preview', 'done'],
+                project_state_options: [
+                    {value: 'planning', text: 'planning'},
+                    {value: 'filming', text: 'filming'},
+                    {value: 'editing', text: 'editing'},
+                    {value: 'preview', text: 'preview'},
+                    {value: 'done', text: 'done'},
+                ],
 
                 //Values that define if a project is shown
                 //from Sate
@@ -431,7 +439,7 @@
         },
         props: {
 
-            //GET FROM VUEX AFTER SWITCH
+            //TODO GET FROM VUEX AFTER SWITCH
             themac: {
                 type: Boolean,
                 required: true
@@ -471,6 +479,7 @@
             //Is called after the User wants to save a project row
             saveSettings(project_element) {
                 //CHECK IF ID AND NAME FILLED
+
                 //if the fields are not null
                 if ((project_element.project_nbr != null) && (project_element.project_name != null)) {
                     //if the fields are not empty
@@ -585,15 +594,11 @@
                     return false
                 } else if (this.prioritysshown === '0') {
                     return true
-                } else {
-                    return true
                 }
-
             },
 
         },
         computed: {
-            ...mapGetters(["allProjects"]),
             ...mapMultiRowFields(['projects']),
         },
 
