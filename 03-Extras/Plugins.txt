@@ -17,5 +17,5 @@ image gallary https://github.com/RobinCK/vue-gallery#readme
 
 movable components https://github.com/probil/vue-moveable		https://github.com/lee88688/vue-movable-element#readme
 
-
+https://github.com/jbaysolutions/vue-grid-layout
 vuex map fields	https://markus.oberlehner.net/blog/form-fields-two-way-data-binding-and-vuex/	https://github.com/maoberlehner/vuex-map-fields

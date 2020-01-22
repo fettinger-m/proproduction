@@ -102,7 +102,6 @@
                                                     <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                                                     Delete
                                                 </b-button>
-
                                                 <!-- Delete Dialog-->
                                                 <b-modal :id="index.toString()" hide-footer
                                                          title="Delete this document?">
@@ -115,13 +114,6 @@
                                                         Cancle
                                                     </b-button>
                                                 </b-modal>
-                                                <!-- Rename Button -->
-                                                <b-button
-                                                        variant="outline-secondary"
-                                                >
-                                                    <font-awesome-icon :icon="['fas', 'pen']"/>
-                                                    Rename
-                                                </b-button>
                                             </b-form>
 
                                         </b-dropdown>
@@ -157,7 +149,6 @@
             }
         },
         methods: {
-
 
             //---WONT NEED AFTER VUEX SWITCH
 

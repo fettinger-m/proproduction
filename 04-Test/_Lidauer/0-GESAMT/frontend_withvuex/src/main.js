@@ -50,6 +50,9 @@ Vue.use(VueGoogleMaps, {
 });
 
 
+//Vue-grid-layout
+import VueGridLayout from 'vue-grid-layout';
+Vue.use(VueGridLayout);
 
 Vue.config.productionTip = false;
 

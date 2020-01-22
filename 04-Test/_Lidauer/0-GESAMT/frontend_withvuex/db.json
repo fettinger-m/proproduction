@@ -32,21 +32,6 @@
       "id": 1
     },
     {
-      "project_nbr": "P19-23",
-      "project_name": "Ball Video",
-      "project_theme": "Aftermovie",
-      "project_state": "done",
-      "customfield1": "500€",
-      "customfield2": "20.12.19",
-      "star1": true,
-      "star2": true,
-      "star3": false,
-      "star4": false,
-      "star5": false,
-      "read_only": true,
-      "id": 2
-    },
-    {
       "project_nbr": "P20-2",
       "project_name": "Firmen Video",
       "project_theme": "Imagevideo",
@@ -62,6 +47,7 @@
       "id": 3
     },
     {
+      "project_theme": "Musicvideo",
       "id": 4
     }
   ],
