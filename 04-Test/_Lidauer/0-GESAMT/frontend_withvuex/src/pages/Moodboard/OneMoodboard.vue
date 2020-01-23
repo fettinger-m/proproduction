@@ -1,11 +1,32 @@
 <template>
     <div>
-        <b-form-file
-                v-model="file"
-                accept="image/*"
-                placeholder="Choose a image or drop it here..."
-                drop-placeholder="Drop image here..."
-        ></b-form-file>
+        <!-- Bild hinzufügen-->
+        <div>
+            <b-row align-h="end">
+                <b-col>
+                    <!-- Bild einlesen-->
+                    <b-form-file
+                            v-model="file"
+                            accept="image/*"
+                            placeholder="Choose a image or drop it here..."
+                            drop-placeholder="Drop image here..."
+                    ></b-form-file>
+                </b-col>
+                <b-col cols="3">
+                    <div class="float-right mb-3">
+                        <!-- Button to Add Picture-->
+                        <b-button
+                                type="button"
+                                variant="outline-primary"
+                                class="float-right"
+                        >
+                            <font-awesome-icon :icon="['fas', 'plus-square']"/>
+                            Add Picture
+                        </b-button>
+                    </div>
+                </b-col>
+            </b-row>
+        </div>
 
         <grid-layout
                 :layout.sync="layout"
@@ -15,8 +36,10 @@
                 :is-resizable="true"
                 :is-mirrored="false"
                 :vertical-compact="true"
-                :margin="[10, 10]"
+                :margin="[5, 5]"
                 :use-css-transforms="true"
+                :prevent-collision="false"
+                :responsive="false"
         >
 
             <grid-item v-for="item in layout"
@@ -25,8 +48,10 @@
                        :w="item.w"
                        :h="item.h"
                        :i="item.i"
-                       :key="item.i">
-                {{item.i}}
+                       :key="item.i"
+                       class="imagestyle"
+            >
+                {{ item.i }}
             </grid-item>
         </grid-layout>
 
@@ -35,6 +60,13 @@
 </template>
 
 <script>
+
+    /*
+    Pro Image eingelesen neues layout element erstellen
+    In Array: x, y, width and height (verbunden - proportional), index, image
+     */
+
+
     export default {
         name: "OneMoodboard",
         data() {
@@ -61,7 +93,7 @@
                     {"x":10,"y":4,"w":2,"h":2,"i":"17"},
                     {"x":0,"y":9,"w":2,"h":3,"i":"18"},
                     {"x":2,"y":6,"w":2,"h":2,"i":"19"}
-                ]
+                ],
             }
         }
     }
@@ -72,5 +104,10 @@
         color: #FF6852;
         font-size: 125px;
         margin-top: 20px;
+    }
+
+    .imagestyle {
+        background-color: #FF6852;
+
     }
 </style>
