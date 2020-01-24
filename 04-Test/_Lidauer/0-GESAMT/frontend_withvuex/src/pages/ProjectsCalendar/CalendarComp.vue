@@ -16,7 +16,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Title -->
                             <b-col class="m-1">
                                 <b-input
-                                        v-model="currentTitle"
+                                        v-model="current_event.title"
                                         placeholder="event name"
                                 ></b-input>
                             </b-col>
@@ -26,7 +26,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Description -->
                             <b-col class="m-1">
                                 <b-input
-                                        v-model="currentDescription"
+                                        v-model="current_event.description"
                                         placeholder="description"
                                 ></b-input>
                             </b-col>
@@ -39,7 +39,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             </b-col>
                             <b-col class="m-1" md="4">
                                 <date-picker
-                                        v-model="currentStartDate"
+                                        v-model="current_event.startDate"
                                         :config="options"></date-picker>
                             </b-col>
 
@@ -49,7 +49,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             </b-col>
                             <b-col class="m-1" md="4">
                                 <date-picker
-                                        v-model="currentEndDate"
+                                        v-model="current_event.endDate"
                                         :config="options"></date-picker>
                             </b-col>
                         </b-row>
@@ -61,27 +61,61 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Add Event Button -->
                             <b-col>
                                 <b-button
-                                        @click="
-                                        addEvent(currentStartDate, currentEndDate, currentTitle, currentDescription);
-                                        currentTitle = ''; currentEndDate = new Date(); currentStartDate = new Date(); currentDescription = '' "
-                                        :disabled="currentTitle.toString() === ''"
+                                        @click="addEventAction(current_event)"
+                                        :disabled="current_event.title.toString() === ''"
                                 >
                                     Add Event
                                 </b-button>
                             </b-col>
-
                         </b-row>
-
-
                     </b-card>
                 </b-col>
                 <!-- Infos zu ausgewähltem Element-->
                 <b-col>
                     <b-card>
-                        <div class="eventlabel">{{ this.selectedDate.title }}</div>
+                        <!-- Title-->
+                        <b-row>
+                            <b-col>
+                                <div class="eventlabel">{{ this.selectedDate.selected_title }}</div>
+                            </b-col>
+                            <b-col>
+                                <!-- Buttons -->
+                                <div>
+                                    <!-- Edit Button -->
+                                    <b-button
+                                            variant="outline"
+                                    >
+                                        <font-awesome-icon :icon="['fas', 'pen']"/>
+                                    </b-button>
+
+                                    <!-- Delete button -->
+                                    <b-button
+                                            @click="$bvModal.show('deleteeventmodal')"
+                                            variant="outline"
+                                    >
+                                        <font-awesome-icon :icon="['fas', 'trash-alt']"/>
+                                    </b-button>
+                                    <b-modal id="deleteeventmodal" hide-footer>
+                                        <template v-slot:modal-title>
+                                            Delete this event "{{ selectedDate.selected_title }}"?
+                                        </template>
+                                        <b-button variant="outline-danger" block
+                                                  @click="$bvModal.hide('deleteeventmodal')">Delete
+                                        </b-button>
+                                        <b-button variant="outline-warning" block
+                                                  @click="$bvModal.hide('deleteeventmodal')">Cancle
+                                        </b-button>
+                                    </b-modal>
+                                </div>
+                            </b-col>
+                        </b-row>
+
+
                         <div class="descriptiontext">
-                            {{ this.selectedDate.url }}
+                            {{ this.selectedDate.selected_id }}
+                            {{ this.selectedDate.selected_description }}
                         </div>
+
                     </b-card>
                 </b-col>
             </b-row>
@@ -92,11 +126,10 @@ https://github.com/richardtallent/vue-simple-calendar
                 <!-- Calendar display -->
                 <calendar-view
                         :show-date="showDate"
-                        :events="events"
+                        :events="allEvents"
                         class="theme-default holiday-us-traditional holiday-us-official"
                         @click-event="onClickItem"
                         :startingDayOfWeek="startingDoW"
-
                 >
                     <calendar-view-header
                             slot="header"
@@ -104,7 +137,6 @@ https://github.com/richardtallent/vue-simple-calendar
                             :header-props="t.headerProps"
                             @input="setShowDate"
                     />
-
                 </calendar-view>
             </div>
 
@@ -116,18 +148,14 @@ https://github.com/richardtallent/vue-simple-calendar
 <script>
 
     import {CalendarView, CalendarViewHeader} from "vue-simple-calendar"
-    // The next two lines are processed by webpack. If you're using the component without webpack compilation,
-    // you should just create <link> elements for these. Both are optional, you can create your own theme if you prefer.
+
     require("vue-simple-calendar/static/css/default.css")
     require("vue-simple-calendar/static/css/holidays-us.css")
-    // Import required dependencies
     import 'bootstrap/dist/css/bootstrap.css';
-    // Import this component
     import datePicker from 'vue-bootstrap-datetimepicker';
-    // Import date picker css
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
-    import { mapGetters, mapActions } from "vuex";
+    import {mapGetters, mapActions, mapMutations} from "vuex";
 
     export default {
         name: "CalendarComp",
@@ -137,18 +165,20 @@ https://github.com/richardtallent/vue-simple-calendar
                 startingDoW: 1,
 
                 //Current vaules of the input fields
-                currentTitle: '',
-                currentStartDate: new Date(),
-                currentEndDate: new Date(),
-                currentDescription: '',
+                current_event: {
+                    title: '',
+                    startDate: new Date(),
+                    endDate: new Date(),
+                    description: '',
+                },
 
                 //Date that has been selected
                 selectedDate: {
-                    id: '',
-                    startDate: Date(),
-                    endDate: Date(),
-                    title: 'Event details',
-                    description: "select an event",
+                    selected_id: '',
+                    selected_startDate: Date(),
+                    selected_endDate: Date(),
+                    selected_title: 'Event details',
+                    selected_description: "select an event",
                 },
 
                 //Format how to set the new Date
@@ -158,12 +188,6 @@ https://github.com/richardtallent/vue-simple-calendar
                 }
             }
         },
-        props: {
-            events: {
-                type: Array,
-                required: true
-            },
-        },
         components: {
             CalendarView,
             CalendarViewHeader,
@@ -172,7 +196,10 @@ https://github.com/richardtallent/vue-simple-calendar
         methods: {
 
             //VUEX ACTIONS
-            ...mapActions(["fetchEvents"]),
+            ...mapActions(["fetchEvents", "addEventAction"]),
+
+            //VUEX MUTATIONS
+            ...mapMutations(['addEventMut']),
 
 
             setShowDate(d) {
@@ -182,27 +209,19 @@ https://github.com/richardtallent/vue-simple-calendar
             onClickItem(e) {
                 // eslint-disable-next-line no-console
                 console.log("Item Clicked: " + e.title);
-
-                this.selectedDate.title = e.title;
-                this.selectedDate.description = e.description;
-                this.selectedDate.startDate = e.startDate;
-                this.selectedDate.endDate = e.endDate;
+                this.selectedDate.selected_id = e.id;
+                this.selectedDate.selected_title = e.title;
+                this.selectedDate.selected_description = e.description;
+                this.selectedDate.selected_startDate = e.startDate;
+                this.selectedDate.selected_endDate = e.endDate;
             },
 
-
-            //---WONT NEED AFTER VUEX SWITCH
-
-            //Adds a new event after the user clicks on the Button
-            addEvent(startD, endD, title, description) {
-                this.events.push({
-                    id: '',
-                    startDate: new Date(startD),
-                    endDate: new Date(endD),
-                    title: title,
-                    description: description,
-                });
-            },
-
+            resetInputFields(current_event) {
+                current_event.title = '';
+                current_event.endDate = new Date();
+                current_event.startDate = new Date();
+                current_event.description = ''
+            }
         },
         computed: {
             ...mapGetters(["allEvents"]),

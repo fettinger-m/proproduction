@@ -5,19 +5,20 @@
         <div class="card-body">
 
             <ProjectTable
-                    v-bind:themac="themac"
+
+            />
+
+            <!--
+            v-bind:themac="themac"
                     v-bind:statusc="statusc"
                     v-bind:priorityc="priorityc"
                     v-bind:custom1c="custom1c"
                     v-bind:custom2c="custom2c"
                     v-bind:custom_field_name1="customFieldName1"
                     v-bind:custom_field_name2="customFieldName2"
-            />
+            -->
 
-            <CalendarComp
-                    v-bind:events="events"
-            />
-
+            <CalendarComp/>
 
             <Footer/>
 
@@ -44,10 +45,6 @@
             return {
 
                 //GET FROM VUEX STORE - to ProjectTable
-
-                events: [{
-                }],
-
 
                 //booleans if the specific column shows
                 themac: true,

@@ -17,17 +17,17 @@
                                 <template v-slot:button-content>
                                     <font-awesome-icon :icon="['fas', 'cog']"/>
                                 </template>
-                                <b-form-checkbox v-model="themac">Thema</b-form-checkbox>
-                                <b-form-checkbox v-model="statusc">Status</b-form-checkbox>
-                                <b-form-checkbox v-model="priorityc">Priority</b-form-checkbox>
+                                <b-form-checkbox v-model="allTableView.thema_c">Thema</b-form-checkbox>
+                                <b-form-checkbox v-model="allTableView.status_c">Status</b-form-checkbox>
+                                <b-form-checkbox v-model="allTableView.priority_c">Priority</b-form-checkbox>
 
                                 <!-- Custom Textfield 1 - Input or Display-->
-                                <b-form-checkbox v-model="custom1c">
-                                    {{custom_field_name1}}
+                                <b-form-checkbox v-model="allTableView.custom1_c">
+                                    {{ allTableView.customFieldName1}}
                                 </b-form-checkbox>
 
-                                <b-form-checkbox v-model="custom2c">
-                                    {{custom_field_name2}}
+                                <b-form-checkbox v-model="allTableView.custom2_c">
+                                    {{ allTableView.customFieldName2 }}
                                 </b-form-checkbox>
 
                             </b-dropdown>
@@ -66,8 +66,8 @@
                     <th>Nbr
                     </th>
                     <th>Name</th>
-                    <th v-show="themac">Theme</th>
-                    <th v-show="statusc">
+                    <th v-show="allTableView.thema_c">Theme</th>
+                    <th v-show="allTableView.status_c">
                         <b-dropdown variant="outline" title="Status">
                             <template v-slot:button-content>
                                 State
@@ -91,20 +91,20 @@
                             </div>
                         </b-dropdown>
                     </th>
-                    <th v-show="custom1c">
+                    <th v-show="allTableView.custom1_c">
                         <b-row>
                             <!-- Input / Label -->
                             <b-col>
                                 <!-- Input Field-->
                                 <b-input
                                         v-if="editing_custom1"
-                                        v-model="custom_field_name1"
-                                        :state="custom_field_name1.length >= 4"
+                                        v-model="allTableView.customFieldName1"
+                                        :state="allTableView.customFieldName1.length >= 4"
                                         placeholder="Enter at least 4 characters"
                                 ></b-input>
                                 <!-- Label -->
                                 <div v-else>
-                                    {{custom_field_name1}}
+                                    {{allTableView.customFieldName1}}
                                 </div>
                             </b-col>
 
@@ -115,7 +115,7 @@
                                     <b-button
                                             @click="editing_custom1 = false"
                                             variant="outline"
-                                            :disabled="custom_field_name1.length < 4"
+                                            :disabled="allTableView.customFieldName1.length < 4"
                                             size="sm"
                                     >
                                         <font-awesome-icon :icon="['fas', 'check']"/>
@@ -134,20 +134,20 @@
                             </b-col>
                         </b-row>
                     </th>
-                    <th v-show="custom2c">
+                    <th v-show="allTableView.custom2_c">
                         <b-row>
                             <!-- Input / Label -->
                             <b-col>
                                 <!-- Input Field-->
                                 <b-input
                                         v-if="editing_custom2"
-                                        v-model="custom_field_name2"
-                                        :state="custom_field_name2.length >= 4"
+                                        v-model="allTableView.customFieldName2"
+                                        :state="allTableView.customFieldName2.length >= 4"
                                         placeholder="Enter at least 4 characters"
                                 ></b-input>
                                 <!-- Label -->
                                 <div v-else>
-                                    {{custom_field_name2}}
+                                    {{allTableView.customFieldName2}}
                                 </div>
                             </b-col>
 
@@ -158,7 +158,7 @@
                                     <b-button
                                             @click="editing_custom2 = false"
                                             variant="outline"
-                                            :disabled="custom_field_name2.length < 4"
+                                            :disabled="allTableView.customFieldName2.length < 4"
                                             size="sm"
                                     >
                                         <font-awesome-icon :icon="['fas', 'check']"/>
@@ -177,7 +177,7 @@
                             </b-col>
                         </b-row>
                     </th>
-                    <th v-show="priorityc">
+                    <th v-show="allTableView.priority_c">
                         <b-dropdown variant="outline">
                             <template v-slot:button-content>
                                 Priority
@@ -256,7 +256,7 @@
                     </td>
 
                     <!-- Thema  -->
-                    <td v-show="themac">
+                    <td v-show="allTableView.thema_c">
                         <b-form-group>
                             <b-form-input
                                     type="text"
@@ -269,7 +269,7 @@
                     </td>
 
                     <!-- Status -->
-                    <td v-show="statusc">
+                    <td v-show="allTableView.status_c">
                         <b-form-group>
                             <b-form-select
                                     v-model="project_element.project_state"
@@ -285,7 +285,7 @@
                     </td>
 
                     <!-- Custom1  -->
-                    <td v-show="custom1c">
+                    <td v-show="allTableView.custom1_c">
                         <b-form-group>
                             <b-form-input
                                     type="text"
@@ -298,7 +298,7 @@
                     </td>
 
                     <!-- Custom2  -->
-                    <td v-show="custom2c">
+                    <td v-show="allTableView.custom2_c">
                         <b-form-group>
                             <b-form-input
                                     type="text"
@@ -311,7 +311,7 @@
                     </td>
 
                     <!-- Priority -->
-                    <td v-show="priorityc">
+                    <td v-show="allTableView.priority_c">
                         <div>
                             <font-awesome-icon
                                     :icon="['fas', 'star']"
@@ -397,15 +397,13 @@
 
 <script>
     import {mapMultiRowFields} from "vuex-map-fields";
-    import {mapActions, mapMutations} from "vuex";
+    import {mapGetters, mapActions, mapMutations} from "vuex";
 
     export default {
         name: "ProjectTable",
         components: {},
         data() {
             return {
-
-
                 //-----SAVE LOCALLY-----
 
                 //Values for the Alert
@@ -439,6 +437,7 @@
         },
         props: {
 
+            /*
             //TODO GET FROM VUEX AFTER SWITCH
             themac: {
                 type: Boolean,
@@ -468,11 +467,11 @@
                 type: String,
                 required: true
             },
+             */
         },
         methods: {
-
             //VUEX ACTIONS
-            ...mapActions(["fetchProjects", "addProject", "updateProject", "deleteProject"]),
+            ...mapActions(["fetchProjects", "addProject", "updateProject", "deleteProject", "fetchTableview"]),
             //VUEX MUTATIONS
             ...mapMutations(['addProjectRow']),
 
@@ -600,6 +599,7 @@
         },
         computed: {
             ...mapMultiRowFields(['projects']),
+            ...mapGetters(["allTableView"]),
         },
 
         created() {

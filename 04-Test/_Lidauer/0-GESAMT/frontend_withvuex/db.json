@@ -11,26 +11,11 @@
     "status_c": true,
     "priority_c": true,
     "custom1_c": true,
-    "custom2_c": false,
-    "customFieldName1": "Preis",
+    "custom2_c": true,
+    "customFieldName1": "Custom1",
     "customFieldName2": "Custom2"
   },
   "projects": [
-    {
-      "project_nbr": "P20-1",
-      "project_name": "ProductionFilm",
-      "project_theme": "Imagevideo",
-      "project_state": "preview",
-      "customfield1": "700€",
-      "customfield2": "20.01.20",
-      "star1": true,
-      "star2": true,
-      "star3": true,
-      "star4": false,
-      "star5": false,
-      "read_only": true,
-      "id": 1
-    },
     {
       "project_nbr": "P20-2",
       "project_name": "Firmen Video",
@@ -45,26 +30,15 @@
       "star5": true,
       "read_only": true,
       "id": 3
-    },
-    {
-      "project_theme": "Musicvideo",
-      "id": 4
     }
   ],
   "calendarevents": [
     {
-      "id": 1,
-      "title": "Videodreh 1",
-      "description": "Termin um 20 Uhr",
-      "startdate": "2019-01-12",
-      "enddate": "2019-04-12"
-    },
-    {
-      "id": 2,
-      "title": "Videodreh 2",
-      "description": "Drohnen Aufnahmen",
-      "startdate": "2019-08-12",
-      "enddate": "2019-09-12"
+      "title": "Test",
+      "startDate": "2020-01-23T15:56:17.542Z",
+      "endDate": "2020-01-23T15:56:17.542Z",
+      "description": "",
+      "id": 1
     }
   ]
 }
