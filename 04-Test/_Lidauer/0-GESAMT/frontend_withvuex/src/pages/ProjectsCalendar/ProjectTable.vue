@@ -45,6 +45,13 @@
                 </b-row>
             </div>
 
+            <!--
+            TODO:
+            vielleicht alle Textfieldvalues im Editmodus lokal speichern - beim speichern in Array pushen
+            beim editieren vom Array in das Textfield schreiben
+
+            -->
+
             <!-- Result to project saving -->
             <div id="wrongInputAlert">
                 <b-alert
@@ -276,10 +283,6 @@
                                     :options="project_state_options"
                                     :disabled="project_element.read_only"
                             >
-                                <template v-slot:first>
-                                    <b-form-select-option value="" disabled>-- Please select an option --</b-form-select-option>
-                                </template>
-
                             </b-form-select>
                         </b-form-group>
                     </td>
@@ -404,8 +407,6 @@
         components: {},
         data() {
             return {
-                //-----SAVE LOCALLY-----
-
                 //Values for the Alert
                 dismissSecs: 10,
                 dismissCountDown: 0,
@@ -417,6 +418,7 @@
 
                 //state options to be chosen
                 project_state_options: [
+                    {value: null, text: 'Select an option'},
                     {value: 'planning', text: 'planning'},
                     {value: 'filming', text: 'filming'},
                     {value: 'editing', text: 'editing'},
@@ -434,40 +436,6 @@
                 //from priority
                 prioritysshown: '0',
             }
-        },
-        props: {
-
-            /*
-            //TODO GET FROM VUEX AFTER SWITCH
-            themac: {
-                type: Boolean,
-                required: true
-            },
-            statusc: {
-                type: Boolean,
-                required: true
-            },
-            priorityc: {
-                type: Boolean,
-                required: true
-            },
-            custom1c: {
-                type: Boolean,
-                required: true
-            },
-            custom2c: {
-                type: Boolean,
-                required: true
-            },
-            custom_field_name1: {
-                type: String,
-                required: true
-            },
-            custom_field_name2: {
-                type: String,
-                required: true
-            },
-             */
         },
         methods: {
             //VUEX ACTIONS
@@ -595,7 +563,6 @@
                     return true
                 }
             },
-
         },
         computed: {
             ...mapMultiRowFields(['projects']),

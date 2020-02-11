@@ -13,32 +13,43 @@
     "custom1_c": true,
     "custom2_c": true,
     "customFieldName1": "Custom1",
-    "customFieldName2": "Custom2"
+    "customFieldName2": "Preis"
   },
   "projects": [
     {
+      "project_state": "editing",
       "project_nbr": "P20-2",
-      "project_name": "Firmen Video",
+      "project_name": "Test",
       "project_theme": "Imagevideo",
-      "project_state": "filming",
-      "customfield1": "900€",
-      "customfield2": "/",
       "star1": true,
       "star2": true,
       "star3": true,
-      "star4": true,
-      "star5": true,
+      "star4": false,
+      "star5": false,
       "read_only": true,
-      "id": 3
+      "id": 1
+    },
+    {
+      "project_nbr": "P20-3",
+      "project_name": "Musikvideo",
+      "project_theme": "Hallo",
+      "star1": true,
+      "star2": true,
+      "star3": false,
+      "star4": false,
+      "star5": false,
+      "project_state": "done",
+      "read_only": true,
+      "id": 2
     }
   ],
   "calendarevents": [
     {
-      "title": "Test",
-      "startDate": "2020-01-23T15:56:17.542Z",
-      "endDate": "2020-01-23T15:56:17.542Z",
-      "description": "",
-      "id": 1
+      "title": "Videodreh Musikvideo",
+      "startDate": "2020-02-18",
+      "endDate": "2020-02-19",
+      "description": "Drohne mitnehmen.",
+      "id": 5
     }
   ]
 }

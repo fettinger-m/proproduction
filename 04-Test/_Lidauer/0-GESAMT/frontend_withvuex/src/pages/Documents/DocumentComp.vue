@@ -136,6 +136,7 @@
 <script>
     import CreateEditDocumentModal from "@/pages/Documents/CreateEditDocumentModal";
     import DocumentEditor from "@/pages/Documents/DocumentEditor";
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "DocumentComp",
@@ -149,6 +150,10 @@
             }
         },
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["fetchProjects", "addDocument", "deleteDocument"]),
+            //VUEX MUTATIONS
+
 
             //---WONT NEED AFTER VUEX SWITCH
 
@@ -161,7 +166,10 @@
                     this.docs.splice(idx, 1);
                 }
             },
-        }
+        },
+        computed: {
+            ...mapGetters(["projects/document"]), //todo
+        },
     }
 </script>
 

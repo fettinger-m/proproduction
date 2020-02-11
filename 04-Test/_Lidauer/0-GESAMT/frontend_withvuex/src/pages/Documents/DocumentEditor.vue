@@ -143,19 +143,6 @@
         <!-- Writing Field -->
         <editor-content class="editor__content" :editor="editor"/>
 
-
-        <b-row align-h="end">
-            <b-col cols="3">
-                <!-- GET CONTENT TEST-->
-                <div class="actions">
-                    <b-button class="button" @click="setContent" variant="outline-primary">
-                        Set Content
-                    </b-button>
-                </div>
-            </b-col>
-        </b-row>
-
-
     </div>
 </template>
 
@@ -176,9 +163,7 @@
             EditorMenuBar,
         },
         methods: {
-            setContent() {
-                this.editor.setContent( this.mytext )
-            }
+
         },
         data() {
             return {
@@ -224,13 +209,17 @@
                 //TODO: update this to firebase
                 html: 'Update to see changes',
 
-                //TODO: get this from firebase
+                //TODO: get this from vuex
                 mytext : '<h1>This is my Headline</h1><p>Bla bla text</p>'
             }
         },
         beforeDestroy() {
             this.editor.destroy()
         },
+        created(){
+            //Fill Content with saved text
+            this.editor.setContent( this.mytext )
+        }
     }
 </script>
 

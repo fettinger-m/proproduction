@@ -5,7 +5,7 @@
     <b-container>
       <b-row align-h="center" class="mt-5">
         <b-col>
-          <h1 class="display-3">Signup</h1>
+          <h1 class="display-3">Signup to PROduction</h1>
         </b-col>
       </b-row>
       <b-row class="mt-5">
@@ -21,12 +21,12 @@
                     type="password"
                     placeholder="Password">
             </b-form-input>
-            <router-link :to="{name: 'projects'}">
+            <router-link :to="{name: 'login'}">
               <b-button
                       class="mt-2 float-left"
                       variant="outline-primary"
                       type="submit">
-                Sign In
+                Sign Up
               </b-button>
             </router-link>
           </b-form-group>

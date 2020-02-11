@@ -4,7 +4,7 @@
         <b-container>
             <b-row>
                 <b-col>PROduction</b-col>
-                <b-col>plan, coordinate and complete your projects easily</b-col>
+                <b-col>plan, coordinate and complete your projects like a pro</b-col>
             </b-row>
             <b-row>
                 <b-col>

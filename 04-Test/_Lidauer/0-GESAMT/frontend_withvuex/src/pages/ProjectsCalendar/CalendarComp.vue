@@ -62,7 +62,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <b-col>
                                 <b-button
                                         @click="addEventAction(current_event)"
-                                        :disabled="current_event.title.toString() === ''"
+                                        :disabled="current_event.title.toString() === ''  || current_event.endDate < current_event.startDate"
                                 >
                                     Add Event
                                 </b-button>
@@ -70,22 +70,43 @@ https://github.com/richardtallent/vue-simple-calendar
                         </b-row>
                     </b-card>
                 </b-col>
+
                 <!-- Infos zu ausgewähltem Element-->
                 <b-col>
                     <b-card>
-                        <!-- Title-->
                         <b-row>
+                            <!-- Title-->
                             <b-col>
-                                <div class="eventlabel">{{ this.selectedDate.selected_title }}</div>
+                                <b-input v-if="editingEntry"
+                                         v-model="selectedDate.selected_title"
+                                         :state="selectedDate.selected_title.length >= 4"
+                                         placeholder="Enter at least 4 characters"
+                                >
+                                </b-input>
+                                <div v-else
+                                     class="eventlabel">{{ this.selectedDate.selected_title }}
+                                </div>
                             </b-col>
+
+                            <!-- Buttons -->
                             <b-col>
-                                <!-- Buttons -->
-                                <div>
+                                <div v-show="selectedDate.selected_id != ''">
                                     <!-- Edit Button -->
                                     <b-button
+                                            v-show="!editingEntry"
                                             variant="outline"
+                                            @click="editingEntry=true"
                                     >
                                         <font-awesome-icon :icon="['fas', 'pen']"/>
+                                    </b-button>
+                                    <!-- Save Button -->
+                                    <b-button
+                                            v-show="editingEntry"
+                                            variant="outline"
+                                            @click=" editingEntry=false; "
+                                            :disabled=" selectedDate.selected_title.length < 4 || selectedDate.selected_endDate < selectedDate.selected_startDate"
+                                    >
+                                        <font-awesome-icon :icon="['fas', 'check']"/>
                                     </b-button>
 
                                     <!-- Delete button -->
@@ -100,7 +121,8 @@ https://github.com/richardtallent/vue-simple-calendar
                                             Delete this event "{{ selectedDate.selected_title }}"?
                                         </template>
                                         <b-button variant="outline-danger" block
-                                                  @click="$bvModal.hide('deleteeventmodal')">Delete
+                                                  @click="deleteEvent(selectedDate.selected_id); $bvModal.hide('deleteeventmodal'); resetSelectedDate();">
+                                            Delete
                                         </b-button>
                                         <b-button variant="outline-warning" block
                                                   @click="$bvModal.hide('deleteeventmodal')">Cancle
@@ -110,11 +132,46 @@ https://github.com/richardtallent/vue-simple-calendar
                             </b-col>
                         </b-row>
 
+                        <!-- Description -->
+                        <b-row class="descriptiontext">
+                            <b-form-textarea v-if="editingEntry"
+                                     v-model="selectedDate.selected_description"
+                                     placeholder="Enter at least 4 characters"
+                            >
+                            </b-form-textarea>
+                            <div v-else>
+                                 {{ this.selectedDate.selected_description }}
+                            </div>
+                        </b-row>
 
-                        <div class="descriptiontext">
-                            {{ this.selectedDate.selected_id }}
-                            {{ this.selectedDate.selected_description }}
-                        </div>
+                        <!-- Start & End Date-->
+                        <b-row v-if="selectedDate.selected_id != ''">
+                            <!-- Start Date -->
+                            <b-col class="m-1">
+                                <label>Start Date: </label>
+                            </b-col>
+                            <b-col class="m-1" md="4">
+                                <date-picker
+                                        v-model="selectedDate.selected_startDate"
+                                        :config="options"
+                                        :disabled="!editingEntry"
+                                >
+                                </date-picker>
+                            </b-col>
+
+                            <!-- End Date -->
+                            <b-col class="m-1">
+                                <label>End Date: </label>
+                            </b-col>
+                            <b-col class="m-1" md="4">
+                                <date-picker
+                                        v-model="selectedDate.selected_endDate"
+                                        :config="options"
+                                        :disabled="!editingEntry"
+                                >
+                                </date-picker>
+                            </b-col>
+                        </b-row>
 
                     </b-card>
                 </b-col>
@@ -163,6 +220,7 @@ https://github.com/richardtallent/vue-simple-calendar
             return {
                 showDate: new Date(),
                 startingDoW: 1,
+                editingEntry: false,
 
                 //Current vaules of the input fields
                 current_event: {
@@ -196,7 +254,7 @@ https://github.com/richardtallent/vue-simple-calendar
         methods: {
 
             //VUEX ACTIONS
-            ...mapActions(["fetchEvents", "addEventAction"]),
+            ...mapActions(["fetchEvents", "addEventAction", "deleteEvent"]),
 
             //VUEX MUTATIONS
             ...mapMutations(['addEventMut']),
@@ -211,9 +269,9 @@ https://github.com/richardtallent/vue-simple-calendar
                 console.log("Item Clicked: " + e.title);
                 this.selectedDate.selected_id = e.id;
                 this.selectedDate.selected_title = e.title;
-                this.selectedDate.selected_description = e.description;
                 this.selectedDate.selected_startDate = e.startDate;
                 this.selectedDate.selected_endDate = e.endDate;
+                this.selectedDate.selected_description = this.getEventByID(e.id).description;
             },
 
             resetInputFields(current_event) {
@@ -221,15 +279,23 @@ https://github.com/richardtallent/vue-simple-calendar
                 current_event.endDate = new Date();
                 current_event.startDate = new Date();
                 current_event.description = ''
+            },
+
+            resetSelectedDate() {
+                this.selectedDate.selected_id = '';
+                this.selectedDate.selected_startDate = Date();
+                this.selectedDate.selected_endDate = Date();
+                this.selectedDate.selected_title = 'Event details';
+                this.selectedDate.selected_description = "select an event";
             }
+
         },
         computed: {
-            ...mapGetters(["allEvents"]),
+            ...mapGetters(["allEvents", "getEventByID"]),
 
         },
         created() {
             this.fetchEvents();
-
         },
     }
 </script>

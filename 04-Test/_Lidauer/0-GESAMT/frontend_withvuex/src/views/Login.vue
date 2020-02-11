@@ -21,14 +21,30 @@
                                 type="password"
                                 placeholder="Password">
                         </b-form-input>
-                        <router-link :to="{name: 'projects'}">
-                            <b-button
-                                    class="mt-2 float-left"
-                                    variant="outline-primary"
-                                    type="submit">
-                                Sign In
-                            </b-button>
-                        </router-link>
+                        <b-row>
+                            <b-col>
+                                <!-- Sign In-->
+                                <router-link :to="{name: 'projects'}">
+                                    <b-button
+                                            class="mt-2 float-left"
+                                            variant="outline-primary"
+                                            type="submit">
+                                        Login
+                                    </b-button>
+                                </router-link>
+
+                                <!-- Sign Up -->
+                                <router-link :to="{name: 'signup'}">
+                                    <b-button
+                                            class="mt-2 float-left"
+                                            variant="outline-primary"
+                                            type="submit">
+                                        Sign Up
+                                    </b-button>
+                                </router-link>
+                            </b-col>
+                        </b-row>
+
                     </b-form-group>
                 </b-col>
                 <b-col></b-col>

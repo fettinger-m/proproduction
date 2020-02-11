@@ -23,6 +23,9 @@ const state = {
 const getters = {
     allProjects: state => state.projects,
     allEvents: state => state.events,
+    getEventByID: (state) => (id) => {
+      return state.events.find(event => event.id === id)
+    },
     allTableView: state => state.tableview,
 
     getField,
@@ -68,7 +71,6 @@ const actions = {
         commit('removeProject', id);
     },
 
-
     //---EVENTS
     async fetchEvents({commit}) {
         const response = await axios.get(
@@ -90,7 +92,11 @@ const actions = {
 
         CalendarComp.methods.resetInputFields(eventobj)
     },
+    async deleteEvent({ commit }, id){
+        await axios.delete(`http://localhost:3000/calendarevents/${id}`);
 
+        commit('removeEvent', id);
+    },
 
     //TABLEVIEW
     async fetchTableview({commit}) {
@@ -105,6 +111,27 @@ const actions = {
 
 
     //---DOCUMENTS
+    async fetchDocuments({commit}) {
+        const response = await axios.get(
+            'http://localhost:3000/projects/1/documents'
+        );
+        commit('setDocuments', response.data);
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+    },
+    async addDocument({commit}) {
+        const response = await axios.post(
+            'http://localhost:3000/projects/1/documents',   //todo
+            {}
+        );
+
+        commit('addDocumentTab', response.data);
+    },
+    async deleteDocument({ commit }, id) {
+        await axios.delete(`http://localhost:3000/projects/1/documents/${id}`); //todo
+
+        commit('removeDoc', id);
+    },
 
     //---SHOTLIST
 
@@ -141,12 +168,17 @@ const mutations = {
     addEventMut: (state, event) => {
         state.events.push(event)
     },
+    removeEvent: (state, id) => (state.events = state.events.filter(event => event.id !== id)),
 
     //TABLEVIEW
-    setTableView: (state, tableview) => (state.tableview = tableview),
-
+    setTableView: (state, tableview) => (state.tableview = tableview), //todo
 
     //---DOCUMENTS
+    setDocuments: (state, documents) => (state.projects = documents), //todo
+    addDocumentTab: (state, document) => state.projects.documents.push(document),   //todo
+    removeDoc: (state, id) => (state.projects = state.projects.filter(project => project.id !== id)), //todo
+
+
 
     //---SHOTLIST
 
