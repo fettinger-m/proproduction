@@ -1,6 +1,8 @@
 <template>
     <div id="singleproject">
 
+        <h1> {{selectedproject.project_name}} </h1>
+
         <b-container id="categorysID">
             <b-col v-for="(category_element, index) in category_elements" v-bind:key="index">
                 <CategoryElement
@@ -15,14 +17,30 @@
 <script>
 
     import CategoryElement from "@/pages/SingleProjectView/CategoryElement";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "SingleProjectView",
         components: {
             CategoryElement
         },
+        props: {
+            /*
+          projectname: {
+              type: String,
+              required: true
+          }
+             */
+        },
         data() {
             return {
+
+                id: 0,
+                projectname: '',
+
+                selectedproject: [],
+
+
                 category_elements: [
                     {
                         category_icon: 'file-alt',
@@ -74,6 +92,18 @@
                     },
                 ],
             }
+        },
+        methods: {
+        },
+        computed: {
+            ...mapGetters(["getProjectByID"]),
+        },
+        mounted(){
+
+        },
+        created() {
+            this.id = this.$route.params.id;
+            this.selectedproject = this.getProjectByID(this.id);
         }
     }
 </script>

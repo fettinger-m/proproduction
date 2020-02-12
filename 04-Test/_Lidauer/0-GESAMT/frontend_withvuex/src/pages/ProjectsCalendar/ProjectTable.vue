@@ -45,13 +45,6 @@
                 </b-row>
             </div>
 
-            <!--
-            TODO:
-            vielleicht alle Textfieldvalues im Editmodus lokal speichern - beim speichern in Array pushen
-            beim editieren vom Array in das Textfield schreiben
-
-            -->
-
             <!-- Result to project saving -->
             <div id="wrongInputAlert">
                 <b-alert
@@ -252,7 +245,7 @@
                             <div v-if="project_element.read_only">
 
                                 <router-link
-                                        :to="{ name: 'project', params: { project_url: project_element.project_name, project_element: project_element} }">
+                                        :to="{ name: 'project', params: { id: project_element.id, projectname: project_element.project_name } }">
                                     <b-button id="openProjectButton" variant="outline-primary" class="name-btn">
                                         {{project_element.project_name}}
                                     </b-button>
@@ -277,12 +270,16 @@
 
                     <!-- Status -->
                     <td v-show="allTableView.status_c">
+
                         <b-form-group>
                             <b-form-select
                                     v-model="project_element.project_state"
                                     :options="project_state_options"
                                     :disabled="project_element.read_only"
                             >
+                                <template v-slot:first>
+                                    <b-form-select-option value="" disabled>select an option</b-form-select-option>
+                                </template>
                             </b-form-select>
                         </b-form-group>
                     </td>
@@ -407,6 +404,7 @@
         components: {},
         data() {
             return {
+
                 //Values for the Alert
                 dismissSecs: 10,
                 dismissCountDown: 0,
@@ -418,7 +416,6 @@
 
                 //state options to be chosen
                 project_state_options: [
-                    {value: null, text: 'Select an option'},
                     {value: 'planning', text: 'planning'},
                     {value: 'filming', text: 'filming'},
                     {value: 'editing', text: 'editing'},

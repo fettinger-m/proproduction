@@ -44,9 +44,10 @@ export default new VueRouter({
                 name: 'projects',
             },
             {
-                path: '/projects/:project_url',
+                path: '/projects/:projectname',
                 component: SingleProjectViewApp,
                 name: 'project',
+                props: true
             },
             {
                 path: '/projects/:project/contacts',

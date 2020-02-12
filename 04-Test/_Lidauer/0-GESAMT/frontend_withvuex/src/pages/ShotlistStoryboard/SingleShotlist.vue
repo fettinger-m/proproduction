@@ -53,12 +53,17 @@
         <!-- THE TABLE-->
         <b-table
                 striped hover
+                responsive
                 :fields="shotlist_tab.fields"
                 :items="shotlist_tab.shots">
 
             <template v-slot:cell(frame)>
 
-                <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
+                <div v-if="shotlist_tab.sh">
+                    <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
+                </div>
+
+
                 <!--
                 <img src="../../assets/logo.png" height="50" width="50" alt="frame"/>
                 -->

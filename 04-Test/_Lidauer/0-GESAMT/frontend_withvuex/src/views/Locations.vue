@@ -2,7 +2,6 @@
   <div id="location">
     <NavBar current-page="location"></NavBar>
     <FilePath></FilePath>
-    <ProjectNameTitle></ProjectNameTitle>
     <h2>Locations</h2>
     <b-container>
       <b-row v-if="false" align-h="center">
@@ -79,7 +78,6 @@
 
   import NavBar from "../components/Layout/NavBar";
   import FilePath from "../components/Layout/FilePath";
-  import ProjectNameTitle from "../components/Layout/ProjectNameTitle";
   import GoogleMapsTest from "../pages/Locations/GoogleMapsTest";
   import LocationTable from "../pages/Locations/LocationTable";
 
@@ -89,7 +87,6 @@
       LocationTable,
       NavBar,
       FilePath,
-      ProjectNameTitle,
       GoogleMapsTest
     },
     methods: {
