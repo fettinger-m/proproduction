@@ -50,7 +50,6 @@
             {
               "id": 1,
               "frame": null,
-              "nbr": 1,
               "description": "Mein erster Shot",
               "shotsize": "Wide",
               "movement": "Forward",
@@ -63,7 +62,6 @@
             {
               "id": 2,
               "frame": null,
-              "nbr": 2,
               "description": "zweiter shot",
               "shotsize": "Wide",
               "movement": "Forward",
@@ -73,7 +71,15 @@
               "specialEquip": null,
               "location": "VB"
             }
-          ]
+          ],
+          "frame_c": true,
+          "shotsize_c": true,
+          "movement_c": true,
+          "camera_c": true,
+          "lens_c": true,
+          "framerate_c": true,
+          "specialEquip_c": true,
+          "location_c": true
         }
       ],
       "moodboards": [

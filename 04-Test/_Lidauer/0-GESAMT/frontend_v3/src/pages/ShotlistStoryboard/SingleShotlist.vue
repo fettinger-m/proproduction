@@ -1,8 +1,5 @@
 <template>
     <div>
-
-        <div hidden>AddShot Modal ID: {{shotlist_tab.addShot_modal_ID}}</div>
-
         <!-- Controls -->
         <div>
             <b-row align-h="end">
@@ -20,7 +17,7 @@
 
                         <!-- Button "Add New Shot"-->
                         <b-button
-                                @click="$bvModal.show(shotlist_tab.addShot_modal_ID)"
+                                @click="$bvModal.show('create'+shotlist_tab.id)"
                                 type="button"
                                 variant="outline-primary"
                                 class="float-right"
@@ -29,79 +26,98 @@
                             Add New Shot
                         </b-button>
 
+                        <!-- Modal Shot Creation-->
+                        <b-modal
+                                :id="'create'+shotlist_tab.id"
+                                hide-footer
+                        >
+                            <template v-slot:modal-title>
+                                <font-awesome-icon :icon="['fas', 'video']"/>
+                                Create a new shot
+                            </template>
+
+                            <CreateShotModal
+                                    v-bind:shotlist_tab="shotlist_tab"
+                                    v-bind:modalindex="'create'+shotlist_tab.id"
+                            />
+                        </b-modal>
+
                     </div>
                 </b-col>
             </b-row>
         </div>
 
-        <!-- Modal Shot Creation-->
-        <!-- TODO: .shots wird nicht angesprochen / falsches Element-->
-        <b-modal
-                :id="shotlist_tab.addShot_modal_ID"
-                hide-footer
-        >
-            <template v-slot:modal-title>
-                <font-awesome-icon :icon="['fas', 'video']"/>
-                Create a new shot
-            </template>
+        <!-- Selection of culomns shown-->
+        <div>
+            <b-checkbox
+                    v-for="field in fields"
+                    :key="field.key"
+                    v-model="field.visible"
+                    inline
+                    v-show="field.changeable"
+            >
+                {{ field.label }}
+            </b-checkbox>
+        </div>
 
-            <CreateEditShotModal
-                    v-bind:shotlist_tab="shotlist_tab"
-            />
-        </b-modal>
 
         <!-- THE TABLE-->
         <b-table
                 striped hover
                 responsive
-                :fields="shotlist_tab.fields"
+                :fields="visibleFields"
                 :items="shotlist_tab.shots">
 
-            <template v-slot:cell(frame)>
-
-                <div v-if="shotlist_tab.sh">
+            <template v-slot:cell(frame)="data">
+                <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
+                <div v-if="data.value == null || data.value === ''">
                     <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
                 </div>
+                <div v-else>
+                    <img src="../../assets/logo.png" height="50" width="50" alt="frame"/>
+                    <div>Frame value: {{data.value}}</div>
+                </div>
 
+            </template>
 
-                <!--
-                <img src="../../assets/logo.png" height="50" width="50" alt="frame"/>
-                -->
+            <!-- Number output -->
+            <template v-slot:cell(id)="data">
+                <div>
+                    ID after Vuex Switch
+                    {{data.item.id}}
+                </div>
             </template>
 
             <!-- Buttons die neben jeder Zeile stehen sollen -->
-            <template v-slot:cell(actions)>
-
+            <template v-slot:cell(actions)="data">
                 <b-row>
-                    <!-- Edit Button -->
                     <b-col>
+                        <!-- Edit Button -->
                         <b-button
-                                @click="$bvModal.show('todo1')"
+                                @click="$bvModal.show('edit'+data.item.id+shotlist_tab.id)"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'pen']"/>
                         </b-button>
-
-                        <b-modal id="todo1" hide-footer title="Make any changes">
-                            <CreateEditShotModal
-                                    v-bind:shotlist_tab="shotlist_tab"
+                        <b-modal :id="'edit'+data.item.id+shotlist_tab.id" hide-footer title="Make any changes">
+                            <EditShotModal
+                                    v-bind:modalindex="'edit'+data.item.id+shotlist_tab.id"
                             />
                         </b-modal>
 
-
                         <!-- Delete button -->
                         <b-button
-                                @click="$bvModal.show(component_index)"
+                                @click="$bvModal.show('delete'+data.item.id+shotlist_tab.id)"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                         </b-button>
                         <!-- Modal to open after click -->
-                        <b-modal :id="component_index" hide-footer title="Delete this shot?">
+                        <b-modal :id="'delete'+data.item.id+shotlist_tab.id" hide-footer title="Delete this shot?">
                             <b-button variant="outline-danger" block
-                                      @click="deleteShot(); $bvModal.hide(component_index)">Delete
+                                      @click="deleteShot(data.item.id); $bvModal.hide('delete'+data.item.id+shotlist_tab.id)">Delete
                             </b-button>
-                            <b-button variant="outline-warning" block @click="$bvModal.hide(component_index)">Cancle
+                            <b-button variant="outline-warning" block @click="$bvModal.hide('delete'+data.item.id+shotlist_tab.id)">Cancle
                             </b-button>
                         </b-modal>
 
@@ -115,21 +131,41 @@
 
 <script>
 
-    import CreateEditShotModal from "@/pages/ShotlistStoryboard/CreateEditShotModal";
+    import CreateShotModal from "@/pages/ShotlistStoryboard/CreateShotModal";
+    import EditShotModal from "@/pages/ShotlistStoryboard/EditShotModal";
+
     export default {
         name: "SingleShotlist",
-        components: {CreateEditShotModal},
+        components: {EditShotModal, CreateShotModal},
         data() {
             return {
+                fields: [
+                    {key: 'frame', label: 'Frame', sortable: false, visible: true, changeable: true},
+                    {key: 'id', label: 'Number', sortable: true, visible: true, changeable: false},
+                    {key: 'description', label: 'Description', sortable: true, visible: true, changeable: false},
+                    {key: 'shotsize', label: 'Shotsize', visible: true, changeable: true},
+                    {key: 'movement', label: 'Movement', visible: true, changeable: true},
+                    {key: 'camera', label: 'Camera', sortable: true, visible: true, changeable: true},
+                    {key: 'lens', label: 'Lens', sortable: true, visible: true, changeable: true},
+                    {key: 'framerate', label: 'Framerate', visible: true, changeable: true},
+                    {key: 'specialEquip', label: 'Special Equipment', visible: true, changeable: true},
+                    {key: 'location', label: 'Location', sortable: true, visible: true, changeable: true},
+                    {key: 'actions', label: '', visible: true, changeable: false},
+                ],
             }
+        },
+        computed: {
+          visibleFields() {
+              return this.fields.filter(field => field.visible)
+          }
         },
         props: {
             shotlist_tab: {
                 type: Object,
                 required: true
             },
-            component_index: {
-                type: Number,
+            shotlistTabs: {
+                type: Array,
                 required: true
             }
         },
@@ -140,17 +176,14 @@
                 console.log("Download Shotlist: " + listName)
             },
 
-            //ToDo: Edits the selected shot
-            editShot() {
-            },
-
-            //ToDo: Deletes the selected shot
-            deleteShot(index, shot) {
-                var idx = this.shots.indexOf(shot);
+            deleteShot(index) {
+                //ID of the shotlist
+                let id = this.shotlist_tab.id;
                 // eslint-disable-next-line no-console
-                console.log('Shot deleted: ' + index);
-                if (idx > -1) {
-                    this.shots.splice(idx, 1);
+                console.log(this.shotlistTabs[id])
+
+                if(index > -1) {
+                    this.shotlistTabs[id].shots.splice(index, 1);
                 }
             },
         }

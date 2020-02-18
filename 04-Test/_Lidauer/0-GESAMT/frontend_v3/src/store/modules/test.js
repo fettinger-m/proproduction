@@ -7,20 +7,8 @@ import CalendarComp from "@/pages/ProjectsCalendar/CalendarComp";
 const state = {
     projects: [],
     events: [],
-    tableview: {
-
-    },
+    tableview: {},
 };
-
-/*
- "thema_c": true,
-        "status_c": true,
-        "priority_c": true,
-        "custom1_c": true,
-        "custom2_c": true,
-        "customFieldName1": "Custom1",
-        "customFieldName2": "Custom2"
- */
 
 //----GETTERS
 //Get pieces of state or computed values from state
@@ -49,6 +37,11 @@ const getters = {
     //---TABLEVIEW
     allTableView: state => state.tableview,
 
+    //---DOCUMENTS
+    //allDocuments: (state, currproject) => state.projects[currproject.id].documents,
+
+    //---LOCATIONS
+    //allLocations: (state, currproject) => state.projects[currproject.id].locations,
 };
 
 //----ACTIONS
@@ -156,7 +149,7 @@ const actions = {
         const response = await axios.get(
             `http://localhost:3000/projects/${currproject.id}/documents`
         );
-        commit('setDocuments', response.data);
+        commit('setDocuments', currproject, response.data);
         // eslint-disable-next-line no-console
         console.log(response.data)
     },
@@ -166,12 +159,12 @@ const actions = {
             {}
         );
 
-        commit('addDocumentTab', response.data);
+        commit('addDocumentTab', currproject, response.data);
     },
     async deleteDocument({commit}, currproject, index) {
         await axios.delete(`http://localhost:3000/projects/${currproject.id}/documents/${index}`);
 
-        commit('removeDoc', index);
+        commit('removeDoc', currproject, index);
     },
 
     //---SHOTLIST
@@ -193,7 +186,7 @@ const mutations = {
 
     updateField,
 
-    //---PROJECTS
+    //---PROJECTS - TODO - update / insert problem
     setProjects: (state, projects) => (state.projects = projects),
     updateProject: (state, updProject) => {
         const index = state.projects.findIndex(project => project.id === updProject.id);
@@ -204,7 +197,7 @@ const mutations = {
     addProjectRow: (state, project) => state.projects.push(project),
     removeProject: (state, id) => (state.projects = state.projects.filter(project => project.id !== id)),
 
-    //---EVENTS
+    //---EVENTS - finished
     setEvents: (state, events) => (state.events = events),
     addEventMut: (state, event) => {
         state.events.push(event)
@@ -217,16 +210,16 @@ const mutations = {
         }
     },
 
-    //TABLEVIEW
+    //TABLEVIEW - finished
     setTableView: (state, tableview) => (state.tableview = tableview),
     updateTableviewMut: (state, updTableview) => {
         state.tableview = updTableview
     },
 
-    //---DOCUMENTS TODO
-    setDocuments: (state, documents) => (state.projects = documents),
-    addDocumentTab: (state, document) => state.projects.documents.push(document),
-    removeDoc: (state, id) => (state.projects = state.projects.filter(project => project.id !== id)),
+    //---DOCUMENTS TODO - to check
+    setDocuments: (state, currproject, documents) => (state.projects[currproject.id].documents = documents),
+    addDocumentTab: (state, currproject, document) => state.projects[currproject.id].documents.push(document),
+    removeDoc: (state, currproject, index) => (state.projects[currproject.id].documents = state.projects[currproject.id].documents.filter(document => document.id !== index)),
 
 
     //---SHOTLIST

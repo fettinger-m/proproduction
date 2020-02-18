@@ -202,7 +202,7 @@
                 <tr
                         v-for="(project_element, index) in projects"
                         v-bind:key="index"
-                        v-show="checkState(project_element) "
+                        v-show="checkState(project_element) && checkPriority(project_element) "
                         class="tablerow"
                 >
                     <!-- && checkPriority(project_element) -->
@@ -439,7 +439,7 @@
         },
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["fetchProjects", "addProject", "updateProject", "deleteProject", "fetchTableview", "updateTableview"]),
+            ...mapActions(["addProject", "updateProject", "deleteProject", "fetchTableview", "updateTableview"]),
             //VUEX MUTATIONS
             ...mapMutations(['addProjectRow']),
 
@@ -584,20 +584,6 @@
         },
         watch: {
             allTableView: 'setLocalTableView',
-
-            /*
-            tableview: function (value) {
-                // eslint-disable-next-line no-console
-                console.log(value);
-            }
-            */
-        },
-        mounted() {
-            /*
-            // eslint-disable-next-line no-console
-            console.log(this.allTableView);
-            this.tableview = this.allTableView;
-             */
         },
     }
 </script>

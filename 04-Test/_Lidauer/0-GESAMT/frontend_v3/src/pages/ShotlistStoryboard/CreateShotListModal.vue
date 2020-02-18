@@ -35,8 +35,8 @@
 </template>
 
 <script>
-    //todo: Index für Modal - andere Lösung finden
-    let i = 0;
+    //todo: Index für Modal
+    let i = 1;
 
     export default {
         name: "CreateEditShotListModal",
@@ -52,32 +52,19 @@
             }
         },
         methods: {
+
+            //TODO Wont need after vuex switch
+
             addNewTab(currentlistname) {
                 i++;    //increment variable (defined at the top)
 
                 this.shotlistTabs.push({
+                    id: i,
                     listName: currentlistname,
                     edit: false,
-
-                    addShot_modal_ID: 'addShotID' + i,    //append incremented index
-
-                    fields: [
-                        {key: 'frame', label: 'Frame'},
-                        {key: 'nbr', label: 'Number'},
-                        {key: 'description', label: 'Description'},
-                        {key: 'shotsize', label: 'Shotsize'},
-                        {key: 'movement', label: 'Movement'},
-                        {key: 'camera', label: 'Camera'},
-                        {key: 'lens', label: 'Lens'},
-                        {key: 'framerate', label: 'Framerate'},
-                        {key: 'specialEquip', label: 'Special Equipment'},
-                        {key: 'location', label: 'Location'},
-                        {key: 'actions', label: ''},
-                    ],
-
                     shots: [{
+                        id: 1,
                         frame: 'picture',
-                        nbr: 0,
                         description: 'Exapmle Shot',
                         shotsize: null,
                         movement: 'Forward',
@@ -88,15 +75,6 @@
                         location: null
                     }],
 
-                    //Booleans if the specific column is shown
-                    frame_c: true,
-                    shotsize_c: true,
-                    movement_c: true,
-                    camera_c: true,
-                    lens_c: true,
-                    framerate_c: true,
-                    specialEquip_c: true,
-                    location_c: true
                 });
             },
         }

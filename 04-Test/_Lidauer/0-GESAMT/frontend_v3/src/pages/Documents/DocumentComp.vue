@@ -155,7 +155,7 @@
         },
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["fetchProjects", "addDocument", "deleteDocument"]),
+            ...mapActions(["fetchDocuments", "addDocument", "deleteDocument"]),
             //VUEX MUTATIONS
 
 
@@ -174,10 +174,15 @@
         computed: {
             ...mapGetters(["getProjectByID"]),
         },
+        watch: {
+
+        },
         mounted() {
             this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
             this.selectedproject = this.getProjectByID(this.id);
-
+        },
+        created() {
+            this.fetchDocuments(this.selectedproject)
         }
     }
 </script>

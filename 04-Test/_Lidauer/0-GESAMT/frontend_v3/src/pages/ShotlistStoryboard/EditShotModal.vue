@@ -5,7 +5,7 @@
                 <!-- Image Upload -->
                 <b-col class="m-1">
                     <b-form-file
-                            v-model="shotlist_tab.shots.frame"
+                            v-model="shot.frame"
                             accept="image/*"
                             @change="onFileSelected"
                             placeholder="Choose a image or drop it here..."
@@ -18,8 +18,8 @@
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="shot description must be filled"
-                            v-model="curr_description"
-                            :state="curr_description.length >= 1 "
+                            v-model="shot.description"
+                            :state="shot.description.length >= 1 "
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -27,7 +27,7 @@
                 <!-- Shotsize -->
                 <b-col class="m-1">
                     <b-form-select
-                            v-model="curr_shotsize"
+                            v-model="shot.shotsize"
                             :options="shotsize_options"
                             required
                     ></b-form-select>
@@ -36,24 +36,23 @@
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="movement"
-                            v-model="curr_movement"
+                            v-model="shot.movement"
                     ></b-form-input>
                 </b-col>
             </b-row>
             <b-row>
                 <!-- Camera -->
                 <b-col class="m-1">
-
                     <b-form-input
                             placeholder="camera"
-                            v-model="curr_camera"
+                            v-model="shot.camera"
                     ></b-form-input>
                 </b-col>
                 <!-- Lens -->
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="lens"
-                            v-model="curr_lens"
+                            v-model="shot.lens"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -62,14 +61,14 @@
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="framerate"
-                            v-model="curr_framerate"
+                            v-model="shot.framerate"
                     ></b-form-input>
                 </b-col>
                 <!-- Special Equipment -->
                 <b-col class="m-1">
                     <b-form-input
                             placeholder="special equipment"
-                            v-model="curr_specialEquip"
+                            v-model="shot.specialEquip"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -78,9 +77,15 @@
                 <b-col class="m-1">
                     <b-form-select
                             placeholder="Location"
-                            :options="location_options"
-                            v-model="curr_location"
-                    ></b-form-select>
+                            v-model="shot.location"
+                    >
+                        <!-- TODO: correct location name access-->
+                        <div v-for="(location, index) in locations" v-bind:key="index">
+                            <b-form-select-option :value="location.name">{{ location.name }}</b-form-select-option>
+                        </div>
+
+
+                    </b-form-select>
                 </b-col>
                 <!-- Empty Col -->
                 <b-col class="m-1">
@@ -93,7 +98,7 @@
                             variant="outline-warning"
                             block
                             @click.prevent="
-                                $bvModal.hide(shotlist_tab.addShot_modal_ID);
+                                $bvModal.hide(modalindex);
                                 clearModalInputFields()"
                             type="button"
                     >
@@ -106,19 +111,10 @@
                             variant="outline-primary"
                             type="submit"
                             block
-                            @click="addNewShot(
-                          curr_description,
-                          curr_shotsize,
-                          curr_movement,
-                          curr_camera,
-                          curr_lens,
-                          curr_framerate,
-                          curr_specialEquip,
-                          curr_location
-                          );
-                          $bvModal.hide(shotlist_tab.addShot_modal_ID);
+                            @click="addNewShot(shot);
+                          $bvModal.hide(modalindex);
                           clearModalInputFields()"
-                            :disabled="curr_description.length < 1"
+                            :disabled="shot.description.length < 1"
                     >
                         Add Shot
                     </b-button>
@@ -129,21 +125,28 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
-        name: "CreateEditShotModal",
+        name: "EditShotModal",
         data() {
             return {
-                selectedFile: null,
 
-                curr_description: '',
-                curr_shotsize: '',
-                curr_movement: '',
-                curr_camera: '',
-                curr_lens: '',
-                curr_framerate: '',
-                curr_specialEquip: '',
-                curr_location: '',
+                id: 0,
+                selectedproject: [],
 
+                //Local Shot Object
+                shot: {
+                    frame: null,
+                    description: "",
+                    shotsize: "",
+                    movement: "",
+                    camera: "",
+                    lens: "",
+                    framerate: "",
+                    specialEquip: "",
+                    location: ""
+                },
 
                 //Options to select
                 shotsize_options: [{
@@ -151,20 +154,18 @@
                 },
                     'Ultra Wide', 'Wide', 'Medium', 'CloseUp', 'Extreme CloseUp'],
 
-                //Location Select-Option -- todo: only options from "location Section"
-                location_options: [{
-                    text: 'location...', value: null,
-                },
-                    'Location1', 'Dolomiten', 'Studio', 'A'],
-
-
+                //All Locations from the selected project
+                locations: [],
             }
         },
 
         props: {
-            shotlist_tab: {
+            currentshot: {
                 type: Object,
-                required: true
+                required: false
+            },
+            modalindex: {
+                type: String
             }
         },
 
@@ -175,32 +176,28 @@
 
             // Clears all values in the Input fields
             clearModalInputFields() {
-                this.shotlist_tab.shots.description = "";
-                this.shotlist_tab.shots.shotsize = "";
-                this.shotlist_tab.shots.movement = "";
-                this.shotlist_tab.shots.camera = "";
-                this.shotlist_tab.shots.lens = "";
-                this.shotlist_tab.shots.framerate = "";
-                this.shotlist_tab.shots.specialEquip = "";
-                this.shotlist_tab.shots.location = "";
+                this.shot.description = "";
+                this.shot.shotsize = "";
+                this.shot.movement = "";
+                this.shot.camera = "";
+                this.shot.lens = "";
+                this.shot.framerate = "";
+                this.shot.specialEquip = "";
+                this.shot.location = "";
             },
-            //Push new Shot to Table
-            addNewShot(descr, shotsize, movement, camera, lens, framerate, specEquip, location) {
-                this.shotlist_tab.shots.push({
-                    frame: 'picture',
-                    nbr: 0,
-                    description: descr,
-                    shotsize: shotsize,
-                    movement: movement,
-                    camera: camera,
-                    lens: lens,
-                    framerate: framerate,
-                    specialEquip: specEquip,
-                    location: location,
-                });
-            },
+        },
+        computed: {
+            ...mapGetters(["allLocations", "getProjectByID"]),
+        },
+        mounted() {
+            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.selectedproject = this.getProjectByID(this.id);
 
-        }
+            //Get Locations from Location Table
+            /*
+            this.locations = this.allLocations(this.selectedproject)
+            */
+        },
     }
 </script>
 

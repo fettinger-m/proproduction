@@ -21,7 +21,7 @@
                             <font-awesome-icon :icon="['fas', 'clipboard-list']"/>
                             Create a new shotlist
                         </template>
-                        <CreateEditShotListModal
+                        <CreateShotListModal
                                 v-bind:shotlist-tabs="shotlistTabs"
                         />
                     </b-modal>
@@ -113,47 +113,6 @@
                                             </b-modal>
                                         </b-form>
 
-                                        <!-- Columns that will be shown -->
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.frame_c"
-                                        >Frame
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.shotsize_c"
-                                        >Shotsize
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.movement_c"
-                                        >Movement
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.camera_c"
-                                        >Camera
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.lens_c"
-                                        >Lens
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.framerate_c"
-                                        >Framerate
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.specialEquip_c"
-                                        >Special Equipment
-                                        </b-form-checkbox>
-
-                                        <b-form-checkbox
-                                                v-model="shotlistTab.location_c"
-                                        >Location
-                                        </b-form-checkbox>
-
                                     </b-dropdown>
                                 </b-col>
                             </b-row>
@@ -164,7 +123,7 @@
                     <div>
                         <SingleShotlist
                                 v-bind:shotlist_tab="shotlistTab"
-                                v-bind:component_index="index"
+                                v-bind:shotlistTabs="shotlistTabs"
                         />
                     </div>
                 </b-tab>
@@ -174,41 +133,25 @@
 </template>
 
 <script>
-    import CreateEditShotListModal from "@/pages/ShotlistStoryboard/CreateEditShotListModal";
+    import CreateShotListModal from "@/pages/ShotlistStoryboard/CreateShotListModal";
     import SingleShotlist from "@/pages/ShotlistStoryboard/SingleShotlist";
 
     export default {
         name: "ShotlistComp",
-        components: {CreateEditShotListModal, SingleShotlist},
+        components: {CreateShotListModal, SingleShotlist},
         data() {
             return {
-                //Array of all Shotlists
+
+
+                //TODO Get from Vuex
+                //Array of all Shotlists - only for test uses
                 shotlistTabs: [{
+                    id: 1,
                     listName: 'First Shotlist',
                     edit: false,
-
-                    //IDs for Modals
-                    addShot_modal_ID: 'addShotID',    //auto generated
-
-
-                    fields: [
-                        {key: 'frame', label: 'Frame'},
-                        {key: 'nbr', label: 'Number'},
-                        {key: 'description', label: 'Description'},
-                        {key: 'shotsize', label: 'Shotsize'},
-                        {key: 'movement', label: 'Movement'},
-                        {key: 'camera', label: 'Camera'},
-                        {key: 'lens', label: 'Lens'},
-                        {key: 'framerate', label: 'Framerate'},
-                        {key: 'specialEquip', label: 'Special Equipment'},
-                        {key: 'location', label: 'Location'},
-                        {key: 'actions', label: ''},
-                    ],
-
-
                     shots: [{
-                        frame: '',          //picture to upload
-                        nbr: 0,             //auto generated number
+                        id: 1,             //auto generated number
+                        frame: 'TestBild',          //picture to upload
                         description: 'descr',    //free text
                         shotsize: null,       //options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
                         movement: 'Forward',       //free text
@@ -219,19 +162,12 @@
                         location: null,          //only the locations that are on the location page
                     }],
 
-                    //Booleans if the specific column is shown
-                    frame_c: true,
-                    shotsize_c: true,
-                    movement_c: true,
-                    camera_c: true,
-                    lens_c: true,
-                    framerate_c: true,
-                    specialEquip_c: true,
-                    location_c: true
                 }],
             }
         },
         methods: {
+
+            //TODO Wont need after vuex switch
             //Deletes the current Tab
             deleteTab(index, shotlistTab) {
                 var idx = this.shotlistTabs.indexOf(shotlistTab);
