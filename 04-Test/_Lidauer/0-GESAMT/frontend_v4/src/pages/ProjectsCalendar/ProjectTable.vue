@@ -406,7 +406,7 @@
             return {
 
                 //Tableview - defines which columns are shown
-                tableview: [],
+                tableview: {},
 
                 //Values for the Alert
                 dismissSecs: 10,
@@ -585,6 +585,9 @@
         watch: {
             allTableView: 'setLocalTableView',
         },
+        created(){
+            this.tableview = Object.assign({}, this.allTableView)
+        }
     }
 </script>
 

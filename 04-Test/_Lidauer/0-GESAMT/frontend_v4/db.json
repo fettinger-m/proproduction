@@ -132,8 +132,8 @@
       "id": 7,
       "startDate": "2020-02-09",
       "endDate": "2020-02-11",
-      "title": "Musikvideo Dreh",
-      "description": "Test"
+      "title": "Musikvideo Dreh2",
+      "description": "Test testweasd "
     }
   ],
   "locations": [
@@ -201,14 +201,6 @@
       "email": "mamas@saas.at",
       "phone": "+32233",
       "id": 3
-    },
-    {
-      "name": "Manuel Lidauer",
-      "group": "",
-      "role": "",
-      "email": "manuel.lidauer@gmail.com",
-      "phone": "",
-      "id": 4
     }
   ]
 }

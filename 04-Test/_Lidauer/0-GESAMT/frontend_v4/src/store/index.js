@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 
-import test from './modules/vuexstore';
+import vuexstore from './modules/vuexstore';
 // Load Vuex
 Vue.use(Vuex);
 
@@ -9,7 +9,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     strict: true,
     modules: {
-        test
-
+        vuexstore
     }
 });
