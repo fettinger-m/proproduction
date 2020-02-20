@@ -4,7 +4,6 @@
             <b-form-input
                     id="input-1"
                     v-model="form.name"
-                    :placeholder=rowData.name
             ></b-form-input>
         </b-form-group>
 
@@ -12,7 +11,6 @@
             <b-form-input
                     id="input-2"
                     v-model="form.group"
-                    :placeholder=rowData.group
             ></b-form-input>
         </b-form-group>
 
@@ -20,7 +18,6 @@
             <b-form-input
                     id="input-3"
                     v-model="form.role"
-                    :placeholder=rowData.role
             ></b-form-input>
         </b-form-group>
 
@@ -30,7 +27,6 @@
                     v-model="form.email"
                     type="email"
                     required
-                    :placeholder=rowData.email
             ></b-form-input>
         </b-form-group>
 
@@ -38,7 +34,6 @@
             <b-form-input
                     id="input-5"
                     v-model="form.phone"
-                    :placeholder=rowData.phone
             ></b-form-input>
         </b-form-group>
 
@@ -47,16 +42,8 @@
 
 <script>
     import {mapActions} from "vuex";
+
     export default {
-        props: {
-            rowData: {
-                type: Object,
-                required: true
-            },
-            rowIndex: {
-                type: Number
-            }
-        },
         data() {
             return {
                 form: {
@@ -64,27 +51,17 @@
                     group: '',
                     role: '',
                     email: '',
-                    phone: '',
-                    id: ''
+                    phone: ''
                 },
                 show: true
             }
         },
         methods: {
-            ...mapActions(["updateContact"]),
+            ...mapActions(["addContact"]),
             onSubmit() {
-                if (this.form.name === '') { this.form.name = this.rowData.name}
-                if (this.form.group === '') { this.form.group = this.rowData.group}
-                if (this.form.role === '') { this.form.role = this.rowData.role}
-                if (this.form.email === '') { this.form.email = this.rowData.email}
-                if (this.form.phone === '') { this.form.phone = this.rowData.phone}
-                this.form.id = this.rowData.id;
-
                 // eslint-disable-next-line no-console
                 console.log(this.form);
-
-                this.updateContact(this.form);
-
+                this.addContact(this.form)
             },
             onReset() {
                 this.form.name = '';

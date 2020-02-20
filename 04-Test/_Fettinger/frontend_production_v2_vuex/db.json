@@ -12,11 +12,28 @@
   },
   "projects": [
     {
-      "project_nbr": "ds",
-      "project_name": "sdsd",
-      "project_theme": "ds",
+      "project_nbr": "P19-01",
+      "project_name": "Mallorca 2019",
+      "project_theme": "Travel Video",
+      "project_state": "done",
       "read_only": true,
       "id": 1
+    },
+    {
+      "project_nbr": "P19-02",
+      "project_name": "Audi Commercial",
+      "project_theme": "Business",
+      "project_state": "editing",
+      "star1": true,
+      "star2": true,
+      "star3": false,
+      "star4": false,
+      "star5": false,
+      "read_only": true,
+      "id": 2
+    },
+    {
+      "id": 3
     }
   ],
   "calendarevent": [
@@ -26,6 +43,73 @@
       "description": null,
       "startdate": "2019-01-12",
       "enddate": "2019-01-12"
+    }
+  ],
+  "locations": [
+    {
+      "street_number": null,
+      "route": null,
+      "locality": "Taxco",
+      "country": "Mexiko",
+      "postal_code": null,
+      "name": "Taxco",
+      "marker": {
+        "lat": 18.5565468,
+        "lng": -99.60512059999999
+      },
+      "id": 5
+    },
+    {
+      "street_number": null,
+      "route": null,
+      "locality": "Steinhagen",
+      "country": "Deutschland",
+      "postal_code": "33803",
+      "name": "Steinhagen",
+      "marker": {
+        "lat": 52.0049441,
+        "lng": 8.4151129
+      },
+      "id": 6
+    },
+    {
+      "street_number": null,
+      "route": null,
+      "locality": "Oberhart",
+      "country": "Österreich",
+      "postal_code": "4641",
+      "name": "Oberhart",
+      "marker": {
+        "lat": 48.10457,
+        "lng": 14.03963
+      },
+      "id": 7
+    }
+  ],
+  "contacts": [
+    {
+      "name": "Maximilian Fettinger",
+      "group": "BG VB",
+      "role": "Cutter",
+      "email": "max.fettinger@icloud.com",
+      "phone": "+43 676 814280599",
+      "id": 1
+    },
+    {
+      "name": "Maximilian Pfusterer",
+      "group": "HTL VB",
+      "role": "Actor",
+      "email": "max.pfusterer@gmail.com",
+      "phone": "+555 555",
+      "id": 2
+    },
+    {
+      "name": "Manuel Lidauer",
+      "group": "HTL Wels",
+      "role": "FILM",
+      "email": "mamas@saas.at",
+      "phone": "+32233",
+      "id": 3
     }
   ]
 }

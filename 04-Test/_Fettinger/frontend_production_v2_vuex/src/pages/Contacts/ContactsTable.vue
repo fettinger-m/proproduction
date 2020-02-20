@@ -1,11 +1,11 @@
 <template>
     <div>
         <vuetable ref="vuetable"
-                  api-url="https://vuetable.ratiw.net/api/users"
+                  api-url="http://localhost:3000/contacts"
                   :fields=fields
                   :css="table"
                   :per-page="5"
-                  data-path="data"
+                  data-path=""
                   pagination-path=""
                   @vuetable:pagination-data="onPaginationData"
         ></vuetable>
@@ -21,11 +21,11 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import Vue from 'vue'
-    import CustomActions from './CustomActions'
+    import CustomActions from "../Contacts/CustomActions";
 
 
 
-    Vue.component('custom-actions', CustomActions);
+    Vue.component('custom-actionsC', CustomActions);
 
     export default {
         components: {
@@ -42,13 +42,13 @@
                         dataClass: 'text-left'
                     },
                     {
-                        name: 'group.description',
+                        name: 'group',
                         title: 'Group',
                         width: '14%',
                         dataClass: 'text-left'
                     },
                     {
-                        name: 'nickname',
+                        name: 'role',
                         title: 'Role',
                         callback: 'caseUp',
                         width: '14%',
@@ -61,13 +61,13 @@
                         dataClass: 'text-left'
                     },
                     {
-                        name: 'address.mobile',
+                        name: 'phone',
                         title: 'Phone',
                         width: '20%',
                         dataClass: 'text-left'
                     },
                     {
-                        name: '__component:custom-actions',
+                        name: '__component:custom-actionsC',
                         title: 'Actions',
                         width: '12%'
                     }

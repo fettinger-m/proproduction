@@ -9,9 +9,9 @@
         >
             <gmap-marker
                     :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
-                    @click="center=m.position"
+                    v-for="(m, index) in allLocations"
+                    :position="m.marker"
+                    @click="center=m.marker"
             ></gmap-marker>
         </gmap-map>
         <div class="m-3">
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+    import {mapGetters, mapActions, mapMutations} from "vuex";
+
     export default {
         name: "GoogleMap",
         data() {
@@ -60,6 +62,8 @@
         },
 
         methods: {
+            ...mapActions(["addLocation", "fetchLocations"]),
+            ...mapMutations(['addProjectRow']),
             // receives a place object via the autocomplete component
             setPlace(place) {
                 this.currentPlace = place;
@@ -76,8 +80,8 @@
                     this.places.push(this.currentPlace);
                     this.center = marker;
                     this.currentPlace = null;
-
                 }
+                this.fetchLocations()
             },
             changeCenter(lat, lng) {
                 this.center = {
@@ -107,7 +111,11 @@
                 options.draggable = !this.disableField;
 
                 return options
-            }
-        }
+            },
+            ...mapGetters(["allLocations"]),
+        },
+        created() {
+            this.fetchLocations();
+        },
     };
 </script>
