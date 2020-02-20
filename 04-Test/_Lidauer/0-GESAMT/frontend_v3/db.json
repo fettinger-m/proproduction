@@ -9,7 +9,7 @@
   "tableview": {
     "thema_c": true,
     "status_c": true,
-    "priority_c": true,
+    "priority_c": false,
     "custom1_c": true,
     "custom2_c": true,
     "customFieldName1": "Angbot",

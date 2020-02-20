@@ -1,7 +1,7 @@
 <template>
     <div id="singleproject">
 
-        <h1> {{selectedproject.project_name}} </h1>
+        <h1> {{ this.selectedproject.project_name }} </h1>
 
         <b-container id="categorysID">
             <b-col v-for="(category_element, index) in category_elements" v-bind:key="index">
@@ -28,7 +28,7 @@
         data() {
             return {
                 id: 0,
-                selectedproject: [],
+                selectedproject: {},
                 category_elements: [
                     {
                         category_icon: 'file-alt',
@@ -90,12 +90,25 @@
             this.selectedproject = this.getProjectByID(this.id);
 
             //Read the lenght of each category elements
-            this.category_elements[0].category_amount = this.selectedproject.documents.length;
-            this.category_elements[1].category_amount = this.selectedproject.shotlists.length;
-            this.category_elements[2].category_amount = this.selectedproject.moodboards.length;
-            this.category_elements[3].category_amount = this.selectedproject.locations.length;
-            this.category_elements[4].category_amount = this.selectedproject.contacts.length;
-            this.category_elements[5].category_amount = this.selectedproject.media.length;
+            if(this.selectedproject.documents != null){
+                this.category_elements[0].category_amount = this.selectedproject.documents.length;
+            }
+            if(this.selectedproject.shotlists != null){
+                this.category_elements[1].category_amount = this.selectedproject.shotlists.length;
+            }
+            if(this.selectedproject.moodboards != null){
+                this.category_elements[2].category_amount = this.selectedproject.moodboards.length;
+            }
+            if(this.selectedproject.locations != null){
+                this.category_elements[3].category_amount = this.selectedproject.locations.length;
+            }
+            if(this.selectedproject.contacts != null){
+                this.category_elements[4].category_amount = this.selectedproject.contacts.length;
+            }
+            if(this.selectedproject.media != null){
+                this.category_elements[5].category_amount = this.selectedproject.media.length;
+            }
+
         }
     }
 </script>

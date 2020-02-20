@@ -40,6 +40,9 @@ const getters = {
     //---DOCUMENTS
     //allDocuments: (state, currproject) => state.projects[currproject.id].documents,
 
+    //---SHOTLIST:
+    //allShotLists: (state, currproject) => state.projects[currproject.id].shotlists,
+
     //---LOCATIONS
     //allLocations: (state, currproject) => state.projects[currproject.id].locations,
 };
@@ -48,7 +51,7 @@ const getters = {
 //Called from components to commit a mutation
 const actions = {
 
-    //---PROJECTS
+    //---PROJECTS - TODO - update / insert problem
     async fetchProjects({commit}) {
         const response = await axios.get(
             'http://localhost:3000/projects'
@@ -82,9 +85,8 @@ const actions = {
 
         commit('removeProject', id);
     },
-    //async fetchCurrentProjectID({commit})
 
-    //---EVENTS
+    //---EVENTS - finished
     async fetchEvents({commit}) {
         const response = await axios.get(
             'http://localhost:3000/calendarevents'
@@ -94,7 +96,6 @@ const actions = {
         console.log(response.data)
     },
     async updateEvent({commit}, updEvent) {
-        // eslint-disable-next-line no-console
         const response = await axios.put(
             `http://localhost:3000/calendarevents/${updEvent.id}`,
             updEvent
@@ -123,7 +124,7 @@ const actions = {
         commit('removeEvent', id);
     },
 
-    //---TABLEVIEW
+    //---TABLEVIEW - finished
     async fetchTableview({commit}) {
         const response = await axios.get(
             'http://localhost:3000/tableview'
@@ -144,7 +145,7 @@ const actions = {
         commit('updateTableviewMut', response.data);
     },
 
-    //---DOCUMENTS
+    //---DOCUMENTS TODO - to check
     async fetchDocuments({commit}, currproject) {
         const response = await axios.get(
             `http://localhost:3000/projects/${currproject.id}/documents`
@@ -166,8 +167,70 @@ const actions = {
 
         commit('removeDoc', currproject, index);
     },
+    async updateDocument({commit}, currproject, updDocument) {
+        const response = await axios.put(
+            `http://localhost:3000/projects/${currproject.id}/documents`,
+            updDocument
+        );
+        // eslint-disable-next-line no-console
+        console.log(response.data);
+        commit('updateDocumentMut', currproject, updDocument);
+    },
 
-    //---SHOTLIST
+    //---SHOTLIST TODO - to check
+    async fetchShotlists({commit}, currproject) {
+        const response = await axios.get(
+            `http://localhost:3000/projects/${currproject.id}/shotlists`
+        );
+        commit('setShotlists', currproject, response.data);
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+    },
+    async addShotlist({commit}, currproject) {
+        const response = await axios.post(
+            `http://localhost:3000/projects/${currproject.id}/shotlists`,
+            {}
+        );
+
+        commit('addShotlistMut', currproject, response.data);
+    },
+    async deleteShotlist({commit}, currproject, index) {
+        await axios.delete(`http://localhost:3000/projects/${currproject.id}/shotlists/${index}`);
+
+        commit('removeShotlist', currproject, index);
+    },
+    async updateShotlist({commit}, currproject, updShotlist) {
+        const response = await axios.put(
+            `http://localhost:3000/projects/${currproject.id}/shotlists`,
+            updShotlist
+        );
+        // eslint-disable-next-line no-console
+        console.log(response.data);
+        commit('updateShotlistMut', currproject, updShotlist);
+    },
+    //fetchShots ???
+    async addShot({commit}, currproject, currshotlist) {
+        const response = await axios.post(
+            `http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}`,
+            {}
+        );
+
+        commit('addShotMut', currproject, currshotlist, response.data);
+    },
+    async deleteShot({commit}, currproject, currshotlist, index) {
+        await axios.delete(`http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}/shots/${index}`);
+
+        commit('removeShot', currproject, currshotlist, index);
+    },
+    async updateShot({commit}, currproject, currshotlist, updShot) {
+        const response = await axios.put(
+            `http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}/shots`,
+            updShot
+        );
+        // eslint-disable-next-line no-console
+        console.log(response.data);
+        commit('updateShotMut', currproject, currshotlist, updShot);
+    },
 
     //---MOODBOARD
 
@@ -220,9 +283,36 @@ const mutations = {
     setDocuments: (state, currproject, documents) => (state.projects[currproject.id].documents = documents),
     addDocumentTab: (state, currproject, document) => state.projects[currproject.id].documents.push(document),
     removeDoc: (state, currproject, index) => (state.projects[currproject.id].documents = state.projects[currproject.id].documents.filter(document => document.id !== index)),
+    updateDocumentMut: (state, currproject, updDocument) => {
+        const index = state.projects[currproject.id].documents.findIndex(document => document.id === updDocument.id);
+        if (index !== -1) {
+            state.events.splice(index, 1, updDocument);
+        }
+    },
 
-
-    //---SHOTLIST
+    //---SHOTLIST TODO - to check
+    setShotlists: (state, currproject, shotlists) => (state.projects[currproject.id].shotlists = shotlists),
+    addShotlistMut:
+        (state, currproject, shotlist) => state.projects[currproject.id].shotlists.push(shotlist),
+    removeShotlist:
+        (state, currproject, index) => (state.projects[currproject.id].shotlists = state.projects[currproject.id].shotlists.filter(shotlist => shotlist.id !== index)),
+    updateShotlistMut:
+        (state, currproject, updShotlist) => {
+            const index = state.projects[currproject.id].shotlists.findIndex(shotlist => shotlist.id === updShotlist.id);
+            if (index !== -1) {
+                state.projects[currproject.id].shotlists.splice(index, 1, updShotlist);
+            }
+        },
+    addShotMut:
+        (state, currproject, currshotlist, shot) => state.projects[currproject.id].shotlists[currshotlist.id].shots.push(shot),
+    removeShot:
+        (state, currproject, currshotlist, index) => (state.projects[currproject.id].shotlists[currshotlist.id].shots = state.projects[currproject.id].shotlists[currshotlist.id].shots.filter(shot => shot.id !== index)),
+    updateShotMut: (state, currproject, currshotlist, updShot) => {
+        const index = state.projects[currproject.id].shotlists[currshotlist.id].shots.findIndex(shot => shot.id === updShot.id);
+        if (index !== -1) {
+            state.projects[currproject.id].shotlists[currshotlist.id].shots.splice(index, 1, updShot);
+        }
+    },
 
     //---MOODBOARD
 
@@ -231,6 +321,7 @@ const mutations = {
     //---LOCATION
 
     //---MEDIA
+
 };
 
 //Export

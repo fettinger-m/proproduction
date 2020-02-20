@@ -64,9 +64,11 @@
         <!-- THE TABLE-->
         <b-table
                 striped hover
-                responsive
                 :fields="visibleFields"
-                :items="shotlist_tab.shots">
+                :items="shotlist_tab.shots"
+
+        >
+            <!-- v-sortable="sortableOptions" -->
 
             <template v-slot:cell(frame)="data">
                 <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
@@ -134,9 +136,29 @@
     import CreateShotModal from "@/pages/ShotlistStoryboard/CreateShotModal";
     import EditShotModal from "@/pages/ShotlistStoryboard/EditShotModal";
 
+    /*
+    import Sortable from 'vue-sortable';
+
+    const createSortable = (el, options) => {
+
+        return Sortable.create(el, {
+            ...options
+        });
+    };
+
+    const sortable = {
+        name: 'sortable',
+        bind(el, binding, vnode) {
+            const table = el;
+            table._sortable = createSortable(table.querySelector("tbody"), binding.value, vnode);
+        }
+    };
+     */
+
     export default {
         name: "SingleShotlist",
         components: {EditShotModal, CreateShotModal},
+        /*directives: { sortable },*/
         data() {
             return {
                 fields: [
@@ -152,6 +174,11 @@
                     {key: 'location', label: 'Location', sortable: true, visible: true, changeable: true},
                     {key: 'actions', label: '', visible: true, changeable: false},
                 ],
+                /*
+                sortableOptions: {
+                    chosenClass: 'is-selected'
+                },
+                 */
             }
         },
         computed: {
@@ -180,7 +207,7 @@
                 //ID of the shotlist
                 let id = this.shotlist_tab.id;
                 // eslint-disable-next-line no-console
-                console.log(this.shotlistTabs[id])
+                console.log(this.shotlistTabs[id]);
 
                 if(index > -1) {
                     this.shotlistTabs[id].shots.splice(index, 1);

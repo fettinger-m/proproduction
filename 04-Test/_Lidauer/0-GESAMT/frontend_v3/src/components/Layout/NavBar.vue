@@ -77,12 +77,11 @@
             return {
                 id: 0,
                 projectName: "NoProjectSelected",
+                selectedproject: {},
             }
         },
         methods: {
             isActive(name) {
-                // eslint-disable-next-line no-console
-                //console.log(name, this.currentPage);
                 if (name === this.currentPage) {
                     return true;
                 }
@@ -99,12 +98,11 @@
             ...mapGetters(["getProjectByID"]),
         },
         mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'))
-            if(this.id != 0) {
+            if (!this.smallNav) {
+                this.id = parseInt(sessionStorage.getItem('sessionProjectID'))
                 this.selectedproject = this.getProjectByID(this.id)
                 this.projectName = this.selectedproject.project_name
             }
-
         }
     }
 </script>
