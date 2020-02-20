@@ -108,8 +108,10 @@
             if(this.selectedproject.media != null){
                 this.category_elements[5].category_amount = this.selectedproject.media.length;
             }
+        },
+        created() {
 
-        }
+        },
     }
 </script>
 

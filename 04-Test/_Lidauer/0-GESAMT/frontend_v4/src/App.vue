@@ -6,6 +6,7 @@
 
 <script>
     import {mapActions} from "vuex";
+
     export default {
         name: "App",
         components:{
@@ -14,9 +15,9 @@
             ...mapActions(["fetchProjects", "fetchEvents", "fetchTableview"]),
         },
         created() {
+            this.fetchTableview();
             this.fetchProjects();
             this.fetchEvents();
-            this.fetchTableview();
         },
     }
 

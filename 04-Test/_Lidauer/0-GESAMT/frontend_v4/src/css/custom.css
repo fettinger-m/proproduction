@@ -105,3 +105,16 @@ a:not([href]).btn-primary {
 .categorytitle {
     margin: 20px;
 }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #FF6852;
+    background-color: #FF6852;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: white;
+}
+
+.nav-pills .nav-link, .nav-pills .show > .nav-link {
+    border-color: black;
+}

@@ -585,7 +585,7 @@
         watch: {
             allTableView: 'setLocalTableView',
         },
-        created(){
+        created (){
             this.tableview = Object.assign({}, this.allTableView)
         }
     }

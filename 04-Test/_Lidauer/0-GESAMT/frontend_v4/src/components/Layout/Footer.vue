@@ -26,5 +26,6 @@
 
     .footerbasic {
         color: #777777;
+
     }
 </style>

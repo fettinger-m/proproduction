@@ -154,8 +154,8 @@
             }
         },
         methods: {
-            //VUEX ACTIONS
-            ...mapActions(["fetchDocuments", "addDocument", "deleteDocument"]),
+            //VUEX ACTIONS      "fetchDocuments", "addDocument",
+            ...mapActions([ "deleteDocument"]),
             //VUEX MUTATIONS
 
 
@@ -182,7 +182,7 @@
             this.selectedproject = this.getProjectByID(this.id);
         },
         created() {
-            this.fetchDocuments(this.selectedproject)
+            //this.fetchDocuments(this.selectedproject)
         }
     }
 </script>
