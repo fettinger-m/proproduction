@@ -29,7 +29,8 @@
             documents: [
                 {
                     id: 1,
-                    doc_name: ""
+                    doc_name: "",
+					content: "",
                 }
             ],
             shotlists: [
@@ -40,7 +41,6 @@
                         {
                             id: 1,
                             frame: null,
-                            nbr: 1,
                             description: "",
                             shotsize: "",
                             movement: "",
@@ -50,7 +50,7 @@
                             specialEquip: "",
                             location: ""
                         }
-                    ]
+                    ],
                 }
             ],
             moodboards: [

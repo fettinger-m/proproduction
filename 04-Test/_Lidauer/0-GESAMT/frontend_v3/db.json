@@ -1,0 +1,139 @@
+{
+  "userdetails": {
+    "username": "flotschi",
+    "password": "testpwd",
+    "firstname": "Florian",
+    "lastname": "Linnert",
+    "email": "flotschi@gmail.com"
+  },
+  "tableview": {
+    "thema_c": true,
+    "status_c": true,
+    "priority_c": false,
+    "custom1_c": true,
+    "custom2_c": true,
+    "customFieldName1": "Angbot",
+    "customFieldName2": "Preis"
+  },
+  "projects": [
+    {
+      "project_nbr": "P20-01",
+      "project_name": "Videoprojekt Test1",
+      "project_theme": "Musikvideo",
+      "project_state": "filming",
+      "star1": true,
+      "star2": true,
+      "star3": true,
+      "star4": true,
+      "star5": false,
+      "read_only": true,
+      "id": 1,
+      "documents": [
+        {
+          "id": 1,
+          "doc_name": "Document1"
+        },
+        {
+          "id": 2,
+          "doc_name": "Docu2"
+        },
+        {
+          "id": 3,
+          "doc_name": "Docu3"
+        }
+      ],
+      "shotlists": [
+        {
+          "id": 1,
+          "listName": "Shotlist123",
+          "shots": [
+            {
+              "id": 1,
+              "frame": null,
+              "description": "Mein erster Shot",
+              "shotsize": "Wide",
+              "movement": "Forward",
+              "camera": "a7iii",
+              "lens": "50mm",
+              "framerate": "23.976",
+              "specialEquip": "Gimbal",
+              "location": "Timelkam"
+            },
+            {
+              "id": 2,
+              "frame": null,
+              "description": "zweiter shot",
+              "shotsize": "Wide",
+              "movement": "Forward",
+              "camera": "a7iii",
+              "lens": "50mm",
+              "framerate": "23.976",
+              "specialEquip": null,
+              "location": "VB"
+            }
+          ],
+          "frame_c": true,
+          "shotsize_c": true,
+          "movement_c": true,
+          "camera_c": true,
+          "lens_c": true,
+          "framerate_c": true,
+          "specialEquip_c": true,
+          "location_c": true
+        }
+      ],
+      "moodboards": [
+        {
+          "id": 1,
+          "boardName": "Moodboard1"
+        },
+        {
+          "id": 2,
+          "boardName": "Moodboard2"
+        },
+        {
+          "id": 3,
+          "boardName": "Moodboard3"
+        }
+      ],
+      "contacts": [
+        {
+          "id": 1,
+          "name": "Manuel Lidauer",
+          "group": "A",
+          "role": "Director",
+          "email": "manuel.lidauer@gmail.com",
+          "phonenbr": "+436509974228"
+        }
+      ]
+    },
+    {
+      "project_name": "Test Projekt",
+      "project_nbr": "1",
+      "read_only": true,
+      "id": 3
+    },
+    {
+      "project_name": "ProjectTest",
+      "project_nbr": "3",
+      "read_only": true,
+      "id": 4
+    }
+  ],
+  "calendarevents": [
+    {
+      "id": 5,
+      "startDate": "2020-02-18T23:00:00.000Z",
+      "endDate": "2020-02-19T23:00:00.000Z",
+      "title": "Videodreh Musikvideo1234",
+      "description": "Drohne mitnehmen.\n19. - 20."
+    },
+    {
+      "id": 7,
+      "startDate": "2020-02-09",
+      "endDate": "2020-02-11",
+      "title": "Musikvideo Dreh",
+      "description": "Test"
+    }
+  ]
+}
