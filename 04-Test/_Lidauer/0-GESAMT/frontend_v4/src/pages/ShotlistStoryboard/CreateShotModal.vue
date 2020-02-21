@@ -139,7 +139,7 @@
 
                 //Local Shot Object
                 shot: {
-                    frame: null,
+                    frame: "testbild2.jpg",
                     description: "",
                     shotsize: "",
                     movement: "",

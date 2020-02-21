@@ -76,8 +76,8 @@
                     <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
                 </div>
                 <div v-else>
-                    <img src="../../assets/logo.png" height="50" width="50" alt="frame"/>
-                    <div>Frame value: {{data.value}}</div>
+                    <img :src="getImgUrl(data.item.frame)" :alt="data.item.frame"/>
+
                 </div>
 
             </template>
@@ -213,6 +213,13 @@
                     this.shotlistTabs[id].shots.splice(index, 1);
                 }
             },
+
+            getImgUrl(pic) {
+                let image = '../../assets/'+ pic;
+                // eslint-disable-next-line no-console
+                console.log(image)
+                return image;
+            }
         }
     }
 </script>

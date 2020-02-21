@@ -151,7 +151,7 @@
                     edit: false,
                     shots: [{
                         id: 1,             //auto generated number
-                        frame: 'TestBild',          //picture to upload
+                        frame: 'testbildwide.jpg',          //picture to upload
                         description: 'descr',    //free text
                         shotsize: null,       //options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
                         movement: 'Forward',       //free text

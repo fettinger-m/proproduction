@@ -98,12 +98,20 @@
       ],
       "contacts": [
         {
-          "id": 1,
+          "name": "Maximilian Pfusterer",
+          "group": "HTL VB",
+          "role": "Actor",
+          "email": "max.pfusterer@gmail.com",
+          "phone": "+555 555",
+          "id": 1
+        },
+        {
           "name": "Manuel Lidauer",
-          "group": "A",
-          "role": "Director",
-          "email": "manuel.lidauer@gmail.com",
-          "phonenbr": "+436509974228"
+          "group": "HTL Wels",
+          "role": "FILM",
+          "email": "mamas@saas.at",
+          "phone": "+32233",
+          "id": 2
         }
       ]
     },
@@ -119,9 +127,6 @@
       "star5": false,
       "read_only": true,
       "project_theme": "Testthema"
-    },
-    {
-      "id": 6
     }
   ],
   "calendarevents": [
