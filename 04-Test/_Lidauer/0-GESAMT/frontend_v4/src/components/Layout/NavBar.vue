@@ -59,9 +59,7 @@
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto nav-flex-icons">
                 <b-nav-item :to="{name: 'myprofile'}">
-                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
-                         class="rounded-circle z-depth-0"
-                         alt="avatar image" height="35">
+                    <font-awesome-icon :icon="['fas', 'user']" />
                 </b-nav-item>
             </b-navbar-nav>
         </b-collapse>

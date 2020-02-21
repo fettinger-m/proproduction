@@ -1,15 +1,15 @@
 {
   "userdetails": {
-    "username": "flotschi",
+    "username": "flotschi123",
     "password": "testpwd",
     "firstname": "Florian",
-    "lastname": "Linnert",
+    "lastname": "Lönnert",
     "email": "flotschi@gmail.com"
   },
   "tableview": {
     "thema_c": true,
     "status_c": true,
-    "priority_c": false,
+    "priority_c": true,
     "custom1_c": true,
     "custom2_c": true,
     "customFieldName1": "Angbot",
@@ -106,12 +106,6 @@
           "phonenbr": "+436509974228"
         }
       ]
-    },
-    {
-      "project_name": "Test Projekt",
-      "project_nbr": "1",
-      "read_only": true,
-      "id": 3
     },
     {
       "project_name": "ProjectTest",

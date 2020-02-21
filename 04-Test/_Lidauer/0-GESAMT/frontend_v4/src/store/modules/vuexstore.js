@@ -9,6 +9,7 @@ const state = {
     events: [],
     tableview: {},
     locations: [],
+    userdetails: [],
 };
 
 //----GETTERS
@@ -47,6 +48,9 @@ const getters = {
     //---LOCATIONS
     //allLocations: (state, currproject) => state.projects[currproject.id].locations,
     allLocations: state => state.locations,
+
+    //--USERDETAILS
+    allUserdetails: state => state.userdetails,
 };
 
 //----ACTIONS
@@ -277,10 +281,25 @@ const actions = {
     async deleteLocation({commit}, id) {
         await axios.delete(`http://localhost:3000/locations/${id}`);
         commit('removeLocation', id);
-    }
+    },
 
     //---MEDIA
 
+
+    //--USERDETAILS - finished
+    async fetchUserdetails({commit}) {
+        const response = await axios.get(
+            'http://localhost:3000/userdetails'
+        );
+        commit('setUserdetails', response.data);
+    },
+    async updateUserdetails({commit}, updUserdetails) {
+        const response = await axios.put(
+            `http://localhost:3000/userdetails`,
+            updUserdetails
+        );
+        commit('updateUserdetailsMut', response.data);
+    },
 
 };
 
@@ -368,6 +387,12 @@ const mutations = {
 
     //---MEDIA
 
+
+    //---USERDETAILS - finished
+    setUserdetails: (state, userdetails) => (state.userdetails = userdetails),
+    updateUserdetailsMut: (state, updUserdetails) => {
+    state.tableview = updUserdetails
+},
 };
 
 //Export

@@ -11,6 +11,14 @@
     color: orangered;
 }
 
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+    color: orangered;
+}
+
 .btn {
 
 }
@@ -32,6 +40,10 @@
     color: #fff;
     background-color: orangered;
     border-color: orangered;
+}
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+    color: rgba(0, 0, 0, 0.7);
+    background-color: transparent;
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active,
@@ -107,8 +119,8 @@ a:not([href]).btn-primary {
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-    border-color: #FF6852;
-    background-color: #FF6852;
+    border-color: orangered;
+    background-color: orangered;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -117,4 +129,8 @@ a:not([href]).btn-primary {
 
 .nav-pills .nav-link, .nav-pills .show > .nav-link {
     border-color: black;
+}
+
+.card-title {
+    font-size: larger;
 }
