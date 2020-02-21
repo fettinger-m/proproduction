@@ -24,7 +24,7 @@
       "star1": true,
       "star2": true,
       "star3": true,
-      "star4": true,
+      "star4": false,
       "star5": false,
       "read_only": true,
       "id": 1,
@@ -108,10 +108,20 @@
       ]
     },
     {
-      "project_name": "ProjectTest",
-      "project_nbr": "3",
+      "id": 5,
+      "project_nbr": "P11-01",
+      "project_name": "TestProjekt",
+      "project_state": "planning",
+      "star1": true,
+      "star2": true,
+      "star3": false,
+      "star4": false,
+      "star5": false,
       "read_only": true,
-      "id": 4
+      "project_theme": "Testthema"
+    },
+    {
+      "id": 6
     }
   ],
   "calendarevents": [

@@ -17,9 +17,13 @@
                                 <template v-slot:button-content>
                                     <font-awesome-icon :icon="['fas', 'cog']"/>
                                 </template>
-                                <b-form-checkbox v-model="tableview.thema_c" v-on:change="updateVuexTableview">Thema</b-form-checkbox>
-                                <b-form-checkbox v-model="tableview.status_c" v-on:change="updateVuexTableview">Status</b-form-checkbox>
-                                <b-form-checkbox v-model="tableview.priority_c" v-on:change="updateVuexTableview">Priority</b-form-checkbox>
+                                <b-form-checkbox v-model="tableview.thema_c" v-on:change="updateVuexTableview">Thema
+                                </b-form-checkbox>
+                                <b-form-checkbox v-model="tableview.status_c" v-on:change="updateVuexTableview">Status
+                                </b-form-checkbox>
+                                <b-form-checkbox v-model="tableview.priority_c" v-on:change="updateVuexTableview">
+                                    Priority
+                                </b-form-checkbox>
 
                                 <!-- Custom Textfield 1 - Input or Display-->
                                 <b-form-checkbox v-model="tableview.custom1_c" v-on:change="updateVuexTableview">
@@ -246,7 +250,8 @@
 
                                 <router-link
                                         :to="{ name: 'project', params: { project: project_element.project_name } }">
-                                    <b-button id="openProjectButton" variant="outline-primary" class="name-btn" @click="setSessionProjectID(project_element.id)">
+                                    <b-button id="openProjectButton" variant="outline-primary" class="name-btn"
+                                              @click="setSessionProjectID(project_element.id)">
                                         {{project_element.project_name}}
                                     </b-button>
                                 </router-link>
@@ -396,7 +401,6 @@
 </template>
 
 <script>
-    import {mapMultiRowFields} from "vuex-map-fields";
     import {mapGetters, mapActions, mapMutations} from "vuex";
 
     export default {
@@ -407,6 +411,9 @@
 
                 //Tableview - defines which columns are shown
                 tableview: {},
+
+                //all projects
+                projects: [],
 
                 //Values for the Alert
                 dismissSecs: 10,
@@ -525,6 +532,9 @@
                     project_element.star4 = true;
                     project_element.star5 = true;
                 }
+                if(project_element.read_only) {
+                    this.updateProject(project_element);
+                }
             },
 
             //Checks if the specific project should be shown or not - depending on its filter
@@ -549,18 +559,20 @@
 
             checkPriority(project_element) {
 
-                if (project_element.star5 === false && this.prioritysshown === '5') {
-                    return false
-                } else if (project_element.star4 === false && this.prioritysshown === '4') {
-                    return false
-                } else if (project_element.star3 === false && this.prioritysshown === '3') {
-                    return false
-                } else if (project_element.star2 === false && this.prioritysshown === '2') {
-                    return false
-                } else if (project_element.star1 === false && this.prioritysshown === '1') {
-                    return false
-                } else if (this.prioritysshown === '0') {
+                if (this.prioritysshown.toString() === "5" && project_element.star5 === true) {
                     return true
+                } else if (this.prioritysshown.toString() === "4" && project_element.star4 === true) {
+                    return true
+                } else if (this.prioritysshown.toString() === "3" && project_element.star3 === true) {
+                    return true
+                } else if (this.prioritysshown.toString() === "2" && project_element.star2 === true) {
+                    return true
+                } else if (this.prioritysshown.toString() === "1" && project_element.star1 === true) {
+                    return true
+                } else if (this.prioritysshown == null || this.prioritysshown.toString() === "0"){
+                    return true
+                } else {
+                    return false
                 }
             },
 
@@ -572,6 +584,10 @@
                 this.tableview = Object.assign({}, value)
             },
 
+            setLocalProjects(value) {
+                this.projects = Object.assign({}, value)
+            },
+
             updateVuexTableview() {
                 // eslint-disable-next-line no-console
                 console.log("Update Vuex Table view");
@@ -579,14 +595,16 @@
             }
         },
         computed: {
-            ...mapMultiRowFields(['projects']),
-            ...mapGetters(["allTableView"]),
+            //...mapMultiRowFields(['projects']),
+            ...mapGetters(["allTableView", "allProjects"]),
         },
         watch: {
             allTableView: 'setLocalTableView',
+            allProjects: 'setLocalProjects'
         },
-        created (){
-            this.tableview = Object.assign({}, this.allTableView)
+        created() {
+            this.tableview = Object.assign({}, this.allTableView);
+            this.projects = Object.assign({}, this.allProjects);
         }
     }
 </script>
