@@ -204,7 +204,7 @@
 
                 <!-- INPUT FIELDS -->
                 <tr
-                        v-for="(project_element, index) in projects"
+                        v-for="(project_element, index) in localprojects"
                         v-bind:key="index"
                         v-show="checkState(project_element) && checkPriority(project_element) "
                         class="tablerow"
@@ -402,6 +402,7 @@
 
 <script>
     import {mapGetters, mapActions, mapMutations} from "vuex";
+    //import {mapMultiRowFields} from "vuex-map-fields";
 
     export default {
         name: "ProjectTable",
@@ -413,7 +414,7 @@
                 tableview: {},
 
                 //all projects
-                projects: [],
+                localprojects: [],
 
                 //Values for the Alert
                 dismissSecs: 10,
@@ -585,7 +586,7 @@
             },
 
             setLocalProjects(value) {
-                this.projects = Object.assign({}, value)
+                this.localprojects = Object.assign([], value)
             },
 
             updateVuexTableview() {
@@ -604,7 +605,7 @@
         },
         created() {
             this.tableview = Object.assign({}, this.allTableView);
-            this.projects = Object.assign({}, this.allProjects);
+            this.localprojects = Object.assign([], this.allProjects);
         }
     }
 </script>

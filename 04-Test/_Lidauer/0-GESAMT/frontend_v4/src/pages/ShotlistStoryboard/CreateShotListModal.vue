@@ -64,7 +64,7 @@
                     edit: false,
                     shots: [{
                         id: 1,
-                        frame: 'picture',
+                        frame: 'testbildwide.jpg',
                         description: 'Exapmle Shot',
                         shotsize: null,
                         movement: 'Forward',

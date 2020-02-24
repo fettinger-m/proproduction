@@ -21,12 +21,6 @@ const getters = {
     //---PROJECTS
     allProjects: state => state.projects,
     getProjectByID: (state) => (id) => {
-        /*
-        // eslint-disable-next-line no-console
-        console.log("Get Project with ID: " + id);
-        // eslint-disable-next-line no-console
-        console.log(state.projects);
-         */
         return state.projects.find(project => project.id === id)
     },
 
@@ -57,7 +51,7 @@ const getters = {
 //Called from components to commit a mutation
 const actions = {
 
-    //---PROJECTS - TODO - update / insert problem
+    //---PROJECTS - TODO strict mode error
     async fetchProjects({commit}) {
         const response = await axios.get(
             'http://localhost:3000/projects'
@@ -76,7 +70,7 @@ const actions = {
         // eslint-disable-next-line no-console
         console.log(response.data);
 
-        commit('updateProject', response.data);
+        commit('updateProjectMut', response.data);
     },
     async addProject({commit}) {
         const response = await axios.post(
@@ -111,6 +105,8 @@ const actions = {
         console.log(response.data);
 
         commit('updateEventMut', response.data);
+
+        CalendarComp.methods.resetSelectedDate(updEvent)
     },
     async addEventAction({commit}, eventobj) {
         // eslint-disable-next-line no-console
@@ -311,7 +307,7 @@ const mutations = {
 
     //---PROJECTS - TODO - update / insert problem
     setProjects: (state, projects) => (state.projects = projects),
-    updateProject: (state, updProject) => {
+    updateProjectMut: (state, updProject) => {
         const index = state.projects.findIndex(project => project.id === updProject.id);
         if (index !== -1) {
             state.projects.splice(index, 1, updProject);

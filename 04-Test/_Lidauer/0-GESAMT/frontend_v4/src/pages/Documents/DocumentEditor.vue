@@ -1,9 +1,7 @@
-
 <template>
     <div class="editor">
         <!-- Editing Bar-->
         <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-
             <div class="menubar">
                 <!-- Button Bold -->
                 <b-button
@@ -95,24 +93,6 @@
                 >
                     <font-awesome-icon :icon="['fas', 'list-ol']"/>
                 </b-button>
-                <!-- TODO Button Button Blockquote -->
-                <b-button
-                        class="menubar__button"
-                        :class="{ 'is-active': isActive.blockquote() }"
-                        @click="commands.blockquote"
-                        variant="outline"
-                >
-                    <font-awesome-icon :icon="['fas', 'quote-right']"/>
-                </b-button>
-                <!-- TODO Button Checklist -->
-                <b-button
-                        class="menubar__button"
-                        :class="{ 'is-active': isActive.todo_list() }"
-                        @click="commands.todo_list"
-                        variant="outline"
-                >
-                    <font-awesome-icon :icon="['fas', 'tasks']"/>
-                </b-button>
                 <!-- Button Horizontal line -->
                 <b-button
                         class="menubar__button"
@@ -149,8 +129,7 @@
 <script>
     import {Editor, EditorContent, EditorMenuBar} from 'tiptap'
     import {
-        Blockquote, HardBreak, Heading, HorizontalRule, OrderedList, BulletList, ListItem, TodoItem,
-        TodoList, Bold, Italic, Link, Strike, Underline, History,
+        HardBreak, Heading, HorizontalRule, OrderedList, BulletList, ListItem, Bold, Italic, Link, Strike, Underline, History,
     } from 'tiptap-extensions'
     import { Placeholder } from 'tiptap-extensions'
     import Doc from './Doc'
@@ -169,17 +148,12 @@
             return {
                 editor: new Editor({
                     extensions: [
-                        new Blockquote(),
                         new BulletList(),
                         new HardBreak(),
                         new Heading({levels: [1, 2, 3]}),
                         new HorizontalRule(),
                         new ListItem(),
                         new OrderedList(),
-                        new TodoItem({
-                            nested: true,
-                        }),
-                        new TodoList(),
                         new Link(),
                         new Bold(),
                         new Italic(),
@@ -210,7 +184,7 @@
                 html: 'Update to see changes',
 
                 //TODO: get this from vuex
-                mytext : '<h1>This is my Headline</h1><p>Bla bla text</p>'
+                documentcontent : '<h1>This is my Headline</h1><p>Bla bla text</p>'
             }
         },
         beforeDestroy() {
@@ -218,12 +192,13 @@
         },
         created(){
             //Fill Content with saved text
-            this.editor.setContent( this.mytext )
+            this.editor.setContent( this.documentcontent )
         }
     }
 </script>
 
 <style lang="scss">
+
     .menubar__button {
         color: #777777;
     }
@@ -232,7 +207,6 @@
         text-align: left;
         box-shadow: 3px 6px 17px 2px rgba(0,0,0,0.34);
     }
-
     .editor *.is-empty:nth-child(1)::before,
     .editor *.is-empty:nth-child(2)::before {
         content: attr(data-empty-text);

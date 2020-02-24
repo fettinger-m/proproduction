@@ -5,49 +5,64 @@
                 <!-- Edit Profile section -->
                 <b-col>
                     <b-card class="card-body">
-                        <b-row class="card-title" >
+                        <b-row class="card-title">
                             <div>Edit profile</div>
                         </b-row>
 
-                        <b-row>Username:</b-row>
+                        <!-- Username -->
+                        <div class="m-1">
+                            <b-row>Username:</b-row>
+                            <b-row>
+                                <b-input
+                                        v-model="userdetails.username"
+                                ></b-input>
+                            </b-row>
+                        </div>
                         <b-row>
-                            <b-input
-                                    v-model="userdetails.username"
-                            ></b-input>
+                            <!-- Firstname -->
+                            <div class="m-1">
+                                <b-col>
+                                    <b-row>First Name:</b-row>
+                                    <b-row>
+                                        <b-input
+                                                v-model="userdetails.firstname"
+                                        ></b-input>
+                                    </b-row>
+                                </b-col>
+                            </div>
+                            <!-- Lastname-->
+                            <div class="m-1">
+                                <b-col>
+                                    <b-row>Last Name:</b-row>
+                                    <b-row>
+                                        <b-input
+                                                v-model="userdetails.lastname"
+                                        ></b-input>
+                                    </b-row>
+                                </b-col>
+                            </div>
                         </b-row>
-                        <b-row>
-                            <b-col>
-                                <b-row>First Name:</b-row>
-                                <b-row>
-                                    <b-input
-                                            v-model="userdetails.firstname"
-                                    ></b-input>
-                                </b-row>
-                            </b-col>
-                            <b-col>
-                                <b-row>Last Name:</b-row>
-                                <b-row>
-                                    <b-input
-                                            v-model="userdetails.lastname"
-                                    ></b-input>
-                                </b-row>
-                            </b-col>
-                        </b-row>
-                        <b-row>E-Mail:</b-row>
-                        <b-row>
-                            <b-input
-                                    v-model="userdetails.email"
-                            ></b-input>
-                        </b-row>
-                        <b-row>
-                            <b-button
-                                    variant="outline-primary"
-                                    @click="updateVuexUserdetails"
-                                    :disabled="userdetails.username.toString() === '' || userdetails.firstname.toString() === '' || userdetails.lastname.toString() === '' || userdetails.email.toString() === ''"
-                            >
-                                Save
-                            </b-button>
-                        </b-row>
+                        <!-- Email -->
+                        <div class="m-1">
+                            <b-row>E-Mail:</b-row>
+                            <b-row>
+                                <b-input
+                                        v-model="userdetails.email"
+                                ></b-input>
+                            </b-row>
+                        </div>
+                        <!-- Save Button-->
+                        <div class="m-1">
+                            <b-row>
+                                <b-button
+                                        variant="outline-primary"
+                                        @click="updateVuexUserdetails"
+                                        :disabled="userdetails.username.toString() === '' || userdetails.firstname.toString() === '' || userdetails.lastname.toString() === '' || userdetails.email.toString() === ''"
+                                >
+                                    Save
+                                </b-button>
+                            </b-row>
+                        </div>
                     </b-card>
                 </b-col>
 
@@ -59,23 +74,31 @@
                             <div>Change Password</div>
                         </b-row>
 
-                        <b-row>Current Password:</b-row>
-                        <b-row>
-                            <b-input></b-input>
-                        </b-row>
+                        <div class="m-1">
+                            <b-row>Current Password:</b-row>
+                            <b-row>
+                                <b-input></b-input>
+                            </b-row>
+                        </div>
 
-                        <b-row>New Password:</b-row>
-                        <b-row>
-                            <b-input></b-input>
-                        </b-row>
+                        <div class="m-1">
+                            <b-row>New Password:</b-row>
+                            <b-row>
+                                <b-input></b-input>
+                            </b-row>
+                        </div>
 
-                        <b-row>Confirm Password:</b-row>
-                        <b-row>
-                            <b-input></b-input>
-                        </b-row>
-                        <b-row>
-                            <b-button variant="outline-primary">Change</b-button>
-                        </b-row>
+                        <div class="m-1">
+                            <b-row>Confirm Password:</b-row>
+                            <b-row>
+                                <b-input></b-input>
+                            </b-row>
+                        </div>
+                        <div class="m-1">
+                            <b-row>
+                                <b-button variant="outline-primary">Change</b-button>
+                            </b-row>
+                        </div>
                     </b-card>
                 </b-col>
 

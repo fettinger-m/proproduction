@@ -20,7 +20,7 @@
 }
 
 .btn {
-
+    border-radius: 0;
 }
 
 .breadcrumb {
@@ -133,4 +133,9 @@ a:not([href]).btn-primary {
 
 .card-title {
     font-size: larger;
+}
+
+.custom-select {
+    border: 1px solid #ced4da;
+    border-radius: 0.0rem;
 }

@@ -1,8 +1,8 @@
 {
   "userdetails": {
-    "username": "flotschi123",
+    "username": "flotschi123456",
     "password": "testpwd",
-    "firstname": "Florian",
+    "firstname": "Flörian",
     "lastname": "Lönnert",
     "email": "flotschi@gmail.com"
   },
@@ -12,8 +12,8 @@
     "priority_c": true,
     "custom1_c": true,
     "custom2_c": true,
-    "customFieldName1": "Angbot",
-    "customFieldName2": "Preis"
+    "customFieldName1": "Angebots#",
+    "customFieldName2": "Budget"
   },
   "projects": [
     {
@@ -24,22 +24,25 @@
       "star1": true,
       "star2": true,
       "star3": true,
-      "star4": false,
+      "star4": true,
       "star5": false,
       "read_only": true,
       "id": 1,
       "documents": [
         {
           "id": 1,
-          "doc_name": "Document1"
+          "doc_name": "Document1",
+          "documentcontent": "<h1>This is my Headline</h1><p>Bla bla text</p>"
         },
         {
           "id": 2,
-          "doc_name": "Docu2"
+          "doc_name": "Docu2",
+          "documentcontent": "<h1>This is my Headline</h1><p>Bla bla text</p>"
         },
         {
           "id": 3,
-          "doc_name": "Docu3"
+          "doc_name": "Docu3",
+          "documentcontent": "<h1>This is my Headline</h1><p>Bla bla text</p>"
         }
       ],
       "shotlists": [
@@ -119,30 +122,42 @@
       "id": 5,
       "project_nbr": "P11-01",
       "project_name": "TestProjekt",
-      "project_state": "planning",
+      "project_state": "preview",
       "star1": true,
       "star2": true,
-      "star3": false,
+      "star3": true,
       "star4": false,
       "star5": false,
       "read_only": true,
       "project_theme": "Testthema"
+    },
+    {
+      "id": 6,
+      "project_nbr": "P11-01",
+      "project_name": "Musicvideo",
+      "read_only": true,
+      "star1": true,
+      "star2": true,
+      "star3": true,
+      "star4": false,
+      "star5": false,
+      "project_state": "filming"
     }
   ],
   "calendarevents": [
     {
       "id": 5,
-      "startDate": "2020-02-18T23:00:00.000Z",
-      "endDate": "2020-02-19T23:00:00.000Z",
-      "title": "Videodreh Musikvideo1234",
-      "description": "Drohne mitnehmen.\n19. - 20."
+      "title": "Videodreh Musikvideo",
+      "startDate": "2020-02-11",
+      "endDate": "2020-02-12",
+      "description": "Drohne mitnehmen"
     },
     {
-      "id": 7,
-      "startDate": "2020-02-09",
-      "endDate": "2020-02-11",
-      "title": "Musikvideo Dreh2",
-      "description": "Test testweasd "
+      "id": 6,
+      "title": "Event Name",
+      "startDate": "2020-02-17",
+      "endDate": "2020-02-19",
+      "description": "Description"
     }
   ],
   "locations": [

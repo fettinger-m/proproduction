@@ -3,17 +3,23 @@
         <!-- Controls -->
         <div>
             <b-row align-h="end">
-                <b-col cols="3">
+                <b-col cols="4">
                     <div class="float-right mb-3">
 
-                        <!-- Button Shotlist download-->
-                        <b-button
-                                @click="downloadShotlist(shotlist_tab.listName)"
-                                variant="outline"
+                        <!-- Shotlist download to Excel -->
+                        <downloadexcel
+                                class="btn btn-default"
+                                :data="shotlist_tab.shots"
+                                :fields="excel_fields"
+                                worksheet="My Shotlist"
+                                name="shotlist.xls">
 
-                        >
-                            <font-awesome-icon :icon="['fas', 'arrow-down']"/>
-                        </b-button>
+                            <b-button variant="outline">
+                                Export to Excel
+                                <font-awesome-icon :icon="['fas', 'arrow-down']"/>
+                            </b-button>
+
+                        </downloadexcel>
 
                         <!-- Button "Add New Shot"-->
                         <b-button
@@ -47,37 +53,48 @@
             </b-row>
         </div>
 
-        <!-- Selection of culomns shown-->
-        <div>
-            <b-checkbox
-                    v-for="field in fields"
-                    :key="field.key"
-                    v-model="field.visible"
-                    inline
-                    v-show="field.changeable"
-            >
-                {{ field.label }}
-            </b-checkbox>
-        </div>
-
+        <b-row>
+            <!-- Changing of Img size -->
+            <b-col>
+                <b-row cols="4">
+                    <b-col>Image Size:</b-col>
+                    <b-col>
+                        <b-form-select
+                                v-model="imgsize"
+                                :options="imgsizeoptions"
+                                size="sm"
+                        ></b-form-select>
+                    </b-col>
+                </b-row>
+            </b-col>
+            <!-- Selection of culomns shown-->
+            <b-col cols="10">
+                <b-checkbox
+                        v-for="field in fields"
+                        :key="field.key"
+                        v-model="field.visible"
+                        inline
+                        v-show="field.changeable"
+                >
+                    {{ field.label }}
+                </b-checkbox>
+            </b-col>
+        </b-row>
 
         <!-- THE TABLE-->
+        <!-- v-sortable="sortableOptions"-->
         <b-table
                 striped hover
                 :fields="visibleFields"
                 :items="shotlist_tab.shots"
-
         >
-            <!-- v-sortable="sortableOptions" -->
-
             <template v-slot:cell(frame)="data">
                 <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
                 <div v-if="data.value == null || data.value === ''">
                     <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
                 </div>
                 <div v-else>
-                    <img :src="getImgUrl(data.item.frame)" :alt="data.item.frame"/>
-
+                    <img :src="require(`@/assets/${data.item.frame}`)" :height="imgsize" :alt="data.item.frame"/>
                 </div>
 
             </template>
@@ -117,9 +134,11 @@
                         <!-- Modal to open after click -->
                         <b-modal :id="'delete'+data.item.id+shotlist_tab.id" hide-footer title="Delete this shot?">
                             <b-button variant="outline-danger" block
-                                      @click="deleteShot(data.item.id); $bvModal.hide('delete'+data.item.id+shotlist_tab.id)">Delete
+                                      @click="deleteShot(data.item.id); $bvModal.hide('delete'+data.item.id+shotlist_tab.id)">
+                                Delete
                             </b-button>
-                            <b-button variant="outline-warning" block @click="$bvModal.hide('delete'+data.item.id+shotlist_tab.id)">Cancle
+                            <b-button variant="outline-warning" block
+                                      @click="$bvModal.hide('delete'+data.item.id+shotlist_tab.id)">Cancle
                             </b-button>
                         </b-modal>
 
@@ -135,12 +154,10 @@
 
     import CreateShotModal from "@/pages/ShotlistStoryboard/CreateShotModal";
     import EditShotModal from "@/pages/ShotlistStoryboard/EditShotModal";
+    import downloadexcel from 'vue-json-excel'
 
     /*
-    import Sortable from 'vue-sortable';
-
     const createSortable = (el, options) => {
-
         return Sortable.create(el, {
             ...options
         });
@@ -153,14 +170,25 @@
             table._sortable = createSortable(table.querySelector("tbody"), binding.value, vnode);
         }
     };
+
      */
 
     export default {
         name: "SingleShotlist",
-        components: {EditShotModal, CreateShotModal},
-        /*directives: { sortable },*/
+        components: {EditShotModal, CreateShotModal, downloadexcel},
+        //directives: { sortable },
         data() {
             return {
+
+                imgsize: 70,
+
+                imgsizeoptions: [
+                    {value: '50', text: 'small'},
+                    {value: '70', text: 'medium'},
+                    {value: '90', text: 'big'},
+                    {value: '120', text: 'extra big'},
+                ],
+
                 fields: [
                     {key: 'frame', label: 'Frame', sortable: false, visible: true, changeable: true},
                     {key: 'id', label: 'Number', sortable: true, visible: true, changeable: false},
@@ -174,6 +202,18 @@
                     {key: 'location', label: 'Location', sortable: true, visible: true, changeable: true},
                     {key: 'actions', label: '', visible: true, changeable: false},
                 ],
+
+                excel_fields: {
+                    'Description': 'description',
+                    'Shotsize': 'shotsize',
+                    'Movement': 'movement',
+                    'Camera': 'camera',
+                    'Lens': 'lens',
+                    'Framerate': 'framerate',
+                    'Special Equipment': 'specialEquip',
+                    'Location': 'location'
+                },
+
                 /*
                 sortableOptions: {
                     chosenClass: 'is-selected'
@@ -182,42 +222,32 @@
             }
         },
         computed: {
-          visibleFields() {
-              return this.fields.filter(field => field.visible)
-          }
+            visibleFields() {
+                return this.fields.filter(field => field.visible)
+            }
         },
         props: {
             shotlist_tab: {
-                type: Object,
-                required: true
+                type: Object
             },
             shotlistTabs: {
-                type: Array,
-                required: true
+                type: Array
             }
         },
         methods: {
-            //Download Current Shotlist
-            downloadShotlist(listName) {
-                // eslint-disable-next-line no-console
-                console.log("Download Shotlist: " + listName)
-            },
-
             deleteShot(index) {
                 //ID of the shotlist
                 let id = this.shotlist_tab.id;
                 // eslint-disable-next-line no-console
                 console.log(this.shotlistTabs[id]);
 
-                if(index > -1) {
+                if (index > -1) {
                     this.shotlistTabs[id].shots.splice(index, 1);
                 }
             },
 
             getImgUrl(pic) {
-                let image = '../../assets/'+ pic;
-                // eslint-disable-next-line no-console
-                console.log(image)
+                let image = '../../assets/' + pic;
                 return image;
             }
         }

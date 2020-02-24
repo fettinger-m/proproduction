@@ -49,10 +49,9 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
-//Vue-sortable
-import Sortable from 'vue-sortable';
-Vue.use(Sortable);
-
+//Vue Sortable
+import Sortable from 'vue-sortable'
+Vue.use(Sortable)
 
 //Vue-grid-layout
 import VueGridLayout from 'vue-grid-layout';

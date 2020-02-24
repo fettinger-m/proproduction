@@ -121,7 +121,7 @@ https://github.com/richardtallent/vue-simple-calendar
                                             Delete this event "{{ selectedDate.title }}"?
                                         </template>
                                         <b-button variant="outline-danger" block
-                                                  @click="deleteEvent(selectedDate.id); $bvModal.hide('deleteeventmodal'); resetSelectedDate();">
+                                                  @click="deleteEvent(selectedDate.id); $bvModal.hide('deleteeventmodal'); resetSelectedDate(selectedDate);">
                                             Delete
                                         </b-button>
                                         <b-button variant="outline-warning" block
@@ -233,9 +233,9 @@ https://github.com/richardtallent/vue-simple-calendar
                 //Date that has been selected
                 selectedDate: {
                     id: '',
+                    title: 'Event details',
                     startDate: Date(),
                     endDate: Date(),
-                    title: 'Event details',
                     description: "select an event",
                 },
 
@@ -281,12 +281,12 @@ https://github.com/richardtallent/vue-simple-calendar
                 current_event.description = ''
             },
 
-            resetSelectedDate() {
-                this.selectedDate.id = '';
-                this.selectedDate.startDate = Date();
-                this.selectedDate.endDate = Date();
-                this.selectedDate.title = 'Event details';
-                this.selectedDate.description = "select an event";
+            resetSelectedDate(selectedDate) {
+                selectedDate.id = '';
+                selectedDate.title = 'Event details';
+                selectedDate.startDate = Date();
+                selectedDate.endDate = Date();
+                selectedDate.description = "select an event";
             },
 
             updateSelectedEvent() {

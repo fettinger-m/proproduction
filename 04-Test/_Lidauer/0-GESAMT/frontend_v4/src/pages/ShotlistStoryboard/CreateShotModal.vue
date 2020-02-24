@@ -5,7 +5,6 @@
                 <!-- Image Upload -->
                 <b-col class="m-1">
                     <b-form-file
-                            v-model="shot.frame"
                             accept="image/*"
                             @change="onFileSelected"
                             placeholder="Choose a image or drop it here..."
@@ -139,7 +138,7 @@
 
                 //Local Shot Object
                 shot: {
-                    frame: "testbild2.jpg",
+                    frame: "testbildwide1.jpg",
                     description: "",
                     shotsize: "",
                     movement: "",
