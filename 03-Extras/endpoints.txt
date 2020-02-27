@@ -1,0 +1,66 @@
+///// login /////
+
+GET 	/login
+POST 	/login
+
+///// logout /////
+
+POST 	/logout
+
+///// register /////
+
+POST 	/register
+
+///// user /////
+
+GET 	/user
+POST 	/user/update
+
+///// projects /////
+
+GET 	/projects
+GET 	/projects/:projectID
+POST	/projects/add
+POST	/projects/:projectID/update
+POST	/projects/:projectID/delete
+
+///// documents /////
+
+GET 	/projects/:projectID/documents
+GET 	/projects/:projectID/documents/:documentID
+POST	/projects/:projectID/documents/add
+POST	/projects/:projectID/documents/:documentID/update
+POST	/projects/:projectID/documents/:documentID/delete
+
+///// shotlists /////
+
+GET 	/projects/:projectID/shotlists
+GET 	/projects/:projectID/shotlists/:shotlistID
+POST	/projects/:projectID/shotlists/add
+POST	/projects/:projectID/shotlists/:shotlistID/update
+POST	/projects/:projectID/shotlists/:shotlistID/delete
+
+///// shots /////
+
+GET 	/projects/:projectID/shotlists/:shotlistID/shots
+GET 	/projects/:projectID/shotlists/:shotlistID/shots/:shotID
+POST	/projects/:projectID/shotlists/:shotlistID/shots/add
+POST	/projects/:projectID/shotlists/:shotlistID/shots/:shotID/update
+POST	/projects/:projectID/shotlists/:shotlistID/shots/:shotID/delete
+
+
+///// moodboards /////
+
+GET 	/projects/:projectID/moodboards
+GET 	/projects/:projectID/moodboards/:moodboardID
+POST	/projects/:projectID/moodboards/add
+POST	/projects/:projectID/moodboards/:moodboardID/update
+POST	/projects/:projectID/moodboards/:moodboardID/delete
+
+///// contacts /////
+
+GET 	/projects/:projectID/contacts
+GET 	/projects/:projectID/contacts/:contactID
+POST	/projects/:projectID/contacts/add
+POST	/projects/:projectID/contacts/:contactID/update
+POST	/projects/:projectID/contacts/:contactID/delete
