@@ -43,8 +43,8 @@
           "shots": [
             {
               "id": 1,
-              "frame": null,
-              "nbr": 1,
+			  "imageURL": "",
+              "image": null,
               "description": "Mein erster Shot",
               "shotsize": "Wide",
               "movement": "Forward",
@@ -56,8 +56,8 @@
             },
             {
               "id": 2,
-              "frame": null,
-              "nbr": 2,
+              "imageURL": "",
+              "image": null,
               "description": "zweiter shot",
               "shotsize": "Wide",
               "movement": "Forward",

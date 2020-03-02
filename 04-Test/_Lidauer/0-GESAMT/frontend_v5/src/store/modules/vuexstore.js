@@ -34,6 +34,12 @@ const getters = {
     //---TABLEVIEW
     allTableView: state => state.tableview,
 
+    //--USERDETAILS
+    allUserdetails: state => state.userdetails,
+
+
+    //MAYBE WONT NEED
+
     //---DOCUMENTS
     //allDocuments: (state, currproject) => state.projects[currproject.id].documents,
 
@@ -44,15 +50,14 @@ const getters = {
     //allLocations: (state, currproject) => state.projects[currproject.id].locations,
     allLocations: state => state.locations,
 
-    //--USERDETAILS
-    allUserdetails: state => state.userdetails,
+
 };
 
 //----ACTIONS
 //Called from components to commit a mutation
 const actions = {
 
-    //---PROJECTS - TODO strict mode error
+    //---PROJECTS
     async fetchProjects({commit}) {
         const response = await axios.get(
             'http://localhost:3000/projects'
@@ -211,7 +216,6 @@ const actions = {
         console.log(response.data);
         commit('updateShotlistMut', currproject, updShotlist);
     },
-    //fetchShots ???
     async addShot({commit}, currproject, currshotlist) {
         const response = await axios.post(
             `http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}`,
@@ -234,8 +238,6 @@ const actions = {
         console.log(response.data);
         commit('updateShotMut', currproject, currshotlist, updShot);
     },
-
-    //---MOODBOARD
 
     //---CONTACTS
     async addContact({commit}, contact) {
@@ -280,6 +282,7 @@ const actions = {
         commit('removeLocation', id);
     },
 
+
     //---MEDIA
 
 
@@ -306,7 +309,7 @@ const mutations = {
 
     updateField,
 
-    //---PROJECTS - TODO - update / insert problem
+    //---PROJECTS
     setProjects: (state, projects) => (state.projects = projects),
     updateProjectMut: (state, updProject) => {
         const index = state.projects.findIndex(project => project.id === updProject.id);
@@ -317,7 +320,7 @@ const mutations = {
     addProjectRow: (state, project) => state.projects.push(project),
     removeProject: (state, id) => (state.projects = state.projects.filter(project => project.id !== id)),
 
-    //---EVENTS - finished
+    //---EVENTS
     setEvents: (state, events) => (state.events = events),
     addEventMut: (state, event) => {
         state.events.push(event)
@@ -330,57 +333,61 @@ const mutations = {
         }
     },
 
-    //TABLEVIEW - finished
+    //TABLEVIEW
     setTableView: (state, tableview) => (state.tableview = tableview),
     updateTableviewMut: (state, updTableview) => {
         state.tableview = updTableview
     },
 
     //---DOCUMENTS TODO - to check
-    setDocuments: (state, currproject, documents) => (state.projects[currproject.id].documents = documents),
-    addDocumentTab: (state, currproject, document) => state.projects[currproject.id].documents.push(document),
-    removeDoc: (state, currproject, index) => (state.projects[currproject.id].documents = state.projects[currproject.id].documents.filter(document => document.id !== index)),
-    updateDocumentMut: (state, currproject, updDocument) => {
-        const index = state.projects[currproject.id].documents.findIndex(document => document.id === updDocument.id);
+    setDocuments: (state, projId, documents) => (state.projects.find(project => project.id === projId).documents = documents),
+    addDocumentTab: (state, projId, document) => state.projects.find(project => project.id === projId).documents.push(document),
+    removeDoc: (state, projId, docId) => state.projects.find(project => project.id === projId).documents = state.projects.find(project => project.id === projId).documents.filter(document => document.id !== docId),
+    updateDocumentMut: (state, projId, updDocument) => {
+        const index = state.projects.find(project => project.id === projId).documents.findIndex(document => document.id === updDocument.id)
+
         if (index !== -1) {
-            state.events.splice(index, 1, updDocument);
+            state.projects.find(project => project.id === projId).documents.splice(index, 1, updDocument);
         }
     },
+
 
     //---SHOTLIST TODO - to check
-    setShotlists: (state, currproject, shotlists) => (state.projects[currproject.id].shotlists = shotlists),
+    setShotlists: (state, projId, shotlists) => (state.projects.find(project => project.id === projId).shotlists = shotlists),
     addShotlistMut:
-        (state, currproject, shotlist) => state.projects[currproject.id].shotlists.push(shotlist),
-    removeShotlist:
-        (state, currproject, index) => (state.projects[currproject.id].shotlists = state.projects[currproject.id].shotlists.filter(shotlist => shotlist.id !== index)),
+        (state, projId, shotlist) => state.projects.find(project => project.id === projId).shotlists.push(shotlist),
+    removeShotlist: (state, projId, shotlistId) => state.projects.find(project => project.id === projId).shotlists =
+        state.projects.find(project => project.id === projId).shotlists.filter(shotlist => shotlist.id !== shotlistId),
     updateShotlistMut:
-        (state, currproject, updShotlist) => {
-            const index = state.projects[currproject.id].shotlists.findIndex(shotlist => shotlist.id === updShotlist.id);
+        (state, projId, updShotlist) => {
+            const index = state.projects.find(project => project.id === projId).shotlists.findIndex(shotlist => shotlist.id === updShotlist.id)
             if (index !== -1) {
-                state.projects[currproject.id].shotlists.splice(index, 1, updShotlist);
+                state.projects.find(project => project.id === projId).shotlists.splice(index, 1, updShotlist);
             }
         },
+
+    //Shots
     addShotMut:
-        (state, currproject, currshotlist, shot) => state.projects[currproject.id].shotlists[currshotlist.id].shots.push(shot),
-    removeShot:
-        (state, currproject, currshotlist, index) => (state.projects[currproject.id].shotlists[currshotlist.id].shots = state.projects[currproject.id].shotlists[currshotlist.id].shots.filter(shot => shot.id !== index)),
-    updateShotMut: (state, currproject, currshotlist, updShot) => {
-        const index = state.projects[currproject.id].shotlists[currshotlist.id].shots.findIndex(shot => shot.id === updShot.id);
+        (state, projId, shotlistId, shot) => state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).push(shot),
+    removeShot: (state, projId, shotlistId, shotId) => state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots =
+        state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots.filter(shot => shot.id !== shotId),
+    updateShotMut: (state, projId, shotlistId, updShot) => {
+        const index = state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots.findIndex(shot => shot.id === updShot.id);
         if (index !== -1) {
-            state.projects[currproject.id].shotlists[currshotlist.id].shots.splice(index, 1, updShot);
+            state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots.splice(index, 1, updShot);
         }
     },
-
-    //---MOODBOARD
 
     //---CONTACTS
     //wont need
 
     //---LOCATION
-    setLocations: (state, locations) => (state.locations = locations),
-    addLocation: (state, location) => state.locations.push(location),
-    removeLocation: (state, key) =>
-        (state.locations = state.locations.filter(location => location.key !== key)),
+    setLocations: (state, projId, locations) => (state.projects.find(project => project.id === projId).locations = locations),
+    addLocation: (state, projId, location) => state.projects.find(project => project.id === projId).locations.push(location),
+    removeLocation: (state, projId, locId) =>
+        state.projects.find(project => project.id === projId).locations =
+            state.projects.find(project => project.id === projId).locations.filter(location => location.id !== locId),
+
 
     //---MEDIA
 
@@ -388,8 +395,8 @@ const mutations = {
     //---USERDETAILS - finished
     setUserdetails: (state, userdetails) => (state.userdetails = userdetails),
     updateUserdetailsMut: (state, updUserdetails) => {
-    state.tableview = updUserdetails
-},
+        state.tableview = updUserdetails
+    },
 };
 
 //Export

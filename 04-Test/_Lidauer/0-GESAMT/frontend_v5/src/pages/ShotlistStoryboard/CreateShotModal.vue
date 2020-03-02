@@ -5,11 +5,11 @@
                 <!-- Image Upload -->
                 <b-col class="m-1">
                     <b-form-file
+                            type="file"
                             accept="image/*"
                             @change="onFileSelected"
-                            placeholder="Choose a image or drop it here..."
+                            placeholder="Choose an image or drop it here..."
                             drop-placeholder="Drop image here..."
-                            v-model="shot.frame"
                     ></b-form-file>
                 </b-col>
             </b-row>
@@ -139,7 +139,8 @@
 
                 //Local Shot Object
                 shot: {
-                    frame: null,
+                    imageURL: "",
+                    image: null,
                     description: "",
                     shotsize: "",
                     movement: "",
@@ -173,7 +174,19 @@
 
         methods: {
             onFileSelected(event) {
-                this.selectedFile = event.target.files[0]
+                const files = event.target.files
+                /*
+                let filename = files[0].name
+                if(filename.lastIndexOf('.') <= 0) {
+                    return alert('Please add a valid file!')
+                }
+                const fileReader = new FileReader()
+                fileReader.addEventListener('load', () => {
+                    this.shot.imageURL = fileReader.result
+                })
+                fileReader.readAsDataURL(files[0])
+                */
+                this.shot.image = files[0]
             },
             // Clears all values in the Input fields
             clearModalInputFields() {
@@ -193,7 +206,8 @@
                 i++;
                 this.shotlist_tab.shots.push({
                     id: i,
-                    frame: shot.frame,
+                    imageURL: shot.imageURL,
+                    image: shot.image,
                     description: shot.description,
                     shotsize: shot.shotsize,
                     movement: shot.movement,

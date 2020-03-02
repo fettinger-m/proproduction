@@ -88,13 +88,13 @@
                 :fields="visibleFields"
                 :items="shotlist_tab.shots"
         >
-            <template v-slot:cell(frame)="data">
+            <template v-slot:cell(imageURL)="data">
                 <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
                 <div v-if="data.value == null || data.value === ''">
                     <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
                 </div>
                 <div v-else>
-                    <img :src="require(`@/assets/${data.item.frame}`)" :height="imgsize" :alt="data.item.frame"/>
+                    <img :src="require(`@/assets/${data.item.imageURL}`)" :height="imgsize" :alt="data.item.imageURL"/>
                 </div>
 
             </template>
@@ -191,7 +191,7 @@
                 ],
 
                 fields: [
-                    {key: 'frame', label: 'Frame', sortable: false, visible: true, changeable: true},
+                    {key: 'imageURL', label: 'Frame', sortable: false, visible: true, changeable: true},
                     {key: 'id', label: 'Number', sortable: true, visible: true, changeable: false},
                     {key: 'description', label: 'Description', sortable: true, visible: true, changeable: false},
                     {key: 'shotsize', label: 'Shotsize', visible: true, changeable: true},
