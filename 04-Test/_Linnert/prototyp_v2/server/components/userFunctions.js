@@ -1,6 +1,6 @@
 ////////// vars //////////
-var email = 'testing@gmx.at'
-var password = 'testing'
+var email = 'max.fettinger@gmail.com'
+var password = '12345678'
 
 ////////// refs to path in db //////////
 var userRef = ''
@@ -43,13 +43,17 @@ function register(req, res) {
         res.send('registration successful')
     }).catch(function(error) {
         if (error.code == 'auth/weak-password') {
-            res.send('weak password - use at least 6 character')
+            res.send('weak password')
+        } else if (error.code == 'auth/email-already-in-use') {
+            res.send('email already in use')
+        } else if (error.code == 'auth/invalid-email') {
+            res.send('wrong email format')
         }
     });
 } // register with email and password and submit personal data
 
 function login(req, res) {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+    firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then(function() {
         req.session.user = firebase.auth().currentUser.uid
         res.send('login successful')
     }).catch(function(error) {
@@ -58,6 +62,8 @@ function login(req, res) {
             res.send('user not found')
         } else if (error.code == 'auth/wrong-password') {
             res.send('wrong password')
+        } else if (error.code == 'auth/invalid-email') {
+            res.send('wrong email format')
         }
     });
 } // login with email and password
