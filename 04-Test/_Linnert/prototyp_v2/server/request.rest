@@ -1,0 +1,108 @@
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "testing@gmx.at",
+    "password": "testing"
+}
+
+###
+
+GET http://localhost:3000/login
+
+###
+
+GET http://localhost:3000/user
+
+###
+
+POST http://localhost:3000/logout
+
+###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "first_name": "Stefan"
+}
+###
+
+GET http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/moodboards/-M11OqM0JckAGWFlZvKH
+
+###
+
+POST http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/contacts/add
+Content-Type: application/json
+
+{
+    "name": "Manuel Lidauer",
+    "group": "HTL Wels",
+    "role": "FILM",
+    "email": "mamas@saas.at",
+    "phone": "+32233"
+}
+
+###
+
+POST http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/shotlists/update/-M11GODVopOZWnAe9m57
+Content-Type: application/json
+
+{
+    "list_name": "Shotlist123",
+    "frame_c": true,
+    "shotsize_c": true,
+    "movement_c": true,
+    "camera_c": true,
+    "lens_c": true,
+    "framerate_c": true,
+    "specialEquip_c": true,
+    "location_c": true
+}
+
+###
+
+POST http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/shotlists/add
+Content-Type: application/json
+
+{
+    "list_name": "Shotlist123",
+    "frame_c": true,
+    "shotsize_c": true,
+    "movement_c": true,
+    "camera_c": true,
+    "lens_c": true,
+    "framerate_c": true,
+    "specialEquip_c": true,
+    "location_c": true
+}
+
+###
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "email": "seas123@gmx.com",
+    "password": "seas123",
+    "first_name": "testing@gmx.at",
+    "last_name": "testing"
+}
+
+###
+
+POST http://localhost:3000/projects/add
+Content-Type: application/json
+
+{
+    "project_nbr": "P20-01",
+    "project_name": "Videoprojekt Test1",
+    "project_theme": "Musikvideo",
+    "project_state": "filming",
+    "star1": true,
+    "star2": true,
+    "star3": true,
+    "star4": false,
+    "star5": false,
+    "read_only": true,
+    "id": 1
+}
