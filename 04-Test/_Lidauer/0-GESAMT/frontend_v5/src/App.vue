@@ -15,6 +15,7 @@
             ...mapActions(["fetchProjects", "fetchEvents", "fetchTableview", "fetchUserdetails", "fetchLocations"]),
         },
         created() {
+            /*
             this.fetchTableview();
             this.fetchProjects();
             this.fetchEvents();
@@ -22,6 +23,8 @@
 
             //only used for testing
             this.fetchLocations();
+
+             */
         },
     }
 

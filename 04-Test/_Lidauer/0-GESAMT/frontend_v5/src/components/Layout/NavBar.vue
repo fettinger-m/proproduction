@@ -73,7 +73,7 @@
         name: "NavBar",
         data() {
             return {
-                id: 0,
+                id: "",
                 projectName: "NoProjectSelected",
                 selectedproject: {},
             }
@@ -97,14 +97,14 @@
         },
         mounted() {
             if (!this.smallNav) {
-                this.id = parseInt(sessionStorage.getItem('sessionProjectID'))
+                this.id = sessionStorage.getItem('sessionProjectID')
                 this.selectedproject = this.getProjectByID(this.id)
                 this.projectName = this.selectedproject.project_name
             }
         },
         created() {
             if (!this.smallNav) {
-                this.id = parseInt(sessionStorage.getItem('sessionProjectID'))
+                this.id = sessionStorage.getItem('sessionProjectID')
                 this.selectedproject = this.getProjectByID(this.id)
                 this.projectName = this.selectedproject.project_name
             }

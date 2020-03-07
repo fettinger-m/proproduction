@@ -1,9 +1,10 @@
 <template>
     <vuetable ref="locationTableRef"
-              api-url="http://localhost:3000/locations"
-              data-path=""
+              :api-url=url
               :fields="fields"
               :css="tableStyle.table"
+              data-path=""
+              pagination-path=""
               @vuetable:row-clicked="onRowClicked"
     >
     </vuetable>
@@ -14,12 +15,10 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import TableStyle from "../../css/TableStyle";
     import Vue from 'vue'
-    import CustomActions from "../Locations/CustomActions";
-    Vue.component('custom-actionsL', CustomActions);
+    import LocationActions from "./LocationActions";
+    import {mapGetters} from "vuex";
 
-
-
-    import { mapGetters, mapActions, mapMutations } from "vuex";
+    Vue.component('location-actions', LocationActions);
 
     export default {
         name: "LocationTable",
@@ -60,37 +59,36 @@
                         width: '10%',
                     },
                     {
-                        name: '__component:custom-actionsL',
+                        name: '__component:location-actions',
                         title: 'Actions',
                         width: '12%'
                     }
                 ],
-                tableStyle: TableStyle
-            }
-        },
-        props: {
-            locations: {
-                type: Object,
-                default: null
+                tableStyle: TableStyle,
+                selectedproject: {},
+                projectId: '',
+                url: null
             }
         },
         methods: {
-            ...mapActions(["fetchLocations"]),
-            ...mapMutations(['addProjectRow']),
             onRowClicked(e) {
-                // eslint-disable-next-line no-console
-                this.$emit('change-center', e.marker)
-            },
-            reloadData() {
-                this.$refs.locationTableRef.reload()
+                this.$root.$emit('changeCenter', e.marker)
             }
         },
         computed: {
-            ...mapGetters(["allLocations"]),
+            ...mapGetters(["getProjectByID"]),
         },
-        created() {
-            this.fetchLocations();
-        },
+        mounted() {
+            this.$root.$on('reloadLocationTable', () => {
+                //this.reloadData();
+                this.$refs.locationTableRef.reload();
+            });
+
+            this.projectId = sessionStorage.getItem('sessionProjectID');
+            this.selectedproject = this.getProjectByID(this.projectId);
+
+            this.url = "http://localhost:3000/projects/" + this.projectId + "/locations"
+        }
     }
 </script>
 

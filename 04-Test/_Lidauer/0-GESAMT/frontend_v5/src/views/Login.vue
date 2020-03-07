@@ -13,38 +13,43 @@
                     <b-form-group>
                         <b-form-input
                                 class="mt-2"
-                                type="text"
-                                placeholder="Username">
+                                type="email"
+                                placeholder="Username"
+                                v-model="form.email">
                         </b-form-input>
                         <b-form-input
                                 class="mt-2"
                                 type="password"
-                                placeholder="Password">
+                                placeholder="Password"
+                                v-model="form.password">
                         </b-form-input>
                         <b-row>
                             <b-col>
                                 <!-- Sign In-->
-                                <router-link :to="{name: 'projects'}">
-                                    <b-button
-                                            class="mt-2 float-left"
-                                            variant="outline-primary"
-                                            type="submit">
-                                        Login
-                                    </b-button>
-                                </router-link>
+                                <!--<router-link :to="{name: 'projects'}">-->
+                                <b-button
+                                        class="mt-2 mr-1 float-left"
+                                        variant="outline-primary"
+                                        type="submit"
+                                        @click="onSubmit"
+                                        :disabled="form.email == '' || form.password == ''"
+                                >
+                                    Login
+                                </b-button>
+                                <!--</router-link>-->
 
                                 <!-- Sign Up -->
                                 <router-link :to="{name: 'signup'}">
                                     <b-button
                                             class="mt-2 float-left"
                                             variant="outline-primary"
-                                            type="submit">
-                                        Sign Up
+                                            type="submit"
+                                            @click="onSubmit2">
+                                        or Sign Up
                                     </b-button>
                                 </router-link>
                             </b-col>
                         </b-row>
-
                     </b-form-group>
                 </b-col>
                 <b-col></b-col>
@@ -56,10 +61,58 @@
 
 <script>
     //import NavBar from "../components/Layout/NavBar";
+    import axios from 'axios'
+
+    const client = axios.create({
+        baseURL: 'http://localhost:3000',
+        json: true
+    });
     export default {
         name: 'login',
         components: {
             //NavBar
+        },
+        data() {
+            return {
+                form: {
+                    email: '',
+                    password: ''
+
+                },
+                status: ''
+            }
+        },
+        methods: {
+            onSubmit() {
+                client.post('/login', this.form)
+                    .then((response) => {
+                        /*if (response.data === 'login successful') {
+                            this.$router.push('projects')
+                        } else*/ if (response.data === 'user not found') {
+                            alert(response.data)
+                        } else if (response.data === 'wrong password') {
+                            alert(response.data)
+                        } else if (response.data === 'wrong email address format') {
+                            alert(response.data)
+                        } else {
+                            this.$router.push('projects');
+                        }
+                    }, (error) => {
+                        // eslint-disable-next-line no-console
+                        console.log(error);
+                    });
+
+            },
+            onSubmit2() {
+                client.post('/logout', this.form)
+                    .then((response) => {
+                        // eslint-disable-next-line no-console
+                        console.log(response);
+                    }, (error) => {
+                        // eslint-disable-next-line no-console
+                        console.log(error);
+                    });
+            }
         }
     }
 </script>

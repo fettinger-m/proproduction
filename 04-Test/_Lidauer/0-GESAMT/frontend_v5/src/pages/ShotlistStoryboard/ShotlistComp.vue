@@ -150,7 +150,7 @@
         components: {CreateShotListModal, SingleShotlist},
         data() {
             return {
-                id: 0,
+                id: "",
                 selectedproject: {},
 
                 shotlistTabs: [],
@@ -188,7 +188,7 @@
             ...mapGetters(["getProjectByID"]),
         },
         mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.id = sessionStorage.getItem('sessionProjectID');
             this.selectedproject = this.getProjectByID(this.id);
             this.shotlistTabs = this.selectedproject.shotlists
         },

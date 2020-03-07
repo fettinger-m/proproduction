@@ -11,7 +11,7 @@
             return {
 
                 filesData: [],
-                uploadUrl: 'https://example.com',
+                uploadUrl: 'https://console.cloud.google.com/storage/browser/production-test-1',
 
             };
         },

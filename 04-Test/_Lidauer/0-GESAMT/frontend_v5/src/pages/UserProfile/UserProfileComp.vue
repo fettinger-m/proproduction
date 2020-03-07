@@ -9,15 +9,6 @@
                             <div>Edit profile</div>
                         </b-row>
 
-                        <!-- Username -->
-                        <div class="m-1">
-                            <b-row>Username:</b-row>
-                            <b-row>
-                                <b-input
-                                        v-model="userdetails.username"
-                                ></b-input>
-                            </b-row>
-                        </div>
                         <b-row>
                             <!-- Firstname -->
                             <div class="m-1">
@@ -25,7 +16,7 @@
                                     <b-row>First Name:</b-row>
                                     <b-row>
                                         <b-input
-                                                v-model="userdetails.firstname"
+                                                v-model="userdetails.first_name"
                                         ></b-input>
                                     </b-row>
                                 </b-col>
@@ -36,7 +27,7 @@
                                     <b-row>Last Name:</b-row>
                                     <b-row>
                                         <b-input
-                                                v-model="userdetails.lastname"
+                                                v-model="userdetails.last_name"
                                         ></b-input>
                                     </b-row>
                                 </b-col>
@@ -57,7 +48,7 @@
                                 <b-button
                                         variant="outline-primary"
                                         @click="updateVuexUserdetails"
-                                        :disabled="userdetails.username.toString() === '' || userdetails.firstname.toString() === '' || userdetails.lastname.toString() === '' || userdetails.email.toString() === ''"
+                                        :disabled="userdetails.first_name === '' || userdetails.last_name === '' || userdetails.email === ''"
                                 >
                                     Save
                                 </b-button>
@@ -108,10 +99,20 @@
             <b-row align-h="end">
                 <b-col cols="3">
                     <div class="float-right mb-3">
-                        <b-button variant="outline-primary">Log Out</b-button>
+                        <router-link :to="{name: 'login'}">
+                            <b-button
+                                    class="mt-2 float-left"
+                                    variant="outline-primary"
+                                    type="submit"
+                                    @click="onLogOut">
+                                Log Out
+                            </b-button>
+                        </router-link>
                     </div>
                 </b-col>
             </b-row>
+
+
 
         </b-container>
     </div>
@@ -119,6 +120,12 @@
 
 <script>
     import {mapGetters, mapActions} from "vuex";
+    import axios from 'axios'
+
+    const client = axios.create({
+        baseURL: 'http://localhost:3000',
+        json: true
+    });
 
     export default {
         name: "UserProfileComp",
@@ -140,6 +147,17 @@
                 console.log("Update Vuex User details");
                 this.updateUserdetails(this.userdetails)
             },
+
+            onLogOut() {
+                client.post('/logout', this.form)
+                    .then((response) => {
+                        // eslint-disable-next-line no-console
+                        console.log(response);
+                    }, (error) => {
+                        // eslint-disable-next-line no-console
+                        console.log(error);
+                    });
+            }
 
         },
         computed: {

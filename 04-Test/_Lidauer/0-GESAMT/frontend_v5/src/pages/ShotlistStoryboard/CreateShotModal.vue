@@ -165,6 +165,9 @@
             },
             projId: {
                 required: true
+            },
+            selectedproject: {
+                required: true
             }
         },
 
@@ -218,14 +221,11 @@
             },
         },
         computed: {
-            ...mapGetters(["allLocations", "getProjectByID"]),
-        },
-        watch: {
-            allLocations: 'setLocalLocations',
+            ...mapGetters(["getProjectByID"]),
         },
         created() {
             //Get Locations from Location Table
-            this.locations = Object.assign([], this.allLocations);
+            this.locations = Object.assign([], this.selectedproject.locations);
         }
     }
 </script>

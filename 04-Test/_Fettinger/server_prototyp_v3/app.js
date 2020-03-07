@@ -12,14 +12,14 @@ var sess  = require('express-session');
 const firebase = require('firebase')
 
 var firebaseConfig = {
-  apiKey: "AIzaSyDiiHokKTQElX-KK5WNLfh_gA_DNw2Hodw",
-  authDomain: "probase-26052.firebaseapp.com",
-  databaseURL: "https://probase-26052.firebaseio.com",
-  projectId: "probase-26052",
-  storageBucket: "probase-26052.appspot.com",
-  messagingSenderId: "584544514654",
-  appId: "1:584544514654:web:5dd43f90fbed0d73ddbacf",
-  measurementId: "G-GD6DWNGSEY"
+    apiKey: "AIzaSyDiiHokKTQElX-KK5WNLfh_gA_DNw2Hodw",
+    authDomain: "probase-26052.firebaseapp.com",
+    databaseURL: "https://probase-26052.firebaseio.com",
+    projectId: "probase-26052",
+    storageBucket: "probase-26052.appspot.com",
+    messagingSenderId: "584544514654",
+    appId: "1:584544514654:web:5dd43f90fbed0d73ddbacf",
+    measurementId: "G-GD6DWNGSEY"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -37,10 +37,10 @@ app.use(express.json())
 }))*/
 
 app.use(sess({
-	name: 'JSESSION',
-	secret: 'MYSECRETISVERYSECRET',
-	resave: true,
-	saveUninitialized: true,
+    name: 'JSESSION',
+    secret: 'MYSECRETISVERYSECRET',
+    resave: true,
+    saveUninitialized: true,
 }));
 
 app.use(cors())

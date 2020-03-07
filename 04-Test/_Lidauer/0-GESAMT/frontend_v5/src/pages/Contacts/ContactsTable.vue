@@ -1,13 +1,14 @@
 <template>
     <div>
-        <vuetable ref="vuetable"
-                  api-url="http://localhost:3000/contacts"
+        <vuetable ref="contactsTableRef"
+                  :api-url=url
                   :fields=fields
                   :css="table"
                   :per-page="5"
                   data-path=""
                   pagination-path=""
                   @vuetable:pagination-data="onPaginationData"
+
         ></vuetable>
         <vuetable-pagination
                 ref="pagination"
@@ -21,8 +22,8 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import Vue from 'vue'
-    import CustomActions from "../Contacts/CustomActions";
-
+    import CustomActions from "./ContactActions";
+    import {mapGetters} from "vuex";
 
 
     Vue.component('custom-actionsC', CustomActions);
@@ -101,7 +102,11 @@
                         next: "",
                         last: ""
                     }
-                }
+                },
+                projectId: '',
+                selectedproject: {},
+                url: 'http://localhost:3000/',
+                api: false
             }
         },
         methods: {
@@ -112,8 +117,27 @@
                 this.$refs.pagination.setPaginationData(paginationData)
             },
             onChangePage(page) {
-                this.$refs.vuetable.changePage(page)
+                this.$refs.contactsTableRef.changePage(page)
+            },
+            deletedItem(value) {
+                // eslint-disable-next-line no-console
+                console.log(value);
             }
+        },
+        computed: {
+            ...mapGetters(["allLocations", "getProjectByID"]),
+        },
+        mounted() {
+            this.$root.$on('reloadContactsTable', () => {
+                this.$refs.contactsTableRef.reload();
+                //this.reloadData();
+            });
+
+            this.projectId = sessionStorage.getItem('sessionProjectID');
+            this.selectedproject = this.getProjectByID(this.projectId);
+
+            this.url = "http://localhost:3000/projects/" + this.projectId + "/contacts"
+
         }
     }
 </script>

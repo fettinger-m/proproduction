@@ -7,7 +7,6 @@
         <b-col cols="2">
           <b-modal v-model="addContact" title="Add new Contact">
             <AddContact ref="addContactRef"></AddContact>
-
             <template v-slot:modal-footer="{ cancel, ok }">
               <b-button size="sm" @click="cancel()">
                 Cancel
@@ -26,7 +25,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <ContactsTable></ContactsTable>
+          <ContactsTable ref="tableRef"></ContactsTable>
         </b-col>
       </b-row>
     </b-container>

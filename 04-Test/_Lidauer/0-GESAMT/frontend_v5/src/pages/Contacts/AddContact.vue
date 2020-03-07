@@ -42,6 +42,14 @@
 
 <script>
     import {mapActions} from "vuex";
+    import {mapGetters} from "vuex";
+
+    import axios from 'axios'
+
+    const client = axios.create({
+        baseURL: 'http://localhost:3000',
+        json: true
+    });
 
     export default {
         data() {
@@ -53,15 +61,23 @@
                     email: '',
                     phone: ''
                 },
-                show: true
+                show: true,
+                projectId: ''
             }
         },
         methods: {
             ...mapActions(["addContact"]),
             onSubmit() {
-                // eslint-disable-next-line no-console
-                console.log(this.form);
-                this.addContact(this.form)
+                /*
+                let payload = {
+                    projectId: this.projectId,
+                    form: this.form
+                };
+*/
+                //this.addContact(payload);
+
+                client.post(`projects/${this.projectId}/contacts/add`, this.form);
+                this.$root.$emit('reloadContactsTable');
             },
             onReset() {
                 this.form.name = '';
@@ -75,6 +91,13 @@
                     this.show = true
                 })
             }
+        },
+        computed: {
+            ...mapGetters(["getProjectByID"])
+        },
+        mounted() {
+            this.projectId = sessionStorage.getItem('sessionProjectID');
+            this.selectedproject = this.getProjectByID(this.projectId);
         }
     }
 </script>

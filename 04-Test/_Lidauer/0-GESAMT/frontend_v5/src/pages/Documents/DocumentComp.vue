@@ -115,7 +115,7 @@
                                                 <b-modal :id="index.toString()" hide-footer
                                                          title="Delete this document?">
                                                     <b-button variant="outline-danger" block
-                                                              @click="deleteDocument(doc); $bvModal.hide(index.toString())">
+                                                              @click="deleteDocumentLocal(doc); $bvModal.hide(index.toString())">
                                                         Delete
                                                     </b-button>
                                                     <b-button variant="outline-warning" block
@@ -155,7 +155,7 @@
         components: {DocumentEditor, CreateEditDocumentModal},
         data() {
             return {
-                id: 0,
+                id: "",
                 selectedproject: [],
                 docs: []
             }
@@ -165,7 +165,7 @@
             ...mapActions(["updateDocument", "deleteDocument"]),
 
             //Deletes the selected Document
-            deleteDocument(document) {
+            deleteDocumentLocal(document) {
                 let payload = {
                     projId: this.id,
                     docId: document.id
@@ -190,7 +190,7 @@
         },
         watch: {},
         mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.id = sessionStorage.getItem('sessionProjectID');
             this.selectedproject = this.getProjectByID(this.id);
             this.docs = this.selectedproject.documents
         },

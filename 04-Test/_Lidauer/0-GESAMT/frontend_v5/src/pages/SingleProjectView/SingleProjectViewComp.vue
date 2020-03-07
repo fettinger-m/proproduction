@@ -27,7 +27,7 @@
         },
         data() {
             return {
-                id: 0,
+                id: "",
                 selectedproject: {},
                 category_elements: [
                     {
@@ -86,7 +86,7 @@
             ...mapGetters(["allProjects","getProjectByID"]),
         },
         mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.id = sessionStorage.getItem('sessionProjectID');
             this.selectedproject = this.getProjectByID(this.id);
 
             //Read the lenght of each category elements

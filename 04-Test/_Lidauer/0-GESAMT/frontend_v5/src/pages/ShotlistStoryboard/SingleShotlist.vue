@@ -46,6 +46,7 @@
                                     v-bind:shotlist_tab="shotlist_tab"
                                     v-bind:modalindex="'create'+shotlist_tab.id"
                                     v-bind:proj-id="id"
+                                    v-bind:selectedproject="selectedproject"
                             />
                         </b-modal>
 
@@ -167,7 +168,7 @@
         data() {
             return {
 
-                id: 0,
+                id:"",
                 selectedproject: {},
 
                 imgsize: 70,
@@ -238,7 +239,7 @@
             }
         },
         mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.id = sessionStorage.getItem('sessionProjectID');
             this.selectedproject = this.getProjectByID(this.id);
         },
     }

@@ -2,6 +2,12 @@ import axios from 'axios';
 import {getField, updateField} from 'vuex-map-fields';
 import CalendarComp from "@/pages/ProjectsCalendar/CalendarComp";
 
+const client = axios.create({
+    //baseURL: 'http://172.17.74.80:3000',
+    baseURL: 'http://localhost:3000',
+    json: true
+});
+
 //----STATES
 //App-level state/data
 const state = {
@@ -9,8 +15,6 @@ const state = {
     events: [],
     tableview: {},
     userdetails: [],
-
-    locations: [],
 };
 
 //----GETTERS
@@ -37,20 +41,6 @@ const getters = {
     //--USERDETAILS
     allUserdetails: state => state.userdetails,
 
-
-    //MAYBE WONT NEED
-
-    //---DOCUMENTS
-    //allDocuments: (state, currproject) => state.projects[currproject.id].documents,
-
-    //---SHOTLIST:
-    //allShotLists: (state, currproject) => state.projects[currproject.id].shotlists,
-
-    //---LOCATIONS
-    //allLocations: (state, currproject) => state.projects[currproject.id].locations,
-    allLocations: state => state.locations,
-
-
 };
 
 //----ACTIONS
@@ -59,66 +49,64 @@ const actions = {
 
     //---PROJECTS
     async fetchProjects({commit}) {
-        const response = await axios.get(
-            'http://localhost:3000/projects'
+        const response = await client.get(
+            '/projects'
         );
         commit('setProjects', response.data);
         // eslint-disable-next-line no-console
         console.log(response.data)
     },
     async updateProject({commit}, updProject) {
-        // eslint-disable-next-line no-console
-        const response = await axios.put(
-            `http://localhost:3000/projects/${updProject.id}`,
+        const response = await client.post(
+            `/projects/${updProject.id}/update`,
             updProject
         );
-
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-
         commit('updateProjectMut', response.data);
     },
     async addProject({commit}) {
-        const response = await axios.post(
-            'http://localhost:3000/projects',
-            {}
+
+        //todo just for testing
+        let project = {
+            project_name: "Test"
+        }
+
+        const response = await client.post(
+            '/projects/add',
+            project
         );
 
-        commit('addProjectRow', response.data);
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+
+        commit('addProjectRow', {});
     },
     async deleteProject({commit}, id) {
-        await axios.delete(`http://localhost:3000/projects/${id}`);
+        await client.post(`/projects/${id}/delete`);
 
         commit('removeProject', id);
     },
 
     //---EVENTS
     async fetchEvents({commit}) {
-        const response = await axios.get(
-            'http://localhost:3000/calendarevents'
+        const response = await client.get(
+            '/calendarevents'
         );
         commit('setEvents', response.data);
         // eslint-disable-next-line no-console
         console.log(response.data)
     },
     async updateEvent({commit}, updEvent) {
-        const response = await axios.put(
-            `http://localhost:3000/calendarevents/${updEvent.id}`,
+        const response = await client.post(
+            `/calendarevents/${updEvent.id}/update`,
             updEvent
         );
-
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-
         commit('updateEventMut', response.data);
 
         CalendarComp.methods.resetSelectedDate(updEvent)
     },
     async addEventAction({commit}, eventobj) {
-        // eslint-disable-next-line no-console
-        console.log(eventobj)
-        const response = await axios.post(
-            'http://localhost:3000/calendarevents',
+        const response = await client.post(
+            '/calendarevents/add',
             eventobj
         );
 
@@ -127,36 +115,30 @@ const actions = {
         CalendarComp.methods.resetInputFields(eventobj)
     },
     async deleteEvent({commit}, id) {
-        await axios.delete(`http://localhost:3000/calendarevents/${id}`);
+        await client.post(`/calendarevents/${id}/delete`);
 
         commit('removeEvent', id);
     },
 
     //---TABLEVIEW
     async fetchTableview({commit}) {
-        const response = await axios.get(
-            'http://localhost:3000/tableview'
+        const response = await client.get(
+            '/tableview'
         );
         commit('setTableView', response.data);
-        // eslint-disable-next-line no-console
-        console.log(response.data)
     },
     async updateTableview({commit}, updTableview) {
-        const response = await axios.put(
-            `http://localhost:3000/tableview`,
+        const response = await client.post(
+            `/tableview/update`,
             updTableview
         );
-
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-
         commit('updateTableviewMut', response.data);
     },
 
     //---DOCUMENTS
     async fetchDocuments({commit}, payload) {
-        const response = await axios.get(
-            `http://localhost:3000/projects/${payload.projId}/documents`
+        const response = await client.get(
+            `/projects/${payload.projId}/documents`
         );
 
         payload.documents = response.data
@@ -166,156 +148,137 @@ const actions = {
         console.log(response.data)
     },
     async addDocument({commit}, payload) {
-        const response = await axios.post(
-            `http://localhost:3000/projects/${payload.projId}/documents`,
+        const response = await client.post(
+            `/projects/${payload.projId}/documents/add`,
             payload.document
         );
 
-        payload.document = response.data
+        //payload.document = response.data
+        // eslint-disable-next-line no-console
+        console.log(response.data)
 
         commit('addDocumentTab', payload);
     },
     async deleteDocument({commit}, payload) {
-        await axios.delete(`http://localhost:3000/projects/${payload.projId}/documents/${payload.docId}`);
+        await client.post(`/projects/${payload.projId}/documents/${payload.docId}/delete`);
 
         commit('removeDoc', payload);
     },
     async updateDocument({commit}, payload) {
-        const response = await axios.put(
-            `http://localhost:3000/projects/${payload.projId}/documents`,
+        const response = await client.post(
+            `/projects/${payload.projId}/documents/${payload.updDocument.id}/update`,
             payload.updDocument
         );
 
-        payload.updDocument = response.data
+        //payload.updDocument = response.data
+        // eslint-disable-next-line no-console
+        console.log(response.data)
 
         commit('updateDocumentMut', payload);
     },
 
     //---SHOTLIST
     async fetchShotlists({commit}, payload) {
-        const response = await axios.get(
-            `http://localhost:3000/projects/${payload.projId}/shotlists`
+        const response = await client.get(
+            `/projects/${payload.projId}/shotlists`
         );
 
-        payload.shotlists = response.data
-
-        commit('setShotlists', payload);
+        //payload.shotlists = response.data
         // eslint-disable-next-line no-console
         console.log(response.data)
+
+        commit('setShotlists', payload);
     },
     async addShotlist({commit}, payload) {
-        const response = await axios.post(
-            `http://localhost:3000/projects/${payload.projId}/shotlists`,
+        const response = await client.post(
+            `/projects/${payload.projId}/shotlists/add`,
             payload.shotlist
         );
 
-        payload.shotlist = response.data
+        //payload.shotlist = response.data
+        // eslint-disable-next-line no-console
+        console.log(response.data)
 
         commit('addShotlistMut', payload);
     },
     async deleteShotlist({commit}, payload) {
-        await axios.delete(`http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}`);
+        await client.post(`/projects/${payload.projId}/shotlists/${payload.shotlistId}/delete`);
 
         commit('removeShotlist', payload);
     },
     async updateShotlist({commit}, payload) {
-        const response = await axios.put(
-            `http://localhost:3000/projects/${payload.projId}/shotlists`,
+        const response = await client.post(
+            `/projects/${payload.projId}/shotlists/${payload.updShotlist.id}/update`,
             payload.updShotlist
         );
 
-        payload.updShotlist = response.data
+        //payload.updShotlist = response.data
+        // eslint-disable-next-line no-console
+        console.log(response.data)
 
         commit('updateShotlistMut', payload);
     },
     async addShot({commit}, payload) {
-        const response = await axios.post(
-            `http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}`,
+        const response = await client.post(
+            `/projects/${payload.projId}/shotlists/${payload.shotlistId}/add`,
             payload.shot
         );
 
-        payload.shot = response.data
+        //payload.shot = response.data
+        // eslint-disable-next-line no-console
+        console.log(response.data)
 
         commit('addShotMut', payload);
     },
     async deleteShot({commit}, payload) {
-        await axios.delete(`http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.shotId}`);
+        await client.post(`/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.shotId}/delete`);
 
         commit('removeShot', payload);
     },
     async updateShot({commit}, payload) {
-        const response = await axios.put(
-            `http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots`,
+        const response = await client.post(
+            `/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.updShot.id}/update`,
             payload.updShot
         );
 
-        payload.updShot = response.data
+        //payload.updShot = response.data
+        // eslint-disable-next-line no-console
+        console.log(response.data)
 
         commit('updateShotMut', payload);
     },
 
-    //---CONTACTS
-    async addContact({commit}, contact) {
-        const response = await axios.post(
-            'http://localhost:3000/contacts',
-            contact
-        );
-        commit(response.data)
-    },
-    async updateContact({commit}, updContact) {
-        const response = await axios.put(
-            `http://localhost:3000/contacts/${updContact.id}`,
-            updContact
-        );
-        commit(response.data);
-    },
-    async deleteContact({commit}, id) {
-        await axios.delete(`http://localhost:3000/contacts/${id}`);
-        commit(id);
-    },
-
     //---LOCATION
-    async fetchLocations({commit}) {
-        const response = await axios.get(
-            'http://localhost:3000/locations'
+    async addLocation({commit}, payload) {
+        await client.post(
+            `projects/${payload.projectId}/locations/add`,
+            payload.location
         );
-        commit('setLocations', response.data);
-        // eslint-disable-next-line no-console
-        console.log(response.data)
+        commit('addLocation', payload);
     },
-    async addLocation({commit}, location) {
-        // eslint-disable-next-line no-console
-        console.log(location);
-        const response = await axios.post(
-            'http://localhost:3000/locations',
-            location
-        );
-        commit('addLocation', response.data);
-    },
-    async deleteLocation({commit}, id) {
-        await axios.delete(`http://localhost:3000/locations/${id}`);
-        commit('removeLocation', id);
+    async deleteLocation({commit}, payload) {
+        await client.post(`/projects/${payload.projId}/locations/${payload.locId}/delete`);
+        commit('removeLocation', payload);
     },
 
 
     //---MEDIA
 
 
-    //--USERDETAILS - finished
+    //--USERDETAILS
     async fetchUserdetails({commit}) {
-        const response = await axios.get(
-            'http://localhost:3000/userdetails'
+        const response = await client.get(
+            '/user'
         );
         commit('setUserdetails', response.data);
     },
     async updateUserdetails({commit}, updUserdetails) {
-        const response = await axios.put(
-            `http://localhost:3000/userdetails`,
+        const response = await client.post(
+            `/user/update`,
             updUserdetails
         );
         commit('updateUserdetailsMut', response.data);
     },
-
 };
 
 //----MUTATIONS
@@ -394,19 +357,15 @@ const mutations = {
     },
 
 
-    //---CONTACTS
-    //wont need
-
     //---LOCATION
-    //only used for testing
-    setLocations: (state, locations) => (state.locations = locations),
+    addLocation(state, payload) {
+        state.projects.find(project => project.id === payload.projectId).locations.push(payload.location)
 
-    setLocations2: (state, projId, locations) => (state.projects.find(project => project.id === projId).locations = locations),
-    addLocation: (state, projId, location) => state.projects.find(project => project.id === projId).locations.push(location),
-    removeLocation: (state, projId, locId) =>
-        state.projects.find(project => project.id === projId).locations =
-            state.projects.find(project => project.id === projId).locations.filter(location => location.id !== locId),
-
+    },
+    removeLocation(state, payload) {
+        return state.projects.find(project => project.id === payload.projId).locations =
+            state.projects.find(project => project.id === payload.projId).locations.filter(location => location.id !== payload.locId)
+    },
 
     //---MEDIA
 

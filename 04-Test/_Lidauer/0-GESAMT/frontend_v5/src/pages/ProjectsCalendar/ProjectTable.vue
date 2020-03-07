@@ -204,7 +204,7 @@
 
                 <!-- INPUT FIELDS -->
                 <tr
-                        v-for="(project_element, index) in localprojects"
+                        v-for="(project_element, index) in allProjects"
                         v-bind:key="index"
                         v-show="checkState(project_element) && checkPriority(project_element) "
                         class="tablerow"
@@ -411,7 +411,18 @@
             return {
 
                 //Tableview - defines which columns are shown
-                tableview: {},
+                //tableview: {},
+
+                //Tableview - TODO just for testing
+                tableview: {
+                    thema_c: true,
+                    status_c: true,
+                    priority_c: true,
+                    custom1_c: true,
+                    custom2_c: true,
+                    customFieldName1: "Custom 1",
+                    customFieldName2: "Custom 2"
+                },
 
                 //all projects
                 localprojects: [],
@@ -447,7 +458,15 @@
         },
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["addProject", "updateProject", "deleteProject", "fetchTableview", "updateTableview"]),
+            ...mapActions([
+                "fetchProjects",
+                "fetchEvents",
+                "fetchUserdetails",
+                "addProject",
+                "updateProject",
+                "deleteProject",
+                "fetchTableview",
+                "updateTableview"]),
 
             //Is called after the User wants to save a project row
             saveSettings(project_element) {
@@ -602,7 +621,11 @@
             allProjects: 'setLocalProjects'
         },
         created() {
-            this.tableview = Object.assign({}, this.allTableView);
+            this.fetchProjects();
+            //this.fetchTableview();
+            this.fetchUserdetails();
+
+            //this.tableview = Object.assign({}, this.allTableView);
             this.localprojects = Object.assign([], this.allProjects);
         }
     }
