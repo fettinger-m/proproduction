@@ -5,10 +5,10 @@
                 <!-- Image Upload -->
                 <b-col class="m-1">
                     <b-form-file
-                            v-model="shot.frame"
+                            type="file"
                             accept="image/*"
                             @change="onFileSelected"
-                            placeholder="Choose a image or drop it here..."
+                            placeholder="Choose an image or drop it here..."
                             drop-placeholder="Drop image here..."
                     ></b-form-file>
                 </b-col>
@@ -80,12 +80,12 @@
                             placeholder="Location"
                             v-model="shot.location"
                     >
-                        <!-- TODO: correct location name access-->
-                        <div v-for="(location, index) in locations" v-bind:key="index">
-                            <b-form-select-option :value="location.name">{{ location.name }}</b-form-select-option>
-                        </div>
-
-
+                        <b-form-select-option
+                                v-for="(location, index) in locations"
+                                v-bind:key="index"
+                                :value="location.name">
+                            {{ location.name }}
+                        </b-form-select-option>
                     </b-form-select>
                 </b-col>
                 <!-- Empty Col -->
@@ -106,16 +106,14 @@
                         Cancle
                     </b-button>
                 </b-col>
-                <!-- Add Shot Button -->
+                <!-- Update Shot Button -->
                 <b-col class="m-1">
                     <b-button
                             variant="outline-primary"
                             type="submit"
                             block
-                            @click="updateShot(shot);
-                          $bvModal.hide(modalindex);
-                          clearModalInputFields()"
-
+                            @click="updateThisShot(shot);
+                          $bvModal.hide(modalindex);"
                     >
                         Change
                     </b-button>
@@ -127,20 +125,16 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "EditShotModal",
         data() {
             return {
-
-                id: 0,
-                selectedproject: [],
-
                 //Local Shot Object
                 shot: {
-                    id: 0,
-                    frame: null,
+                    imageURL: "",
+                    image: null,
                     description: "",
                     shotsize: "",
                     movement: "",
@@ -173,16 +167,25 @@
             shotlist_tab: {
                 type: Object,
                 required: true
+            },
+            projId: {
+                required: true
             }
         },
 
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["updateShot"]),
+
             onFileSelected(event) {
-                this.selectedFile = event.target.files[0]
+                const files = event.target.files
+                this.shot.image = files[0]
             },
 
             // Clears all values in the Input fields
             clearModalInputFields() {
+                this.shot.imageURL = "";
+                this.shot.image = null;
                 this.shot.description = "";
                 this.shot.shotsize = "";
                 this.shot.movement = "";
@@ -192,56 +195,36 @@
                 this.shot.specialEquip = "";
                 this.shot.location = "";
             },
-            updateShot() {
 
-                this.shotlist_tab.shots.splice(this.shot.id, 1);
+            updateThisShot(newshot) {
+                let payload = {
+                    projId: this.projId,
+                    shotlistId: this.shotlist_tab.id,
+                    updShot: newshot
+                }
                 // eslint-disable-next-line no-console
-                console.log("old Shot deleted")
+                console.log(payload)
+                this.updateShot(payload)
+            },
 
-                this.shotlist_tab.shots.push({
-                    id: this.shot.id,
-                    frame: this.shot.frame,
-                    description: this.shot.description,
-                    shotsize: this.shot.shotsize,
-                    movement: this.shot.movement,
-                    camera: this.shot.camera,
-                    lens: this.shot.lens,
-                    framerate: this.shot.framerate,
-                    specialEquip: this.shot.specialEquip,
-                    location: this.shot.location,
-                });
-                // eslint-disable-next-line no-console
-                console.log("shot updated")
-            }
+            setLocalLocations(value) {
+                this.locations = Object.assign({}, value)
+            },
         },
         computed: {
             ...mapGetters(["allLocations", "getProjectByID"]),
-
         },
         mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
-            this.selectedproject = this.getProjectByID(this.id);
-
-            //Get Locations from Location Table
-            /*
-            this.locations = this.allLocations(this.selectedproject)
-            */
-
-            this.shot.id = this.shotlist_tab.shots[this.currentshotID].id;
-            this.shot.frame = this.shotlist_tab.shots[this.currentshotID].frame;
-            this.shot.description = this.shotlist_tab.shots[this.currentshotID].description;
-            this.shot.shotsize = this.shotlist_tab.shots[this.currentshotID].shotsize;
-            this.shot.movement = this.shotlist_tab.shots[this.currentshotID].movement;
-            this.shot.camera = this.shotlist_tab.shots[this.currentshotID].camera;
-            this.shot.lens = this.shotlist_tab.shots[this.currentshotID].lens;
-            this.shot.framerate = this.shotlist_tab.shots[this.currentshotID].framerate;
-            this.shot.specialEquip = this.shotlist_tab.shots[this.currentshotID].specialEquip;
-            this.shot.location = this.shotlist_tab.shots[this.currentshotID].location;
+            this.shot = this.shotlist_tab.shots.find(shot => shot.id === this.currentshotID);
             // eslint-disable-next-line no-console
             console.log("lokale variablen gesetzt")
         },
+        watch: {
+            allLocations: 'setLocalLocations',
+        },
         created() {
-
+            //Get Locations from Location Table
+            this.locations = Object.assign([], this.allLocations);
 
         }
     }

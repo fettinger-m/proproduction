@@ -23,12 +23,21 @@
                         </template>
                         <CreateEditDocumentModal
                                 v-bind:docs="docs"
+                                v-bind:projId="id"
                         />
                     </b-modal>
                 </b-col>
             </b-row>
 
-            <b-card no-body>
+            <b-row v-if="docs==null">
+                <b-col>
+                    <b-card>
+                        You don't have any documents yet.
+                    </b-card>
+                </b-col>
+            </b-row>
+            <b-card v-else no-body>
+
                 <!-- All tabs -->
                 <b-tabs
                         content-class="mt-3"
@@ -68,7 +77,7 @@
                                         <!-- Save Button -->
                                         <div v-show="doc.edit">
                                             <b-button
-                                                    @click="doc.edit = false"
+                                                    @click="saveNameChange(doc); doc.edit = false"
                                                     variant="outline"
                                                     :disabled="doc.doc_name.length < 4"
                                             >
@@ -106,7 +115,7 @@
                                                 <b-modal :id="index.toString()" hide-footer
                                                          title="Delete this document?">
                                                     <b-button variant="outline-danger" block
-                                                              @click="deleteDocument(index, doc); $bvModal.hide(index.toString())">
+                                                              @click="deleteDocument(doc); $bvModal.hide(index.toString())">
                                                         Delete
                                                     </b-button>
                                                     <b-button variant="outline-warning" block
@@ -124,7 +133,10 @@
 
                         <!-- Document Content -->
                         <div>
-                            <DocumentEditor/>
+                            <DocumentEditor
+                                    v-bind:document="doc"
+                                    v-bind:proj-id="id"
+                            />
                         </div>
                     </b-tab>
                 </b-tabs>
@@ -144,45 +156,46 @@
         data() {
             return {
                 id: 0,
-
                 selectedproject: [],
-
-                docs: [{
-                    doc_name: 'My Document',
-                    edit: false,
-                }]
+                docs: []
             }
         },
         methods: {
-            //VUEX ACTIONS      "fetchDocuments", "addDocument",
-            ...mapActions([ "deleteDocument"]),
-            //VUEX MUTATIONS
-
-
-            //---WONT NEED AFTER VUEX SWITCH
+            //VUEX ACTIONS
+            ...mapActions(["updateDocument", "deleteDocument"]),
 
             //Deletes the selected Document
-            deleteDocument(index, doc) {
-                var idx = this.docs.indexOf(doc);
-                // eslint-disable-next-line no-console
-                console.log('Document deleted: ' + index);
-                if (idx > -1) {
-                    this.docs.splice(idx, 1);
+            deleteDocument(document) {
+                let payload = {
+                    projId: this.id,
+                    docId: document.id
                 }
+                // eslint-disable-next-line no-console
+                console.log(payload)
+                this.deleteDocument(payload)
             },
+
+            saveNameChange(document) {
+                let payload = {
+                    projId: this.id,
+                    updDocument: document
+                }
+                // eslint-disable-next-line no-console
+                console.log(payload)
+                this.updateDocument(payload)
+            }
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
         },
-        watch: {
-
-        },
+        watch: {},
         mounted() {
             this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
             this.selectedproject = this.getProjectByID(this.id);
+            this.docs = this.selectedproject.documents
         },
         created() {
-            //this.fetchDocuments(this.selectedproject)
+
         }
     }
 </script>

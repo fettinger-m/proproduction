@@ -401,7 +401,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions, mapMutations} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
     //import {mapMultiRowFields} from "vuex-map-fields";
 
     export default {
@@ -448,8 +448,6 @@
         methods: {
             //VUEX ACTIONS
             ...mapActions(["addProject", "updateProject", "deleteProject", "fetchTableview", "updateTableview"]),
-            //VUEX MUTATIONS
-            ...mapMutations(['addProjectRow']),
 
             //Is called after the User wants to save a project row
             saveSettings(project_element) {

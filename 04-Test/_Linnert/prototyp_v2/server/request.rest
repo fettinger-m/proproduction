@@ -1,7 +1,9 @@
-POST http://localhost:3000/login
+POST http://localhost:3000/register
 Content-Type: application/json
 
 {
+    "first_name": "seas",
+    "last_name": "it",
     "email": "testing@gmx.at",
     "password": "testing"
 }
@@ -32,11 +34,11 @@ GET http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/moodboards/-M11OqM0JckAG
 
 ###
 
-POST http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/contacts/add
+POST http://localhost:3000/projects/-M11AMtKDDwy2Y_-yiOQ/contacts/a-M1WILr7flnWFCH79Y6k/update
 Content-Type: application/json
 
 {
-    "name": "Manuel Lidauer",
+    "name": "halladsaloo",
     "group": "HTL Wels",
     "role": "FILM",
     "email": "mamas@saas.at",

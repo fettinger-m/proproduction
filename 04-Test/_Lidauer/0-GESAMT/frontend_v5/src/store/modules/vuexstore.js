@@ -92,7 +92,7 @@ const actions = {
         commit('removeProject', id);
     },
 
-    //---EVENTS - finished
+    //---EVENTS
     async fetchEvents({commit}) {
         const response = await axios.get(
             'http://localhost:3000/calendarevents'
@@ -132,7 +132,7 @@ const actions = {
         commit('removeEvent', id);
     },
 
-    //---TABLEVIEW - finished
+    //---TABLEVIEW
     async fetchTableview({commit}) {
         const response = await axios.get(
             'http://localhost:3000/tableview'
@@ -153,90 +153,105 @@ const actions = {
         commit('updateTableviewMut', response.data);
     },
 
-    //---DOCUMENTS TODO - to check
-    async fetchDocuments({commit}, currproject) {
+    //---DOCUMENTS
+    async fetchDocuments({commit}, payload) {
         const response = await axios.get(
-            `http://localhost:3000/projects/${currproject.id}/documents`
+            `http://localhost:3000/projects/${payload.projId}/documents`
         );
-        commit('setDocuments', currproject, response.data);
+
+        payload.documents = response.data
+
+        commit('setDocuments', payload);
         // eslint-disable-next-line no-console
         console.log(response.data)
     },
-    async addDocument({commit}, currproject) {
+    async addDocument({commit}, payload) {
         const response = await axios.post(
-            `http://localhost:3000/projects/${currproject.id}/documents`,
-            {}
+            `http://localhost:3000/projects/${payload.projId}/documents`,
+            payload.document
         );
 
-        commit('addDocumentTab', currproject, response.data);
-    },
-    async deleteDocument({commit}, currproject, index) {
-        await axios.delete(`http://localhost:3000/projects/${currproject.id}/documents/${index}`);
+        payload.document = response.data
 
-        commit('removeDoc', currproject, index);
+        commit('addDocumentTab', payload);
     },
-    async updateDocument({commit}, currproject, updDocument) {
+    async deleteDocument({commit}, payload) {
+        await axios.delete(`http://localhost:3000/projects/${payload.projId}/documents/${payload.docId}`);
+
+        commit('removeDoc', payload);
+    },
+    async updateDocument({commit}, payload) {
         const response = await axios.put(
-            `http://localhost:3000/projects/${currproject.id}/documents`,
-            updDocument
+            `http://localhost:3000/projects/${payload.projId}/documents`,
+            payload.updDocument
         );
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        commit('updateDocumentMut', currproject, updDocument);
+
+        payload.updDocument = response.data
+
+        commit('updateDocumentMut', payload);
     },
 
-    //---SHOTLIST TODO - to check
-    async fetchShotlists({commit}, currproject) {
+    //---SHOTLIST
+    async fetchShotlists({commit}, payload) {
         const response = await axios.get(
-            `http://localhost:3000/projects/${currproject.id}/shotlists`
+            `http://localhost:3000/projects/${payload.projId}/shotlists`
         );
-        commit('setShotlists', currproject, response.data);
+
+        payload.shotlists = response.data
+
+        commit('setShotlists', payload);
         // eslint-disable-next-line no-console
         console.log(response.data)
     },
-    async addShotlist({commit}, currproject) {
+    async addShotlist({commit}, payload) {
         const response = await axios.post(
-            `http://localhost:3000/projects/${currproject.id}/shotlists`,
-            {}
+            `http://localhost:3000/projects/${payload.projId}/shotlists`,
+            payload.shotlist
         );
 
-        commit('addShotlistMut', currproject, response.data);
-    },
-    async deleteShotlist({commit}, currproject, index) {
-        await axios.delete(`http://localhost:3000/projects/${currproject.id}/shotlists/${index}`);
+        payload.shotlist = response.data
 
-        commit('removeShotlist', currproject, index);
+        commit('addShotlistMut', payload);
     },
-    async updateShotlist({commit}, currproject, updShotlist) {
+    async deleteShotlist({commit}, payload) {
+        await axios.delete(`http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}`);
+
+        commit('removeShotlist', payload);
+    },
+    async updateShotlist({commit}, payload) {
         const response = await axios.put(
-            `http://localhost:3000/projects/${currproject.id}/shotlists`,
-            updShotlist
+            `http://localhost:3000/projects/${payload.projId}/shotlists`,
+            payload.updShotlist
         );
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        commit('updateShotlistMut', currproject, updShotlist);
+
+        payload.updShotlist = response.data
+
+        commit('updateShotlistMut', payload);
     },
-    async addShot({commit}, currproject, currshotlist) {
+    async addShot({commit}, payload) {
         const response = await axios.post(
-            `http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}`,
-            {}
+            `http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}`,
+            payload.shot
         );
 
-        commit('addShotMut', currproject, currshotlist, response.data);
-    },
-    async deleteShot({commit}, currproject, currshotlist, index) {
-        await axios.delete(`http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}/shots/${index}`);
+        payload.shot = response.data
 
-        commit('removeShot', currproject, currshotlist, index);
+        commit('addShotMut', payload);
     },
-    async updateShot({commit}, currproject, currshotlist, updShot) {
+    async deleteShot({commit}, payload) {
+        await axios.delete(`http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.shotId}`);
+
+        commit('removeShot', payload);
+    },
+    async updateShot({commit}, payload) {
         const response = await axios.put(
-            `http://localhost:3000/projects/${currproject.id}/shotlists/${currshotlist.id}/shots`,
-            updShot
+            `http://localhost:3000/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots`,
+            payload.updShot
         );
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        commit('updateShotMut', currproject, currshotlist, updShot);
+
+        payload.updShot = response.data
+
+        commit('updateShotMut', payload);
     },
 
     //---CONTACTS
@@ -339,50 +354,54 @@ const mutations = {
         state.tableview = updTableview
     },
 
-    //---DOCUMENTS TODO - to check
-    setDocuments: (state, projId, documents) => (state.projects.find(project => project.id === projId).documents = documents),
-    addDocumentTab: (state, projId, document) => state.projects.find(project => project.id === projId).documents.push(document),
-    removeDoc: (state, projId, docId) => state.projects.find(project => project.id === projId).documents = state.projects.find(project => project.id === projId).documents.filter(document => document.id !== docId),
-    updateDocumentMut: (state, projId, updDocument) => {
-        const index = state.projects.find(project => project.id === projId).documents.findIndex(document => document.id === updDocument.id)
+    //---DOCUMENTS
+    setDocuments: (state, payload) => (state.projects.find(project => project.id === payload.projId).documents = payload.documents),
+    addDocumentTab: (state, payload) => state.projects.find(project => project.id === payload.projId).documents.push(payload.document),
+    removeDoc: (state, payload) => state.projects.find(project => project.id === payload.projId).documents = state.projects.find(project => project.id === payload.projId).documents.filter(document => document.id !== payload.docId),
+    updateDocumentMut: (state, payload) => {
+        const index = state.projects.find(project => project.id === payload.projId).documents.findIndex(document => document.id === payload.updDocument.id)
 
         if (index !== -1) {
-            state.projects.find(project => project.id === projId).documents.splice(index, 1, updDocument);
+            state.projects.find(project => project.id === payload.projId).documents.splice(index, 1, payload.updDocument);
         }
     },
 
 
-    //---SHOTLIST TODO - to check
-    setShotlists: (state, projId, shotlists) => (state.projects.find(project => project.id === projId).shotlists = shotlists),
+    //---SHOTLIST
+    setShotlists: (state, payload) => (state.projects.find(project => project.id === payload.projId).shotlists = payload.shotlists),
     addShotlistMut:
-        (state, projId, shotlist) => state.projects.find(project => project.id === projId).shotlists.push(shotlist),
-    removeShotlist: (state, projId, shotlistId) => state.projects.find(project => project.id === projId).shotlists =
-        state.projects.find(project => project.id === projId).shotlists.filter(shotlist => shotlist.id !== shotlistId),
+        (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.push(payload.shotlist),
+    removeShotlist: (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists =
+        state.projects.find(project => project.id === payload.projId).shotlists.filter(shotlist => shotlist.id !== payload.shotlistId),
     updateShotlistMut:
-        (state, projId, updShotlist) => {
-            const index = state.projects.find(project => project.id === projId).shotlists.findIndex(shotlist => shotlist.id === updShotlist.id)
+        (state, payload) => {
+            const index = state.projects.find(project => project.id === payload.projId).shotlists.findIndex(shotlist => shotlist.id === payload.updShotlist.id)
             if (index !== -1) {
-                state.projects.find(project => project.id === projId).shotlists.splice(index, 1, updShotlist);
+                state.projects.find(project => project.id === payload.projId).shotlists.splice(index, 1, payload.updShotlist);
             }
         },
 
     //Shots
     addShotMut:
-        (state, projId, shotlistId, shot) => state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).push(shot),
-    removeShot: (state, projId, shotlistId, shotId) => state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots =
-        state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots.filter(shot => shot.id !== shotId),
-    updateShotMut: (state, projId, shotlistId, updShot) => {
-        const index = state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots.findIndex(shot => shot.id === updShot.id);
+        (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).push(payload.shot),
+    removeShot: (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots =
+        state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.filter(shot => shot.id !== payload.shotId),
+    updateShotMut: (state, payload) => {
+        const index = state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.findIndex(shot => shot.id === payload.updShot.id);
         if (index !== -1) {
-            state.projects.find(project => project.id === projId).shotlists.find(shotlist => shotlist.id === shotlistId).shots.splice(index, 1, updShot);
+            state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.splice(index, 1, payload.updShot);
         }
     },
+
 
     //---CONTACTS
     //wont need
 
     //---LOCATION
-    setLocations: (state, projId, locations) => (state.projects.find(project => project.id === projId).locations = locations),
+    //only used for testing
+    setLocations: (state, locations) => (state.locations = locations),
+
+    setLocations2: (state, projId, locations) => (state.projects.find(project => project.id === projId).locations = locations),
     addLocation: (state, projId, location) => state.projects.find(project => project.id === projId).locations.push(location),
     removeLocation: (state, projId, locId) =>
         state.projects.find(project => project.id === projId).locations =

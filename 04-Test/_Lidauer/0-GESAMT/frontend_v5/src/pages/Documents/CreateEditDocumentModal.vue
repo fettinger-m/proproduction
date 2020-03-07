@@ -6,8 +6,8 @@
                     <label>Document Name:</label>
                     <b-form-input
                             placeholder="Enter at least 4 characters"
-                            v-model="currentname"
-                            :state="currentname.length >= 4"
+                            v-model="document.doc_name"
+                            :state="document.doc_name.length >= 4"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -21,8 +21,8 @@
                 </b-col>
                 <b-col class="m-1">
                     <b-button variant="outline-primary" block
-                              @click="addNewDocument(currentname); $bvModal.hide('doccreation'); currentname='';"
-                              :disabled="currentname.length < 4"
+                              @click="addNewDocument(); $bvModal.hide('doccreation'); "
+                              :disabled="document.doc_name.length < 4"
                     >
                         Add Document
                     </b-button>
@@ -33,26 +33,43 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex";
+
     export default {
         name: "CreateEditDocumentModal",
         data(){
             return {
-                currentname: '',
+
+                document: {
+                    doc_name: "",
+                    edit: false,
+                    documentcontent: ""
+                }
             }
         },
         props: {
             docs: {
                 type: Array,
                 required: true
+            },
+            projId: {
+                required: true
             }
         },
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["addDocument","updateDocument"]),
+
             //Adds a new Document
-            addNewDocument(documentnname) {
-                this.docs.push({
-                    doc_name: documentnname,
-                    edit: false
-                });
+            addNewDocument() {
+                let payload = {
+                    projId: this.projId,
+                    document: this.document
+                }
+                // eslint-disable-next-line no-console
+                console.log(payload)
+                this.addDocument(payload)
+                document.doc_name='';
             },
         }
     }
