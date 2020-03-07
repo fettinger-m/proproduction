@@ -81,13 +81,11 @@ const actions = {
         commit('addLocation', response.data);
     },
     async addContact({commit}, contact) {
-        // eslint-disable-next-line no-console
-        console.log(contact);
         const response = await axios.post(
             'http://localhost:3000/contacts',
             contact
         );
-        commit('addContact', response.data)
+        commit(response.data)
     },
     async deleteProject({commit}, key) {
         await axios.delete(`http://localhost:3000/projects/${key}`);
@@ -97,13 +95,12 @@ const actions = {
 
     async deleteContact({commit}, id) {
         await axios.delete(`http://localhost:3000/contacts/${id}`);
-
-        commit('removeContact', id);
+        commit(id);
     },
 
     async deleteLocation({commit}, id) {
         await axios.delete(`http://localhost:3000/locations/${id}`);
-        commit('removeLocation', id);
+        commit(id);
     }
 
 
@@ -145,7 +142,6 @@ const mutations = {
 
     addLocation: (state, location) => state.locations.push(location),
 
-    addContact: (state, contact) => state.contacts.push(contact)
 
 };
 

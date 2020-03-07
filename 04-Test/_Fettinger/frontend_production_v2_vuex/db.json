@@ -88,28 +88,28 @@
   ],
   "contacts": [
     {
-      "name": "Maximilian Fettinger",
-      "group": "BG VB",
-      "role": "Cutter",
-      "email": "max.fettinger@icloud.com",
-      "phone": "+43 676 814280599",
-      "id": 1
-    },
-    {
-      "name": "Maximilian Pfusterer",
-      "group": "HTL VB",
-      "role": "Actor",
-      "email": "max.pfusterer@gmail.com",
-      "phone": "+555 555",
-      "id": 2
-    },
-    {
       "name": "Manuel Lidauer",
       "group": "HTL Wels",
       "role": "FILM",
       "email": "mamas@saas.at",
       "phone": "+32233",
       "id": 3
+    },
+    {
+      "name": "Maximilian Fettinger",
+      "group": "",
+      "role": "",
+      "email": "",
+      "phone": "",
+      "id": 6
+    },
+    {
+      "name": "sd",
+      "group": "sdds",
+      "role": "",
+      "email": "",
+      "phone": "",
+      "id": 7
     }
   ]
 }

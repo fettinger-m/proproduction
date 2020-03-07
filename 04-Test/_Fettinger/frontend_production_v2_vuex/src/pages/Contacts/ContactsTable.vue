@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vuetable ref="vuetable"
+        <vuetable ref="contactsTableRef"
                   api-url="http://localhost:3000/contacts"
                   :fields=fields
                   :css="table"
@@ -112,8 +112,29 @@
                 this.$refs.pagination.setPaginationData(paginationData)
             },
             onChangePage(page) {
-                this.$refs.vuetable.changePage(page)
+                this.$refs.contactsTableRef.changePage(page)
+            },
+            reloadData: function () {
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+
+            },
+            deletedItem(value) {
+                // eslint-disable-next-line no-console
+                console.log(value);
             }
+        },
+        mounted() {
+            this.$root.$on('reloadContactsTable', () => {
+                this.reloadData();
+            })
         }
     }
 </script>

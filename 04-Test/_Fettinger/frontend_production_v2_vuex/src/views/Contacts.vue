@@ -26,7 +26,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <ContactsTable></ContactsTable>
+          <ContactsTable ref="tableRef"></ContactsTable>
         </b-col>
       </b-row>
     </b-container>
@@ -61,6 +61,7 @@
       onSubmit: function() {
         this.$refs.addContactRef.onSubmit();
         this.addContact = false;
+        this.$refs.tableRef.reloadData();
       }
     }
   }

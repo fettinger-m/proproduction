@@ -70,7 +70,8 @@
                 })
                     .then(value => {
                         if (value) {
-                            this.deleteContact(data.id)
+                            this.deleteContact(data.id);
+                            this.$root.$emit('reloadContactsTable');
                         }
                     });
 
@@ -88,6 +89,7 @@
             onSubmit: function() {
                 this.$refs.editContactRef.onSubmit();
                 this.editShow = false;
+                this.$root.$emit('reloadContactsTable');
             }
         }
     }

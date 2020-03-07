@@ -81,9 +81,18 @@
                 // eslint-disable-next-line no-console
                 this.$emit('change-center', e.marker)
             },
-            reloadData() {
-                this.$refs.locationTableRef.reload()
-            }
+            reloadData: function () {
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+
+            },
         },
         computed: {
             ...mapGetters(["allLocations"]),

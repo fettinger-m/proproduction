@@ -61,7 +61,7 @@
             onSubmit() {
                 // eslint-disable-next-line no-console
                 console.log(this.form);
-                this.addContact(this.form)
+                this.addContact(this.form);
             },
             onReset() {
                 this.form.name = '';
