@@ -79,12 +79,12 @@
                             placeholder="Location"
                             v-model="shot.location"
                     >
-                        <!-- TODO: correct location name access-->
-                        <div v-for="(location, index) in locations" v-bind:key="index">
-                            <b-form-select-option :value="location.name">{{ location.name }}</b-form-select-option>
-                        </div>
-
-
+                            <b-form-select-option
+                                    v-for="(location, index) in locations"
+                                    v-bind:key="index"
+                                    :value="location.name">
+                                {{ location.name }}
+                            </b-form-select-option>
                     </b-form-select>
                 </b-col>
                 <!-- Empty Col -->
@@ -112,8 +112,7 @@
                             type="submit"
                             block
                             @click="addNewShot(shot);
-                          $bvModal.hide(modalindex);
-                          clearModalInputFields()"
+                          $bvModal.hide(modalindex); "
                             :disabled="shot.description.length < 1"
                     >
                         Add Shot
@@ -125,18 +124,12 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-
-    let i = 1;
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "CreateShotModal",
         data() {
             return {
-
-                id: 0,
-                selectedproject: [],
-
                 //Local Shot Object
                 shot: {
                     imageURL: "",
@@ -169,10 +162,16 @@
             },
             modalindex: {
                 type: String
+            },
+            projId: {
+                required: true
             }
         },
 
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["addShot"]),
+
             onFileSelected(event) {
                 const files = event.target.files
                 /*
@@ -188,7 +187,7 @@
                 */
                 this.shot.image = files[0]
             },
-            // Clears all values in the Input fields
+
             clearModalInputFields() {
                 this.shot.description = "";
                 this.shot.shotsize = "";
@@ -200,37 +199,34 @@
                 this.shot.location = "";
             },
 
-
             //Push new Shot to Table
-            addNewShot(shot) {
-                i++;
-                this.shotlist_tab.shots.push({
-                    id: i,
-                    imageURL: shot.imageURL,
-                    image: shot.image,
-                    description: shot.description,
-                    shotsize: shot.shotsize,
-                    movement: shot.movement,
-                    camera: shot.camera,
-                    lens: shot.lens,
-                    framerate: shot.framerate,
-                    specialEquip: shot.specialEquip,
-                    location: shot.location,
-                });
+            addNewShot(newshot) {
+                let payload = {
+                    projId: this.projId,
+                    shotlistId: this.shotlist_tab.id,
+                    shot: newshot
+                }
+
+                // eslint-disable-next-line no-console
+                console.log(payload)
+
+                this.addShot(payload)
+            },
+
+            setLocalLocations(value) {
+                this.locations = Object.assign({}, value)
             },
         },
         computed: {
             ...mapGetters(["allLocations", "getProjectByID"]),
         },
-        mounted() {
-            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
-            this.selectedproject = this.getProjectByID(this.id);
-
-            //Get Locations from Location Table
-            /*
-            this.locations = this.allLocations(this.selectedproject)
-            */
+        watch: {
+            allLocations: 'setLocalLocations',
         },
+        created() {
+            //Get Locations from Location Table
+            this.locations = Object.assign([], this.allLocations);
+        }
     }
 </script>
 

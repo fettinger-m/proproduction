@@ -8,8 +8,8 @@
   },
   "tableview": {
     "thema_c": true,
-    "status_c": false,
-    "priority_c": false,
+    "status_c": true,
+    "priority_c": true,
     "custom1_c": true,
     "custom2_c": true,
     "customFieldName1": "Angebot123",
@@ -24,7 +24,7 @@
       "star1": true,
       "star2": true,
       "star3": true,
-      "star4": true,
+      "star4": false,
       "star5": false,
       "read_only": true,
       "id": 1,
@@ -32,16 +32,19 @@
         {
           "id": 1,
           "doc_name": "Document1",
+          "edit": false,
           "documentcontent": "<h1>This is my Headline</h1><p>Bla bla text</p>"
         },
         {
           "id": 2,
           "doc_name": "Docu2",
+          "edit": false,
           "documentcontent": "<h1>This is my Headline</h1><p>Bla bla text</p>"
         },
         {
           "id": 3,
           "doc_name": "Docu3",
+          "edit": false,
           "documentcontent": "<h1>This is my Headline</h1><p>Bla bla text</p>"
         }
       ],
@@ -139,8 +142,8 @@
       "star1": true,
       "star2": true,
       "star3": true,
-      "star4": false,
-      "star5": false,
+      "star4": true,
+      "star5": true,
       "project_state": "filming"
     }
   ],
@@ -160,11 +163,11 @@
       "description": "Description"
     },
     {
+      "id": 7,
       "title": "Test Event",
-      "startDate": "2020-02-11",
-      "endDate": "2020-02-14",
-      "description": "",
-      "id": 7
+      "startDate": "2020-03-09T23:00:00.000Z",
+      "endDate": "2020-03-13",
+      "description": ""
     }
   ],
   "locations": [
@@ -206,6 +209,19 @@
         "lng": 14.03963
       },
       "id": 7
+    },
+    {
+      "street_number": "12",
+      "route": "Mozartstraße",
+      "locality": "München",
+      "country": "Deutschland",
+      "postal_code": "80336",
+      "name": "Mozartstraße 12",
+      "marker": {
+        "lat": 48.130245,
+        "lng": 11.5561798
+      },
+      "id": 8
     }
   ],
   "contacts": [

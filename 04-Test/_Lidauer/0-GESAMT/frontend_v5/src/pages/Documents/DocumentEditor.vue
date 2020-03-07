@@ -129,19 +129,43 @@
 <script>
     import {Editor, EditorContent, EditorMenuBar} from 'tiptap'
     import {
-        HardBreak, Heading, HorizontalRule, OrderedList, BulletList, ListItem, Bold, Italic, Link, Strike, Underline, History,
+        HardBreak,
+        Heading,
+        HorizontalRule,
+        OrderedList,
+        BulletList,
+        ListItem,
+        Bold,
+        Italic,
+        Link,
+        Strike,
+        Underline,
+        History,
     } from 'tiptap-extensions'
-    import { Placeholder } from 'tiptap-extensions'
+    import {Placeholder} from 'tiptap-extensions'
     import Doc from './Doc'
     import Title from './Title'
-
+    import {mapActions, mapMutations} from "vuex";
 
     export default {
         components: {
             EditorContent,
             EditorMenuBar,
         },
+        props: {
+            document: {
+                type: Object,
+                required: true
+            },
+            projId: {
+                required: true
+            }
+        },
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["updateDocument"]),
+            //VUEX MUTATIONS
+            ...mapMutations([]),
 
         },
         data() {
@@ -175,24 +199,33 @@
                     content: ``,
                     onUpdate: ({getJSON, getHTML}) => {
                         this.json = getJSON()
-                        this.html = getHTML()
+                        this.updatedDocumentContent = getHTML()
+
+                        this.document.documentcontent = this.updatedDocumentContent
+
+                        let payload = {
+                            projId: this.projId,
+                            updDocument: this.document
+                        };
+
+                        // eslint-disable-next-line no-console
+                        console.log(payload)
+
+                        //Vuex Function to Update the document
+                        this.updateDocument(payload)
                     },
                 }),
 
                 json: 'Update to see changes',
-                //TODO: update this to firebase
-                html: 'Update to see changes',
-
-                //TODO: get this from vuex
-                documentcontent : '<h1>This is my Headline</h1><p>Bla bla text</p>'
+                updatedDocumentContent: 'Update to see changes',
             }
         },
         beforeDestroy() {
             this.editor.destroy()
         },
-        created(){
+        created() {
             //Fill Content with saved text
-            this.editor.setContent( this.documentcontent )
+            this.editor.setContent(this.document.documentcontent)
         }
     }
 </script>
@@ -202,11 +235,13 @@
     .menubar__button {
         color: #777777;
     }
+
     .editor__content {
         padding: 30px;
         text-align: left;
-        box-shadow: 3px 6px 17px 2px rgba(0,0,0,0.34);
+        box-shadow: 3px 6px 17px 2px rgba(0, 0, 0, 0.34);
     }
+
     .editor *.is-empty:nth-child(1)::before,
     .editor *.is-empty:nth-child(2)::before {
         content: attr(data-empty-text);

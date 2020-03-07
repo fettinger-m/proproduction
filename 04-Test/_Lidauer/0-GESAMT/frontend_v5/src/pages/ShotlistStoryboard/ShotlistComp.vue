@@ -16,18 +16,26 @@
                     </b-button>
 
                     <!-- Add Shot Dialog-->
-                    <b-modal id="listcreation" hide-footer >
+                    <b-modal id="listcreation" hide-footer>
                         <template v-slot:modal-title>
                             <font-awesome-icon :icon="['fas', 'clipboard-list']"/>
                             Create a new shotlist
                         </template>
                         <CreateShotListModal
                                 v-bind:shotlist-tabs="shotlistTabs"
+                                v-bind:proj-id="id"
                         />
                     </b-modal>
                 </b-col>
             </b-row>
 
+            <b-row v-if="shotlistTabs==null">
+                <b-col>
+                    <b-card>
+                        You don't have any shotlists yet.
+                    </b-card>
+                </b-col>
+            </b-row>
             <!-- All tabs -->
             <b-tabs content-class="mt-3">
 
@@ -65,7 +73,7 @@
                                     <!-- Save Button -->
                                     <div v-show="shotlistTab.edit">
                                         <b-button
-                                                @click="saveNameChange(shotlistTabs, shotlistTab)"
+                                                @click="saveNameChange(shotlistTab)"
                                                 variant="outline"
                                                 :disabled="shotlistTab.listName.length < 4"
                                         >
@@ -103,7 +111,7 @@
                                             <!-- Delete Dialog-->
                                             <b-modal :id="index.toString()" hide-footer title="Delete this shotlist?">
                                                 <b-button variant="outline-danger" block
-                                                          @click="deleteTab(index, shotlistTab); $bvModal.hide(index.toString())">
+                                                          @click="deleteTab(shotlistTab); $bvModal.hide(index.toString())">
                                                     Delete
                                                 </b-button>
                                                 <b-button variant="outline-warning" block
@@ -135,70 +143,54 @@
 <script>
     import CreateShotListModal from "@/pages/ShotlistStoryboard/CreateShotListModal";
     import SingleShotlist from "@/pages/ShotlistStoryboard/SingleShotlist";
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "ShotlistComp",
         components: {CreateShotListModal, SingleShotlist},
         data() {
             return {
+                id: 0,
+                selectedproject: {},
 
-
-                //TODO Get from Vuex
-                //Array of all Shotlists - only for test uses
-                shotlistTabs: [{
-                    id: 1,
-                    listName: 'First Shotlist',
-                    edit: false,
-                    shots: [{
-                        id: 1,             //auto generated number
-                        imageURL: "testbildwide.jpg",
-                        image: null,
-                        description: 'descr',    //free text
-                        shotsize: null,       //options: Ultra Wide; Wide; Medium; CloseUp; Extreme Close Up
-                        movement: 'Forward',       //free text
-                        camera: 'a7III',         //free text
-                        lens: '50mm 1.4',           //free text
-                        framerate: '23,976',      //free double nbr
-                        specialEquip: 'Gimbal',   //free text
-                        location: null,          //only the locations that are on the location page
-                    }],
-
-                }],
+                shotlistTabs: [],
             }
         },
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["updateShotlist","deleteShotlist"]),
 
-            //TODO Wont need after vuex switch
             //Deletes the current Tab
-            deleteTab(index, shotlistTab) {
-                var idx = this.shotlistTabs.indexOf(shotlistTab);
+            deleteTab(shotlist) {
+                let payload = {
+                    projId: this.id,
+                    shotlistId: shotlist.id
+                }
                 // eslint-disable-next-line no-console
-                console.log('Tab deleted: ' + index);
-                if (idx > -1) {
-                    this.shotlistTabs.splice(idx, 1);
-                }
+                console.log(payload)
+                this.deleteShotlist(payload)
             },
 
-            saveNameChange(shotlistTabs, shotlistTab) {
-                //CHECK IF ID AND NAME FILLED
-                if (shotlistTab.listName != null) {
-
-                    if (shotlistTab.listName.length > 0) {
-
-                        // eslint-disable-next-line no-console
-                        console.log('change to read_only where NBR: ' + shotlistTab.listName)
-                        shotlistTab.edit = false;
-                        // eslint-disable-next-line no-console
-                        console.log('Edit Mode is now: ' + shotlistTab.edit)
-                    } else {
-                        // eslint-disable-next-line no-console
-                        console.log('Name not filled - State is false')
-                    }
-                } else {
-                    // eslint-disable-next-line no-console
-                    console.log('Name not filled - State is false 2')
+            saveNameChange(shotlist) {
+                let payload = {
+                    projId: this.id,
+                    updShotlist: shotlist
                 }
-            },
+
+                // eslint-disable-next-line no-console
+                console.log(payload)
+                this.updateShotlist(payload)
+
+                shotlist.edit = false
+            }
+        },
+        computed: {
+            ...mapGetters(["getProjectByID"]),
+        },
+        mounted() {
+            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.selectedproject = this.getProjectByID(this.id);
+            this.shotlistTabs = this.selectedproject.shotlists
         },
     }
 </script>

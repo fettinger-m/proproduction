@@ -12,13 +12,16 @@
         components:{
         },
         methods: {
-            ...mapActions(["fetchProjects", "fetchEvents", "fetchTableview", "fetchUserdetails"]),
+            ...mapActions(["fetchProjects", "fetchEvents", "fetchTableview", "fetchUserdetails", "fetchLocations"]),
         },
         created() {
             this.fetchTableview();
             this.fetchProjects();
             this.fetchEvents();
             this.fetchUserdetails();
+
+            //only used for testing
+            this.fetchLocations();
         },
     }
 

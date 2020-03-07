@@ -6,8 +6,8 @@
                     <label>Shotlist Name:</label>
                     <b-form-input
                             placeholder="Enter at least 4 characters"
-                            v-model="currentlistname"
-                            :state="currentlistname.length >= 4"
+                            v-model="shotlist.listName"
+                            :state="shotlist.listName.length >= 4"
                     ></b-form-input>
                 </b-col>
             </b-row>
@@ -21,8 +21,8 @@
                 </b-col>
                 <b-col class="m-1">
                     <b-button variant="outline-primary" block
-                              @click="addNewTab(currentlistname); $bvModal.hide('listcreation'); currentlistname='';"
-                              :disabled="currentlistname.length < 4"
+                              @click="addNewTab(); $bvModal.hide('listcreation');"
+                              :disabled="shotlist.listName.length < 4"
                     >
                         Add shotlist
                     </b-button>
@@ -35,47 +35,41 @@
 </template>
 
 <script>
-    //todo: Index für Modal
-    let i = 1;
+    import {mapActions} from "vuex";
 
     export default {
         name: "CreateEditShotListModal",
         data() {
             return {
-                currentlistname: '',
+                shotlist: {
+                    listName: '',
+                    edit: false,
+                    shots: [{
+                    }],
+                }
             }
         },
         props: {
             shotlistTabs: {
                 type: Array,
                 required: true
+            },
+            projId: {
+                required: true
             }
         },
         methods: {
+            //VUEX ACTIONS
+            ...mapActions(["addShotlist"]),
 
-            //TODO Wont need after vuex switch
-
-            addNewTab(currentlistname) {
-                i++;    //increment variable (defined at the top)
-
-                this.shotlistTabs.push({
-                    id: i,
-                    listName: currentlistname,
-                    edit: false,
-                    shots: [{
-                        id: 1,
-                        frame: 'testbildwide.jpg',
-                        description: 'Exapmle Shot',
-                        shotsize: null,
-                        movement: 'Forward',
-                        camera: 'a7III',
-                        lens: '50mm 1.4',
-                        framerate: '23,976',
-                        specialEquip: 'Gimbal',
-                        location: null
-                    }],
-
-                });
+            addNewTab() {
+                let payload = {
+                    projId: this.projId,
+                    shotlist: this.shotlist
+                }
+                // eslint-disable-next-line no-console
+                console.log(payload)
+                this.addShotlist(payload)
             },
         }
     }

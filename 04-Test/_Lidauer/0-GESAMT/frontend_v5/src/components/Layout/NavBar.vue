@@ -101,6 +101,13 @@
                 this.selectedproject = this.getProjectByID(this.id)
                 this.projectName = this.selectedproject.project_name
             }
+        },
+        created() {
+            if (!this.smallNav) {
+                this.id = parseInt(sessionStorage.getItem('sessionProjectID'))
+                this.selectedproject = this.getProjectByID(this.id)
+                this.projectName = this.selectedproject.project_name
+            }
         }
     }
 </script>

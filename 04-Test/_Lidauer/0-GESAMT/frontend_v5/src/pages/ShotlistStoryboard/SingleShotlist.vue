@@ -45,6 +45,7 @@
                             <CreateShotModal
                                     v-bind:shotlist_tab="shotlist_tab"
                                     v-bind:modalindex="'create'+shotlist_tab.id"
+                                    v-bind:proj-id="id"
                             />
                         </b-modal>
 
@@ -122,6 +123,7 @@
                                     v-bind:currentshotID="data.item.id"
                                     v-bind:modalindex="'edit'+data.item.id+shotlist_tab.id"
                                     v-bind:shotlist_tab="shotlist_tab"
+                                    v-bind:proj-id="id"
                             />
                         </b-modal>
 
@@ -147,7 +149,6 @@
                 </b-row>
             </template>
         </b-table>
-
     </div>
 </template>
 
@@ -156,23 +157,8 @@
     import CreateShotModal from "@/pages/ShotlistStoryboard/CreateShotModal";
     import EditShotModal from "@/pages/ShotlistStoryboard/EditShotModal";
     import downloadexcel from 'vue-json-excel'
+    import {mapGetters} from "vuex";
 
-    /*
-    const createSortable = (el, options) => {
-        return Sortable.create(el, {
-            ...options
-        });
-    };
-
-    const sortable = {
-        name: 'sortable',
-        bind(el, binding, vnode) {
-            const table = el;
-            table._sortable = createSortable(table.querySelector("tbody"), binding.value, vnode);
-        }
-    };
-
-     */
 
     export default {
         name: "SingleShotlist",
@@ -180,6 +166,9 @@
         //directives: { sortable },
         data() {
             return {
+
+                id: 0,
+                selectedproject: {},
 
                 imgsize: 70,
 
@@ -215,17 +204,13 @@
                     'Location': 'location'
                 },
 
-                /*
-                sortableOptions: {
-                    chosenClass: 'is-selected'
-                },
-                 */
             }
         },
         computed: {
+            ...mapGetters(["getProjectByID"]),
             visibleFields() {
                 return this.fields.filter(field => field.visible)
-            }
+            },
         },
         props: {
             shotlist_tab: {
@@ -251,7 +236,11 @@
                 let image = '../../assets/' + pic;
                 return image;
             }
-        }
+        },
+        mounted() {
+            this.id = parseInt(sessionStorage.getItem('sessionProjectID'));
+            this.selectedproject = this.getProjectByID(this.id);
+        },
     }
 </script>
 
