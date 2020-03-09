@@ -1,11 +1,9 @@
-POST http://localhost:3000/register
+POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "first_name": "seas",
-    "last_name": "it",
-    "email": "testing@gmx.at",
-    "password": "testing"
+    "email": "max.fettinger@gmail.com",
+    "password": "12345678"
 }
 
 ###
@@ -97,7 +95,7 @@ Content-Type: application/json
 
 {
     "project_nbr": "P20-01",
-    "project_name": "Videoprojekt Test1",
+    "project_name": "yeet",
     "project_theme": "Musikvideo",
     "project_state": "filming",
     "star1": true,

@@ -11,7 +11,7 @@ var shotlistsRef = ''
 var shotsRef = ''
 var moodboardsRef = ''
 var contactsRef = ''
-var locationRef = ''
+var locationsRef = ''
 var storageRef = ''
 
 ////////// firebase instance of app //////////
@@ -146,7 +146,11 @@ function addProject(req, res) {
     if (req.session.user != undefined) {
         projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
         projectsRef.push(req.body)
-        res.send('success')
+        projectsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
     } else {
         res.send('got to /login or /register')
     }
@@ -199,7 +203,11 @@ function addDocument(req, res) {
     if (req.session.user != undefined) {
         documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents")
         documentsRef.push(req.body)
-        res.send('success')
+        documentsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
     } else {
         res.send('got to /login or /register')
     }
@@ -228,8 +236,8 @@ function deleteDocument(req, res) {
 
 function showLocations(req, res) {
     if (req.session.user != undefined) {
-        locationRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
-        locationRef.once("value", function(snapshot) {
+        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+        locationsRef.once("value", function(snapshot) {
             res.send(locationsFormatter(snapshot))
         })
     } else {
@@ -239,8 +247,8 @@ function showLocations(req, res) {
 
 function showLocation(req, res) {
     if (req.session.user != undefined) {
-        locationRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations/" + req.params.locationID)
-        locationRef.once("value", function(snapshot) {
+        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations/" + req.params.locationID)
+        locationsRef.once("value", function(snapshot) {
             res.send(singleLocationFormatter(snapshot))
         })
     } else {
@@ -250,9 +258,13 @@ function showLocation(req, res) {
 
 function addLocation(req, res) {
     if (req.session.user != undefined) {
-        locationRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
-        locationRef.push(req.body)
-        res.send('success')
+        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+        locationsRef.push(req.body)
+        locationsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
     } else {
         res.send('got to /login or /register')
     }
@@ -260,8 +272,8 @@ function addLocation(req, res) {
 
 function updateLocation(req, res) {
     if (req.session.user != undefined) {
-        locationRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
-        locationRef.child(req.params.locationID).update(req.body)
+        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+        locationsRef.child(req.params.locationID).update(req.body)
         res.send('success')
     } else {
         res.send('got to /login or /register')
@@ -270,8 +282,8 @@ function updateLocation(req, res) {
 
 function deleteLocation(req, res) {
     if (req.session.user != undefined) {
-        locationRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
-        locationRef.child(req.params.locationID).remove()
+        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+        locationsRef.child(req.params.locationID).remove()
         res.send('success')
     } else {
         res.send('got to /login or /register')
@@ -305,7 +317,11 @@ function addShotlist(req, res) {
     if (req.session.user != undefined) {
         shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.push(req.body)
-        res.send('success')
+        shotlistsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
     } else {
         res.send('got to /login or /register')
     }
@@ -358,7 +374,11 @@ function addShot(req, res) {
     if (req.session.user != undefined) {
         shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.push(req.body)
-        res.send('success')
+        shotsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
     } else {
         res.send('got to /login or /register')
     }
@@ -411,8 +431,11 @@ function addContact(req, res) {
     if (req.session.user != undefined) {
         contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.push(req.body)
-        console.log(req.session.user)
-        res.send('success')
+        contactsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
     } else {
         res.send('got to /login or /register')
     }
