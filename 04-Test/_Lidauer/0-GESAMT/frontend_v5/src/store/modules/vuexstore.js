@@ -61,24 +61,21 @@ const actions = {
             `/projects/${updProject.id}/update`,
             updProject
         );
-        commit('updateProjectMut', response.data);
-    },
-    async addProject({commit}) {
-
-        //todo just for testing
-        let project = {
-            project_name: "Test"
-        }
-
-        const response = await client.post(
-            '/projects/add',
-            project
-        );
-
         // eslint-disable-next-line no-console
         console.log(response.data)
 
-        commit('addProjectRow', {});
+        commit('updateProjectMut', updProject);
+    },
+    async addProject({commit}) {
+
+        const response = await client.post(
+            '/projects/add',
+            {}
+        );
+        let project = {
+            id: response.data,
+        }
+        commit('addProjectRow', project);
     },
     async deleteProject({commit}, id) {
         await client.post(`/projects/${id}/delete`);
@@ -148,12 +145,12 @@ const actions = {
         console.log(response.data)
     },
     async addDocument({commit}, payload) {
+
         const response = await client.post(
             `/projects/${payload.projId}/documents/add`,
             payload.document
         );
 
-        //payload.document = response.data
         // eslint-disable-next-line no-console
         console.log(response.data)
 
@@ -219,6 +216,7 @@ const actions = {
         commit('updateShotlistMut', payload);
     },
     async addShot({commit}, payload) {
+
         const response = await client.post(
             `/projects/${payload.projId}/shotlists/${payload.shotlistId}/add`,
             payload.shot
