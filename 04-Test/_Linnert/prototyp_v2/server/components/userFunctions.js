@@ -70,10 +70,12 @@ function login(req, res) {
 } // login with email and password
 
 function logout(req, res) {
-    if (req.session.user != undefined) {
-        req.session.user = undefined
-    }
-    res.send('logout successful')
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.send('logout successful');
+    });
 } // logout
 
 
