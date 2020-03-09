@@ -12,7 +12,7 @@ GET http://localhost:3000/login
 
 ###
 
-GET http://localhost:3000/calendarevents
+POST http://localhost:3000/logout
 
 ###
 

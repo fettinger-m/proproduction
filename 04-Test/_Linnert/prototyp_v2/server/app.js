@@ -4,8 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-//var cookieSession = require('cookie-session')
-var sess  = require('express-session');
+var session  = require('express-session');
 
 
 ////////// firebase instance //////////
@@ -29,19 +28,15 @@ firebase.initializeApp(firebaseConfig);
 const app = express()
 app.use(express.json())
 
-////////// session cookie //////////
-/*app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']//,
-  //user: undefined
-}))*/
 
-app.use(sess({
-	name: 'JSESSION',
-	secret: 'MYSECRETISVERYSECRET',
+////////// session //////////
+app.use(session({
+	name: 'PROsession',
+	secret: 'production',
 	resave: true,
 	saveUninitialized: true,
 }));
+
 
 app.use(cors())
 app.use(logger('dev'));
@@ -60,6 +55,7 @@ var userdetailsRouter = require('./routes/userdetails')
 var tableviewRouter = require('./routes/tableview')
 var calendareventsRouter = require('./routes/calendarevents')
 
+
 ////////// routers assigned to routes //////////
 app.use('/login', loginRouter)
 app.use('/logout', logoutRouter)
@@ -68,5 +64,6 @@ app.use('/projects', projectsRouter)
 app.use('/userdetails', userdetailsRouter)
 app.use('/tableview', tableviewRouter)
 app.use('/calendarevents', calendareventsRouter)
+
 
 module.exports = app;
