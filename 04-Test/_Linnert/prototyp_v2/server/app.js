@@ -55,14 +55,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 var loginRouter = require('./routes/login')
 var logoutRouter = require('./routes/logout')
 var registerRouter = require('./routes/register')
-var projectRouter = require('./routes/projects')
-var userRouter = require('./routes/user')
+var projectsRouter = require('./routes/projects')
+var userdetailsRouter = require('./routes/userdetails')
+var tableviewRouter = require('./routes/tableview')
+var calendareventsRouter = require('./routes/calendarevents')
 
 ////////// routers assigned to routes //////////
 app.use('/login', loginRouter)
 app.use('/logout', logoutRouter)
 app.use('/register', registerRouter)
-app.use('/projects', projectRouter)
-app.use('/user', userRouter)
+app.use('/projects', projectsRouter)
+app.use('/userdetails', userdetailsRouter)
+app.use('/tableview', tableviewRouter)
+app.use('/calendarevents', calendareventsRouter)
 
 module.exports = app;

@@ -12,11 +12,19 @@ GET http://localhost:3000/login
 
 ###
 
-GET http://localhost:3000/user
+GET http://localhost:3000/calendarevents
 
 ###
 
-POST http://localhost:3000/logout
+POST http://localhost:3000/calendarevents/add
+Content-Type: application/json
+
+{
+    "startDate": "2020-02-18T23:00:00.000Z",
+    "endDate": "2020-02-19T23:00:00.000Z",
+    "title": "Videodreh Musikvideo12123231123233",
+    "description": "Drohne mitnehmen.\n19. - 20."
+}
 
 ###
 

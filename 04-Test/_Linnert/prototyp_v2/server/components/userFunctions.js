@@ -5,11 +5,11 @@ var password = '12345678'
 ////////// refs to path in db //////////
 var userRef = ''
 var tableviewRef = ''
+var calendareventRef = ''
 var projectsRef = ''
 var documentsRef = ''
 var shotlistsRef = ''
 var shotsRef = ''
-var moodboardsRef = ''
 var contactsRef = ''
 var locationsRef = ''
 var storageRef = ''
@@ -52,8 +52,9 @@ function register(req, res) {
     });
 } // register with email and password and submit personal data
 
+//TODO: req einbinden bei finaler funktion
 function login(req, res) {
-    firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then(function() {
+    firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
         req.session.user = firebase.auth().currentUser.uid
         res.send('login successful')
     }).catch(function(error) {
@@ -120,6 +121,52 @@ function updateTableview(req, res) {
 } // update personal tableview
 
 
+function showCalendarevents(req, res) {
+    if (req.session.user != undefined) {
+        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+        calendareventRef.once("value", function(snapshot) {
+            res.send(calendareventsFormatter(snapshot))
+        })
+    } else {
+        res.send('got to /login or /register')
+    }
+} // show all user calendarevents
+
+function addCalendarevent(req, res) {
+    if (req.session.user != undefined) {
+        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+        calendareventRef.push(req.body)
+        calendareventRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+
+            res.send(snapshot.key)
+         
+         });
+    } else {
+        res.send('got to /login or /register')
+    }
+} // create new calendarevent
+
+function updateCalendarevent(req, res) {
+    if (req.session.user != undefined) {
+        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+        calendareventRef.child(req.params.calendareventID).update(req.body)
+        res.send('success')
+    } else {
+        res.send('got to /login or /register')
+    }
+} // update calendarevent by id with given data
+
+function deleteCalendarevent(req, res) {
+    if (req.session.user != undefined) {
+        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+        calendareventRef.child(req.params.calendareventID).remove()
+        res.send('success')
+    } else {
+        res.send('got to /login or /register')
+    }
+} // delete calendarevent by id
+
+
 function showProjects(req, res) {
     if (req.session.user != undefined) {
         projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
@@ -146,7 +193,7 @@ function addProject(req, res) {
     if (req.session.user != undefined) {
         projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
         projectsRef.push(req.body)
-        projectsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+        projectsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
 
             res.send(snapshot.key)
          
@@ -203,7 +250,7 @@ function addDocument(req, res) {
     if (req.session.user != undefined) {
         documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents")
         documentsRef.push(req.body)
-        documentsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+        documentsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
 
             res.send(snapshot.key)
          
@@ -260,7 +307,7 @@ function addLocation(req, res) {
     if (req.session.user != undefined) {
         locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
         locationsRef.push(req.body)
-        locationsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+        locationsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
 
             res.send(snapshot.key)
          
@@ -317,7 +364,7 @@ function addShotlist(req, res) {
     if (req.session.user != undefined) {
         shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.push(req.body)
-        shotlistsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+        shotlistsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
 
             res.send(snapshot.key)
          
@@ -374,7 +421,7 @@ function addShot(req, res) {
     if (req.session.user != undefined) {
         shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.push(req.body)
-        shotsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+        shotsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
 
             res.send(snapshot.key)
          
@@ -431,7 +478,7 @@ function addContact(req, res) {
     if (req.session.user != undefined) {
         contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.push(req.body)
-        contactsRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+        contactsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
 
             res.send(snapshot.key)
          
@@ -699,6 +746,20 @@ function singleContactFormatter(snapshot) {
     return returnObj;
 } // changes format of snapshot value
 
+function calendareventsFormatter(snapshot) {
+    var returnArr = []
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val()
+        item.id = childSnapshot.key
+
+        returnArr.push(item)
+    })
+
+    return returnArr;
+} // changes format of snapshot value
+
+
 module.exports = {
     register,
     login,
@@ -707,6 +768,10 @@ module.exports = {
     updateUserdetails,
     showTableview,
     updateTableview,
+    showCalendarevents,
+    addCalendarevent,
+    updateCalendarevent,
+    deleteCalendarevent,
     showProjects,
     showProject,
     addProject,

@@ -6,8 +6,12 @@ var router = express.Router();
 var user = require('../components/userFunctions')
 
 ////////// get and post //////////
-router.post('/', async (req, res) => {
-    user.register(req, res)
-}) // post for register()
+router.get('/', (req, res) => {
+    user.showUserdetails(req, res)
+}) // get for showUserdetails()
+
+router.post('/update', async (req, res) => {
+    user.updateUserdetails(req, res)
+}) // post for updateUserdetails()
 
 module.exports = router;
