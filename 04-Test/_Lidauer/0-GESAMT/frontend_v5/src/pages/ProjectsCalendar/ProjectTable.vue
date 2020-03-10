@@ -411,10 +411,10 @@
             return {
 
                 //Tableview - defines which columns are shown
-                //tableview: {},
+                tableview: {},
 
                 //Tableview - TODO just for testing
-                tableview: {
+                /*tableview: {
                     thema_c: true,
                     status_c: true,
                     priority_c: true,
@@ -422,7 +422,7 @@
                     custom2_c: true,
                     customFieldName1: "Custom 1",
                     customFieldName2: "Custom 2"
-                },
+                },*/
 
                 //all projects
                 localprojects: [],
@@ -622,10 +622,10 @@
         },
         created() {
             this.fetchProjects();
-            //this.fetchTableview();
+            this.fetchTableview();
             this.fetchUserdetails();
 
-            //this.tableview = Object.assign({}, this.allTableView);
+            this.tableview = Object.assign({}, this.allTableView);
             this.localprojects = Object.assign([], this.allProjects);
         }
     }

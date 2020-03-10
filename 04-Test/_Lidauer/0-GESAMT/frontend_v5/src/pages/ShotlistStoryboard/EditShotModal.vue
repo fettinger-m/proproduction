@@ -158,7 +158,6 @@
 
         props: {
             currentshotID: {
-                type: Number,
                 required: true
             },
             modalindex: {
