@@ -8,7 +8,7 @@ var user = require('../components/userFunctions')
 ////////// get and post //////////
 router.get('/', (req, res) => {
     user.login(req, res)
-})
+})  //for testing
 
 router.post('/', async (req, res) => {
     user.login(req, res)

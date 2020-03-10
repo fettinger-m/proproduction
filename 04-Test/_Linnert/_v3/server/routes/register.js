@@ -6,12 +6,8 @@ var router = express.Router();
 var user = require('../components/userFunctions')
 
 ////////// get and post //////////
-router.get('/', (req, res) => {
-    user.login(req, res)
-})
-
 router.post('/', async (req, res) => {
-    user.login(req, res)
-}) // post for login()
+    user.register(req, res)
+}) // post for register()
 
 module.exports = router;

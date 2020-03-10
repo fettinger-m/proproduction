@@ -7,11 +7,11 @@ var user = require('../components/userFunctions')
 
 ////////// get and post //////////
 router.get('/', (req, res) => {
-    user.login(req, res)
-})
+    user.showTableview(req, res)
+}) // get for showTableview()
 
-router.post('/', async (req, res) => {
-    user.login(req, res)
-}) // post for login()
+router.post('/update', async (req, res) => {
+    user.updateTableview(req, res)
+}) // post for updateTableview()
 
 module.exports = router;

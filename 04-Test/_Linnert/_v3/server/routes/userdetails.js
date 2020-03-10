@@ -7,11 +7,11 @@ var user = require('../components/userFunctions')
 
 ////////// get and post //////////
 router.get('/', (req, res) => {
-    user.login(req, res)
-})
+    user.showUserdetails(req, res)
+}) // get for showUserdetails()
 
-router.post('/', async (req, res) => {
-    user.login(req, res)
-}) // post for login()
+router.post('/update', async (req, res) => {
+    user.updateUserdetails(req, res)
+}) // post for updateUserdetails()
 
 module.exports = router;
