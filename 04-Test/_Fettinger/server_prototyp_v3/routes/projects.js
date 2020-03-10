@@ -8,9 +8,6 @@ var user = require('../components/userFunctions')
 ////////// get and post //////////
 router.get('/', (req, res) => {
     user.showProjects(req, res)
-    /*res.status(200).json({
-        message: "its"
-    })*/
 }) // get for showProjects()
 
 router.get('/:projectID', (req, res) => {
@@ -18,27 +15,15 @@ router.get('/:projectID', (req, res) => {
 }) // get for showProject()
 
 router.post('/add', async (req, res) => {
-    try {
-        user.addProject(req, res)
-    } catch {
-
-    }
+    user.addProject(req, res)
 }) // post for addProject()
 
 router.post('/:projectID/update', async (req, res) => {
-    try {
-        user.updateProject(req, res)
-    } catch {
-
-    }
+    user.updateProject(req, res)
 }) // post for updateProject()
 
 router.post('/:projectID/delete', async (req, res) => {
-    try {
-        user.deleteProject(req, res)
-    } catch {
-
-    }
+    user.deleteProject(req, res)
 }) // post for deleteProject()
 
 
@@ -51,27 +36,15 @@ router.get('/:projectID/documents/:documentID', (req, res) => {
 }) // get for showDocument()
 
 router.post('/:projectID/documents/add', async (req, res) => {
-    try {
-        user.addDocument(req, res)
-    } catch {
-
-    }
+    user.addDocument(req, res)
 }) // post for addDocument()
 
 router.post('/:projectID/documents/:documentID/update', async (req, res) => {
-    try {
-        user.updateDocument(req, res)
-    } catch {
-
-    }
+    user.updateDocument(req, res)
 }) // post for updateDocument()
 
 router.post('/:projectID/documents/:documentID/delete', async (req, res) => {
-    try {
-        user.deleteDocument(req, res)
-    } catch {
-
-    }
+    user.deleteDocument(req, res)
 }) // post for deleteDocument()
 
 
@@ -84,27 +57,15 @@ router.get('/:projectID/locations/:locationID', (req, res) => {
 }) // get for showLocation()
 
 router.post('/:projectID/locations/add', async (req, res) => {
-    try {
-        user.addLocation(req, res)
-    } catch {
-
-    }
+    user.addLocation(req, res)
 }) // post for addLocation()
 
 router.post('/:projectID/locations/:locationID/update', async (req, res) => {
-    try {
-        user.updateLocation(req, res)
-    } catch {
-
-    }
+    user.updateLocation(req, res)
 }) // post for updateLocation()
 
 router.post('/:projectID/locations/:locationID/delete', async (req, res) => {
-    try {
-        user.deleteLocation(req, res)
-    } catch {
-
-    }
+    user.deleteLocation(req, res)
 }) // post for deleteLocation()
 
 
@@ -117,27 +78,15 @@ router.get('/:projectID/shotlists/:shotlistID', (req, res) => {
 }) // get for showShotlist()
 
 router.post('/:projectID/shotlists/add', async (req, res) => {
-    try {
-        user.addShotlist(req, res)
-    } catch {
-
-    }
+    user.addShotlist(req, res)
 }) // post for addShotlist()
 
 router.post('/:projectID/shotlists/:shotlistID/update', async (req, res) => {
-    try {
-        user.updateShotlist(req, res)
-    } catch {
-
-    }
+    user.updateShotlist(req, res)
 }) // post for updateShotlist()
 
 router.post('/:projectID/shotlists/:shotlistID/delete', async (req, res) => {
-    try {
-        user.deleteShotlist(req, res)
-    } catch {
-
-    }
+    user.deleteShotlist(req, res)
 }) // post for deleteShotlist()
 
 
@@ -150,27 +99,15 @@ router.get('/:projectID/shotlists/:shotlistID/shots/:shotID', (req, res) => {
 }) // get for showShot()
 
 router.post('/:projectID/shotlists/:shotlistID/shots/add', (req, res) => {
-    try {
-        user.addShot(req, res)
-    } catch {
-
-    }
+    user.addShot(req, res)
 }) // post for addShot()
 
 router.post('/:projectID/shotlists/:shotlistID/shots/:shotID/update', (req, res) => {
-    try {
-        user.updateShot(req, res)
-    } catch {
-
-    }
+    user.updateShot(req, res)
 }) // post for updateShot()
 
 router.post('/:projectID/shotlists/:shotlistID/shots/:shotID/delete', (req, res) => {
-    try {
-        user.deleteShot(req, res)
-    } catch {
-
-    }
+    user.deleteShot(req, res)
 }) // post for deleteShot()
 
 
@@ -183,27 +120,15 @@ router.get('/:projectID/contacts/:contactID', (req, res) => {
 }) // get for showContact()
 
 router.post('/:projectID/contacts/add', async (req, res) => {
-    try {
-        user.addContact(req, res)
-    } catch {
-
-    }
+    user.addContact(req, res)
 }) // post for addContact()
 
 router.post('/:projectID/contacts/:contactID/update', async (req, res) => {
-    try {
-        user.updateContact(req, res)
-    } catch {
-
-    }
+    user.updateContact(req, res)
 }) // post for updateContact()
 
 router.post('/:projectID/contacts/:contactID/delete', async (req, res) => {
-    try {
-        user.deleteContact(req, res)
-    } catch {
-
-    }
+    user.deleteContact(req, res)
 }) // post for deleteContact()
 
 

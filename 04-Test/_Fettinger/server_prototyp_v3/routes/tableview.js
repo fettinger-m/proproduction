@@ -11,11 +11,7 @@ router.get('/', (req, res) => {
 }) // get for showTableview()
 
 router.post('/update', async (req, res) => {
-    try {
-        user.updateTableview(req, res)
-    } catch {
-
-    }
+    user.updateTableview(req, res)
 }) // post for updateTableview()
 
 module.exports = router;
