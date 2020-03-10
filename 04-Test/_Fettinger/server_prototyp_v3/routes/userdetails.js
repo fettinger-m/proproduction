@@ -11,11 +11,7 @@ router.get('/', (req, res) => {
 }) // get for showUserdetails()
 
 router.post('/update', async (req, res) => {
-    try {
-        user.updateUserdetails(req, res)
-    } catch {
-
-    }
+    user.updateUserdetails(req, res)
 }) // post for updateUserdetails()
 
 module.exports = router;

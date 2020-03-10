@@ -72,6 +72,10 @@ const actions = {
             '/projects/add',
             {}
         );
+
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+
         let project = {
             id: response.data,
         }
