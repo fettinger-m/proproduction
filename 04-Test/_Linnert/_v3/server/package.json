@@ -11,7 +11,7 @@
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "^4.16.4",
     "express-session": "^1.17.0",
     "firebase": "^7.5.2",
     "firebase-admin": "^8.7.0",

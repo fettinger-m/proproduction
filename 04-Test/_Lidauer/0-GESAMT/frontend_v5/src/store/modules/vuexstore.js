@@ -52,9 +52,9 @@ const actions = {
         const response = await client.get(
             '/projects'
         );
-        commit('setProjects', response.data);
         // eslint-disable-next-line no-console
         console.log(response.data)
+        commit('setProjects', response.data);
     },
     async updateProject({commit}, updProject) {
         const response = await client.post(
