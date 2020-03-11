@@ -250,6 +250,9 @@ const actions = {
         payload.shot.id = response.data
 
         // eslint-disable-next-line no-console
+        console.log("Add new Shot:")
+
+        // eslint-disable-next-line no-console
         console.log(payload)
 
         commit('addShotMut', payload);
@@ -265,7 +268,6 @@ const actions = {
             payload.updShot
         );
 
-        //payload.updShot = response.data
         // eslint-disable-next-line no-console
         console.log(response.data)
 

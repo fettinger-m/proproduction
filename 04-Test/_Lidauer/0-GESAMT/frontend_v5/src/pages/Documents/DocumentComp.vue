@@ -188,14 +188,23 @@
                 this.updateDocument(payload)
             },
         },
+        mounted() {
+
+        },
         computed: {
             ...mapGetters(["getProjectByID"]),
 
-            id(){
+            id() {
                 return sessionStorage.getItem('sessionProjectID');
             },
 
-            getDocs(){
+            getDocs() {
+                // eslint-disable-next-line no-console
+                console.log("Project: ")
+                // eslint-disable-next-line no-console
+                console.log(this.getProjectByID(sessionStorage.getItem('sessionProjectID')))
+                // eslint-disable-next-line no-console
+                console.log("getDocus")
                 return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).documents
             }
         },

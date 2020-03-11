@@ -111,7 +111,7 @@
                             variant="outline-primary"
                             type="submit"
                             block
-                            @click="addNewShot(shot);
+                            @click="addNewShot();
                           $bvModal.hide(modalindex); "
                             :disabled="shot.description.length < 1"
                     >
@@ -165,7 +165,7 @@
 
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["addShot"]),
+            ...mapActions(["addShot", "fetchProjects"]),
 
             onFileSelected(event) {
                 const files = event.target.files
@@ -195,16 +195,12 @@
             },
 
             //Push new Shot to Table
-            addNewShot(newshot) {
+            addNewShot() {
                 let payload = {
                     projId: this.id,
                     shotlistId: this.shotlist_tab.id,
-                    shot: newshot
+                    shot: this.shot
                 }
-
-                // eslint-disable-next-line no-console
-                console.log(payload)
-
                 this.addShot(payload)
             },
         },

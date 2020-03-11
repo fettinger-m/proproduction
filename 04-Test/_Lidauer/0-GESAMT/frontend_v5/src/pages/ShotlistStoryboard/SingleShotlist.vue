@@ -136,7 +136,7 @@
                         <!-- Modal to open after click -->
                         <b-modal :id="'delete'+data.item.id+shotlist_tab.id" hide-footer title="Delete this shot?">
                             <b-button variant="outline-danger" block
-                                      @click="deleteShot(data.item.id); $bvModal.hide('delete'+data.item.id+shotlist_tab.id)">
+                                      @click="deleteShotLocal(data.item.id); $bvModal.hide('delete'+data.item.id+shotlist_tab.id)">
                                 Delete
                             </b-button>
                             <b-button variant="outline-warning" block
@@ -156,7 +156,7 @@
     import CreateShotModal from "@/pages/ShotlistStoryboard/CreateShotModal";
     import EditShotModal from "@/pages/ShotlistStoryboard/EditShotModal";
     import downloadexcel from 'vue-json-excel'
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
 
 
     export default {
@@ -165,6 +165,8 @@
         //directives: { sortable },
         data() {
             return {
+                //VUEX ACTIONS
+                ...mapActions(["deleteShot"]),
 
                 imgsize: 70,
 
@@ -202,6 +204,34 @@
 
             }
         },
+        props: {
+            shotlist_tab: {
+                type: Object
+            },
+            shotlistTabs: {
+                type: Array
+            }
+        },
+        methods: {
+            deleteShotLocal(index) {
+
+                let payload = {
+                    projId: this.id,
+                    shotlistId: this.shotlist_tab.id,
+                    shotId: index
+                }
+
+                // eslint-disable-next-line no-console
+                console.log(payload)
+
+                this.deleteShot(payload)
+            },
+
+            getImgUrl(pic) {
+                let image = '../../assets/' + pic;
+                return image;
+            }
+        },
         computed: {
             ...mapGetters(["getProjectByID"]),
             visibleFields() {
@@ -213,31 +243,6 @@
             selectedproject(){
                 return this.getProjectByID(sessionStorage.getItem('sessionProjectID'));
             },
-        },
-        props: {
-            shotlist_tab: {
-                type: Object
-            },
-            shotlistTabs: {
-                type: Array
-            }
-        },
-        methods: {
-            deleteShot(index) {
-                //ID of the shotlist
-                let id = this.shotlist_tab.id;
-                // eslint-disable-next-line no-console
-                console.log(this.shotlistTabs[id]);
-
-                if (index > -1) {
-                    this.shotlistTabs[id].shots.splice(index, 1);
-                }
-            },
-
-            getImgUrl(pic) {
-                let image = '../../assets/' + pic;
-                return image;
-            }
         },
     }
 </script>
