@@ -61,7 +61,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Add Event Button -->
                             <b-col>
                                 <b-button
-                                        @click="addEventAction(current_event)"
+                                        @click="addEventLocal()"
                                         :disabled="current_event.title.toString() === ''  || current_event.endDate < current_event.startDate"
                                 >
                                     Add Event
@@ -294,11 +294,19 @@ https://github.com/richardtallent/vue-simple-calendar
             updateSelectedEvent() {
                 this.editingEntry=false;
                 this.updateEvent(this.selectedDate);
+                this.fetchEvents();
             },
 
             setLocalEvents(value) {
                 this.localevents = Object.assign([], value)
             },
+
+            addEventLocal(){
+                // eslint-disable-next-line no-console
+                console.log(this.current_event)
+                this.addEventAction(this.current_event)
+                this.fetchEvents();
+            }
 
         },
         computed: {

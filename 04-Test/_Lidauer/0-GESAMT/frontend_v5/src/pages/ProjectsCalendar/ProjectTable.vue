@@ -618,7 +618,7 @@
         },
         watch: {
             allTableView: 'setLocalTableView',
-            allProjects: 'setLocalProjects'
+            allProjects: 'setLocalProjects',
         },
         created() {
             this.fetchProjects();

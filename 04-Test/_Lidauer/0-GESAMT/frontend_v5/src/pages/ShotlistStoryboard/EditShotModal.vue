@@ -131,28 +131,12 @@
         name: "EditShotModal",
         data() {
             return {
-                //Local Shot Object
-                shot: {
-                    imageURL: "",
-                    image: null,
-                    description: "",
-                    shotsize: "",
-                    movement: "",
-                    camera: "",
-                    lens: "",
-                    framerate: "",
-                    specialEquip: "",
-                    location: ""
-                },
-
                 //Options to select
                 shotsize_options: [{
                     text: 'shotsize...', value: null
                 },
                     'Ultra Wide', 'Wide', 'Medium', 'CloseUp', 'Extreme CloseUp'],
 
-                //All Locations from the selected project
-                locations: [],
             }
         },
 
@@ -206,26 +190,17 @@
                 this.updateShot(payload)
             },
 
-            setLocalLocations(value) {
-                this.locations = Object.assign({}, value)
-            },
         },
         computed: {
             ...mapGetters(["allLocations", "getProjectByID"]),
-        },
-        mounted() {
-            this.shot = this.shotlist_tab.shots.find(shot => shot.id === this.currentshotID);
-            // eslint-disable-next-line no-console
-            console.log("lokale variablen gesetzt")
-        },
-        watch: {
-            allLocations: 'setLocalLocations',
-        },
-        created() {
-            //Get Locations from Location Table
-            this.locations = Object.assign([], this.allLocations);
 
-        }
+            shot(){
+                return this.shotlist_tab.shots.find(shot => shot.id === this.currentshotID);
+            },
+            locations() {
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).locations
+            }
+        },
     }
 </script>
 

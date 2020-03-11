@@ -22,14 +22,14 @@
                             Create a new document
                         </template>
                         <CreateEditDocumentModal
-                                v-bind:docs="docs"
+                                v-bind:docs="getDocs"
                                 v-bind:projId="id"
                         />
                     </b-modal>
                 </b-col>
             </b-row>
 
-            <b-row v-if="docs==null">
+            <b-row v-if="getDocs==null">
                 <b-col>
                     <b-card>
                         You don't have any documents yet.
@@ -47,7 +47,7 @@
                     <!-- ONE SHOTLIST TAB -->
                     <b-tab
                             active
-                            v-for="(doc, index) in docs"
+                            v-for="(doc, index) in getDocs"
                             v-bind:key="index"
                     >
                         <template v-slot:title>
@@ -155,9 +155,12 @@
         components: {DocumentEditor, CreateEditDocumentModal},
         data() {
             return {
+                /*
                 id: "",
                 selectedproject: [],
                 docs: []
+
+                 */
             }
         },
         methods: {
@@ -183,20 +186,19 @@
                 // eslint-disable-next-line no-console
                 console.log(payload)
                 this.updateDocument(payload)
-            }
+            },
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
-        },
-        watch: {},
-        mounted() {
-            this.id = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.id);
-            this.docs = this.selectedproject.documents
-        },
-        created() {
 
-        }
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
+
+            getDocs(){
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).documents
+            }
+        },
     }
 </script>
 

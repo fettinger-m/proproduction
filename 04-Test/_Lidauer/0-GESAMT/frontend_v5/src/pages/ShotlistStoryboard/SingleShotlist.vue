@@ -45,8 +45,6 @@
                             <CreateShotModal
                                     v-bind:shotlist_tab="shotlist_tab"
                                     v-bind:modalindex="'create'+shotlist_tab.id"
-                                    v-bind:proj-id="id"
-                                    v-bind:selectedproject="selectedproject"
                             />
                         </b-modal>
 
@@ -168,9 +166,6 @@
         data() {
             return {
 
-                id:"",
-                selectedproject: {},
-
                 imgsize: 70,
 
                 imgsizeoptions: [
@@ -182,7 +177,7 @@
 
                 fields: [
                     {key: 'imageURL', label: 'Frame', sortable: false, visible: true, changeable: true},
-                    {key: 'id', label: 'Number', sortable: true, visible: true, changeable: false},
+                    {key: 'id', label: 'Number', sortable: true, visible: false, changeable: false},
                     {key: 'description', label: 'Description', sortable: true, visible: true, changeable: false},
                     {key: 'shotsize', label: 'Shotsize', visible: true, changeable: true},
                     {key: 'movement', label: 'Movement', visible: true, changeable: true},
@@ -212,6 +207,12 @@
             visibleFields() {
                 return this.fields.filter(field => field.visible)
             },
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
+            selectedproject(){
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID'));
+            },
         },
         props: {
             shotlist_tab: {
@@ -237,10 +238,6 @@
                 let image = '../../assets/' + pic;
                 return image;
             }
-        },
-        mounted() {
-            this.id = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.id);
         },
     }
 </script>

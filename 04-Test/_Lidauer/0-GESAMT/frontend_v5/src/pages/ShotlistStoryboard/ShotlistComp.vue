@@ -22,14 +22,13 @@
                             Create a new shotlist
                         </template>
                         <CreateShotListModal
-                                v-bind:shotlist-tabs="shotlistTabs"
-                                v-bind:proj-id="id"
+                                v-bind:shotlist-tabs="getshotlistTabs"
                         />
                     </b-modal>
                 </b-col>
             </b-row>
 
-            <b-row v-if="shotlistTabs==null">
+            <b-row v-if="getshotlistTabs==null">
                 <b-col>
                     <b-card>
                         You don't have any shotlists yet.
@@ -42,7 +41,7 @@
                 <!-- ONE SHOTLIST TAB -->
                 <b-tab
                         active
-                        v-for="(shotlistTab, index) in shotlistTabs"
+                        v-for="(shotlistTab, index) in getshotlistTabs"
                         v-bind:key="index"
                 >
                     <template v-slot:title>
@@ -131,7 +130,7 @@
                     <div>
                         <SingleShotlist
                                 v-bind:shotlist_tab="shotlistTab"
-                                v-bind:shotlistTabs="shotlistTabs"
+                                v-bind:shotlistTabs="getshotlistTabs"
                         />
                     </div>
                 </b-tab>
@@ -150,10 +149,6 @@
         components: {CreateShotListModal, SingleShotlist},
         data() {
             return {
-                id: "",
-                selectedproject: {},
-
-                shotlistTabs: [],
             }
         },
         methods: {
@@ -186,11 +181,14 @@
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
-        },
-        mounted() {
-            this.id = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.id);
-            this.shotlistTabs = this.selectedproject.shotlists
+
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
+
+            getshotlistTabs(){
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists
+            }
         },
     }
 </script>

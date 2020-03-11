@@ -47,14 +47,6 @@
                         category_route: 'shotlist'
                     },
                     {
-                        category_icon: 'images',
-                        category_name: 'Moodboard',
-                        category_desc: 'add any pictures to a feed to get a feel of the look of your film',
-                        category_amount: 0,
-                        category_hover: false,
-                        category_route: 'moodboard'
-                    },
-                    {
                         category_icon: 'map-marker-alt',
                         category_name: 'Locations',
                         category_desc: 'add all locations where you are going to shoot',
@@ -79,6 +71,16 @@
                         category_route: 'media'
                     },
                 ],
+                /*
+                {
+                        category_icon: 'images',
+                        category_name: 'Moodboard',
+                        category_desc: 'add any pictures to a feed to get a feel of the look of your film',
+                        category_amount: 0,
+                        category_hover: false,
+                        category_route: 'moodboard'
+                    },
+                 */
             }
         },
         methods: {},
@@ -96,17 +98,19 @@
             if(this.selectedproject.shotlists != null){
                 this.category_elements[1].category_amount = this.selectedproject.shotlists.length;
             }
+            /*
             if(this.selectedproject.moodboards != null){
                 this.category_elements[2].category_amount = this.selectedproject.moodboards.length;
             }
+             */
             if(this.selectedproject.locations != null){
-                this.category_elements[3].category_amount = this.selectedproject.locations.length;
+                this.category_elements[2].category_amount = this.selectedproject.locations.length;
             }
             if(this.selectedproject.contacts != null){
-                this.category_elements[4].category_amount = this.selectedproject.contacts.length;
+                this.category_elements[3].category_amount = this.selectedproject.contacts.length;
             }
             if(this.selectedproject.media != null){
-                this.category_elements[5].category_amount = this.selectedproject.media.length;
+                this.category_elements[4].category_amount = this.selectedproject.media.length;
             }
         },
         created() {

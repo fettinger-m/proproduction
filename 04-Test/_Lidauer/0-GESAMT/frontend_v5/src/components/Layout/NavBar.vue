@@ -33,11 +33,13 @@
                     Shotlist
                 </b-nav-item>
 
+                <!--
                 <b-nav-item :to="{name: 'moodboard', params: { project: projectName }}" :active="isActive('moodboard')"
                             v-show="isShown()">
                     <font-awesome-icon :icon="['fas', 'images']"/>
                     Moodboard
                 </b-nav-item>
+                -->
 
                 <b-nav-item :to="{name: 'contacts', params: { project: projectName }}" :active="isActive('contacts')"
                             v-show="isShown()">

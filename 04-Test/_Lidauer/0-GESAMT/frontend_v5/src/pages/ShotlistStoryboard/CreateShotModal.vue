@@ -79,12 +79,12 @@
                             placeholder="Location"
                             v-model="shot.location"
                     >
-                            <b-form-select-option
-                                    v-for="(location, index) in locations"
-                                    v-bind:key="index"
-                                    :value="location.name">
-                                {{ location.name }}
-                            </b-form-select-option>
+                        <b-form-select-option
+                                v-for="(location, index) in locations"
+                                v-bind:key="index"
+                                :value="location.name">
+                            {{ location.name }}
+                        </b-form-select-option>
                     </b-form-select>
                 </b-col>
                 <!-- Empty Col -->
@@ -150,8 +150,6 @@
                 },
                     'Ultra Wide', 'Wide', 'Medium', 'CloseUp', 'Extreme CloseUp'],
 
-                //All Locations from the selected project
-                locations: [],
             }
         },
 
@@ -163,12 +161,6 @@
             modalindex: {
                 type: String
             },
-            projId: {
-                required: true
-            },
-            selectedproject: {
-                required: true
-            }
         },
 
         methods: {
@@ -205,7 +197,7 @@
             //Push new Shot to Table
             addNewShot(newshot) {
                 let payload = {
-                    projId: this.projId,
+                    projId: this.id,
                     shotlistId: this.shotlist_tab.id,
                     shot: newshot
                 }
@@ -215,18 +207,18 @@
 
                 this.addShot(payload)
             },
-
-            setLocalLocations(value) {
-                this.locations = Object.assign({}, value)
-            },
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
+
+            locations() {
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).locations
+            },
+
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
         },
-        created() {
-            //Get Locations from Location Table
-            this.locations = Object.assign([], this.selectedproject.locations);
-        }
     }
 </script>
 
