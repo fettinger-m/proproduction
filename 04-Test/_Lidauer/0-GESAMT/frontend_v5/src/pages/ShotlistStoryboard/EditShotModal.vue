@@ -131,6 +131,10 @@
         name: "EditShotModal",
         data() {
             return {
+
+                //local shot
+                shot: {},
+
                 //Options to select
                 shotsize_options: [{
                     text: 'shotsize...', value: null
@@ -190,17 +194,29 @@
                 this.updateShot(payload)
             },
 
+            setLocalShot(value) {
+                // eslint-disable-next-line no-console
+                console.log("Set Local Shot")
+                this.shot = Object.assign({}, value)
+            },
+
         },
         computed: {
             ...mapGetters(["allLocations", "getProjectByID"]),
 
-            shot(){
+            getshot(){
                 return this.shotlist_tab.shots.find(shot => shot.id === this.currentshotID);
             },
             locations() {
                 return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).locations
             }
         },
+        watch: {
+            getshot: "setLocalShot"
+        },
+        created() {
+            this.shot = Object.assign({}, this.getshot);
+        }
     }
 </script>
 
