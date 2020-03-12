@@ -14,4 +14,12 @@ router.post('/update', async (req, res) => {
     user.updateUserdetails(req, res)
 }) // post for updateUserdetails()
 
+router.post('/email/update', async (req, res) => {
+    user.updateUseremail(req, res)
+}) // post for updateUseremail()
+
+router.post('/password/update', async (req, res) => {
+    user.updateUserpassword(req, res)
+}) // post for updateUserpassword()
+
 module.exports = router;

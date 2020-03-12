@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-var session  = require('express-session');
 
 
 ////////// firebase instance //////////
@@ -27,15 +26,6 @@ firebase.initializeApp(firebaseConfig);
 ////////// express //////////
 const app = express()
 app.use(express.json())
-
-
-////////// session //////////
-app.use(session({
-	name: 'PROsession',
-	secret: 'production',
-	resave: true,
-	saveUninitialized: true,
-}));
 
 
 app.use(cors())

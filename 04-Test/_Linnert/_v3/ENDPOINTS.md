@@ -15,6 +15,8 @@
 ***5. Userdetails*** /userdetails
 * <span style="color:green">GET</span> /
 * <span style="color:red">POST</span> /update
+* <span style="color:red">POST</span> /email/update
+* <span style="color:red">POST</span> /password/update
 
 ***6. Tableview*** /tableview
 * <span style="color:green">GET</span> /

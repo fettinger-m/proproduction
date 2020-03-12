@@ -19,17 +19,16 @@ const firebase = require('firebase')
 
 ////////// functions //////////
 function register(req, res) {
-    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).then(function() {
-        req.session.user = firebase.auth().currentUser.uid
+    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).then(function () {
 
-        userRef = firebase.database().ref("/users/" + req.session.user + "/userdetails/")
+        userRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/userdetails/")
         userRef.set({
-            //TODO: details
             first_name: req.body.first_name,
-            last_name: req.body.last_name
+            last_name: req.body.last_name,
+            email: req.body.email
         })
 
-        tableviewRef = firebase.database().ref("/users/" + req.session.user + "/tableview/")
+        tableviewRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/tableview/")
         tableviewRef.set({
             thema_c: true,
             status_c: true,
@@ -41,7 +40,7 @@ function register(req, res) {
         })
 
         res.send('registration successful')
-    }).catch(function(error) {
+    }).catch(function (error) {
         if (error.code == 'auth/weak-password') {
             res.send('weak password')
         } else if (error.code == 'auth/email-already-in-use') {
@@ -52,12 +51,10 @@ function register(req, res) {
     });
 } // register with email and password and submit personal data
 
-//TODO: req einbinden bei finaler funktion
 function login(req, res) {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
-        req.session.user = firebase.auth().currentUser.uid
+    firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then(function () {
         res.send('login successful')
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log(error)
         if (error.code == 'auth/user-not-found') {
             res.send('user not found')
@@ -70,19 +67,18 @@ function login(req, res) {
 } // login with email and password
 
 function logout(req, res) {
-    req.session.destroy((err) => {
-        if(err) {
-            return console.log(err);
-        }
-        res.send('logout successful');
+    firebase.auth().signOut().then(function () {
+        res.send('logout successful')
+    }).catch(function (error) {
+        res.send(error)
     });
 } // logout
 
 
 function showUserdetails(req, res) {
-    if (req.session.user != undefined) {
-        userRef = firebase.database().ref("/users/" + req.session.user + "/userdetails")
-        userRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser != null) {
+        userRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/userdetails")
+        userRef.once("value", function (snapshot) {
             res.send(snapshot.val())
         })
     } else {
@@ -91,8 +87,8 @@ function showUserdetails(req, res) {
 } // show personal user data
 
 function updateUserdetails(req, res) {
-    if (req.session.user != undefined) {
-        userRef = firebase.database().ref("/users/" + req.session.user + "/userdetails")
+    if (firebase.auth().currentUser.uid != null) {
+        userRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/userdetails")
         userRef.update(req.body)
         res.send('success')
     } else {
@@ -100,11 +96,35 @@ function updateUserdetails(req, res) {
     }
 } // update personal user data
 
+function updateUseremail(req, res) {
+    firebase.auth().currentUser.updateEmail(req.body.email).then(function () {
+        firebase.auth().signOut().then(function() {
+            res.send('success')
+          }, function(error) {
+            res.send(error)
+          });
+    }).catch(function (error) {
+        res.send('error')
+    });
+} // update personal user email
+
+function updateUserpassword(req, res) {
+    firebase.auth().currentUser.updatePassword(req.body.password).then(function () {
+        firebase.auth().signOut().then(function() {
+            res.send('success')
+          }, function(error) {
+            res.send(error)
+          });
+    }).catch(function (error) {
+        res.send('error')
+    });
+} // update personal user password
+
 
 function showTableview(req, res) {
-    if (req.session.user != undefined) {
-        tableviewRef = firebase.database().ref("/users/" + req.session.user + "/tableview")
-        tableviewRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        tableviewRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/tableview")
+        tableviewRef.once("value", function (snapshot) {
             res.send(snapshot.val())
         })
     } else {
@@ -113,8 +133,8 @@ function showTableview(req, res) {
 } // show personal tableview
 
 function updateTableview(req, res) {
-    if (req.session.user != undefined) {
-        tableviewRef = firebase.database().ref("/users/" + req.session.user + "/tableview")
+    if (firebase.auth().currentUser.uid != null) {
+        tableviewRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/tableview")
         tableviewRef.update(req.body)
         res.send('success')
     } else {
@@ -124,9 +144,9 @@ function updateTableview(req, res) {
 
 
 function showCalendarevents(req, res) {
-    if (req.session.user != undefined) {
-        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
-        calendareventRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
+        calendareventRef.once("value", function (snapshot) {
             res.send(calendareventsFormatter(snapshot))
         })
     } else {
@@ -135,22 +155,22 @@ function showCalendarevents(req, res) {
 } // show all user calendarevents
 
 function addCalendarevent(req, res) {
-    if (req.session.user != undefined) {
-        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+    if (firebase.auth().currentUser.uid != null) {
+        calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.push(req.body)
-        calendareventRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        calendareventRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new calendarevent
 
 function updateCalendarevent(req, res) {
-    if (req.session.user != undefined) {
-        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+    if (firebase.auth().currentUser.uid != null) {
+        calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.child(req.params.calendareventID).update(req.body)
         res.send('success')
     } else {
@@ -159,8 +179,8 @@ function updateCalendarevent(req, res) {
 } // update calendarevent by id with given data
 
 function deleteCalendarevent(req, res) {
-    if (req.session.user != undefined) {
-        calendareventRef = firebase.database().ref("/users/" + req.session.user + "/calendarevents")
+    if (firebase.auth().currentUser.uid != null) {
+        calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.child(req.params.calendareventID).remove()
         res.send('success')
     } else {
@@ -170,9 +190,9 @@ function deleteCalendarevent(req, res) {
 
 
 function showProjects(req, res) {
-    if (req.session.user != undefined) {
-        projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
-        projectsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
+        projectsRef.once("value", function (snapshot) {
             res.send(projectsFormatter(snapshot))
         })
     } else {
@@ -181,9 +201,9 @@ function showProjects(req, res) {
 } // show all user projects
 
 function showProject(req, res) {
-    if (req.session.user != undefined) {
-        projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID)
-        projectsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID)
+        projectsRef.once("value", function (snapshot) {
             res.send(singleProjectFormatter(snapshot))
         })
     } else {
@@ -192,22 +212,22 @@ function showProject(req, res) {
 } // show selected project
 
 function addProject(req, res) {
-    if (req.session.user != undefined) {
-        projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
+    if (firebase.auth().currentUser.uid != null) {
+        projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.push(req.body)
-        projectsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        projectsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new project
 
 function updateProject(req, res) {
-    if (req.session.user != undefined) {
-        projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
+    if (firebase.auth().currentUser.uid != null) {
+        projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.child(req.params.projectID).update(req.body)
         res.send('success')
     } else {
@@ -216,8 +236,8 @@ function updateProject(req, res) {
 } // update project by id with given data
 
 function deleteProject(req, res) {
-    if (req.session.user != undefined) {
-        projectsRef = firebase.database().ref("/users/" + req.session.user + "/projects")
+    if (firebase.auth().currentUser.uid != null) {
+        projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.child(req.params.projectID).remove()
         res.send('success')
     } else {
@@ -227,9 +247,9 @@ function deleteProject(req, res) {
 
 
 function showDocuments(req, res) {
-    if (req.session.user != undefined) {
-        documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents")
-        documentsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
+        documentsRef.once("value", function (snapshot) {
             res.send(documentsFormatter(snapshot))
         })
     } else {
@@ -238,9 +258,9 @@ function showDocuments(req, res) {
 } // show all user documents
 
 function showDocument(req, res) {
-    if (req.session.user != undefined) {
-        documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents/" + req.params.documentID)
-        documentsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents/" + req.params.documentID)
+        documentsRef.once("value", function (snapshot) {
             res.send(singleDocumentFormatter(snapshot))
         })
     } else {
@@ -249,22 +269,22 @@ function showDocument(req, res) {
 } // show selected document
 
 function addDocument(req, res) {
-    if (req.session.user != undefined) {
-        documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents")
+    if (firebase.auth().currentUser.uid != null) {
+        documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.push(req.body)
-        documentsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        documentsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new document
 
 function updateDocument(req, res) {
-    if (req.session.user != undefined) {
-        documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents")
+    if (firebase.auth().currentUser.uid != null) {
+        documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.child(req.params.documentID).update(req.body)
         res.send('success')
     } else {
@@ -273,8 +293,8 @@ function updateDocument(req, res) {
 } // update shotlist by id with given data
 
 function deleteDocument(req, res) {
-    if (req.session.user != undefined) {
-        documentsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/documents")
+    if (firebase.auth().currentUser.uid != null) {
+        documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.child(req.params.documentID).remove()
         res.send('success')
     } else {
@@ -284,9 +304,9 @@ function deleteDocument(req, res) {
 
 
 function showLocations(req, res) {
-    if (req.session.user != undefined) {
-        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
-        locationsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
+        locationsRef.once("value", function (snapshot) {
             res.send(locationsFormatter(snapshot))
         })
     } else {
@@ -295,9 +315,9 @@ function showLocations(req, res) {
 } // show all user locations
 
 function showLocation(req, res) {
-    if (req.session.user != undefined) {
-        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations/" + req.params.locationID)
-        locationsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations/" + req.params.locationID)
+        locationsRef.once("value", function (snapshot) {
             res.send(singleLocationFormatter(snapshot))
         })
     } else {
@@ -306,22 +326,22 @@ function showLocation(req, res) {
 } // show selected location
 
 function addLocation(req, res) {
-    if (req.session.user != undefined) {
-        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+    if (firebase.auth().currentUser.uid != null) {
+        locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.push(req.body)
-        locationsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        locationsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new location
 
 function updateLocation(req, res) {
-    if (req.session.user != undefined) {
-        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+    if (firebase.auth().currentUser.uid != null) {
+        locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.child(req.params.locationID).update(req.body)
         res.send('success')
     } else {
@@ -330,8 +350,8 @@ function updateLocation(req, res) {
 } // update location by id with given data
 
 function deleteLocation(req, res) {
-    if (req.session.user != undefined) {
-        locationsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/locations")
+    if (firebase.auth().currentUser.uid != null) {
+        locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.child(req.params.locationID).remove()
         res.send('success')
     } else {
@@ -341,9 +361,9 @@ function deleteLocation(req, res) {
 
 
 function showShotlists(req, res) {
-    if (req.session.user != undefined) {
-        shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists")
-        shotlistsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
+        shotlistsRef.once("value", function (snapshot) {
             res.send(shotlistsFormatter(snapshot))
         })
     } else {
@@ -352,9 +372,9 @@ function showShotlists(req, res) {
 } // show all user shotlists
 
 function showShotlist(req, res) {
-    if (req.session.user != undefined) {
-        shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID)
-        shotlistsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID)
+        shotlistsRef.once("value", function (snapshot) {
             res.send(singleShotlistFormatter(snapshot))
         })
     } else {
@@ -363,22 +383,22 @@ function showShotlist(req, res) {
 } // show selected shotlist
 
 function addShotlist(req, res) {
-    if (req.session.user != undefined) {
-        shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists")
+    if (firebase.auth().currentUser.uid != null) {
+        shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.push(req.body)
-        shotlistsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        shotlistsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new shotlist
 
 function updateShotlist(req, res) {
-    if (req.session.user != undefined) {
-        shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists")
+    if (firebase.auth().currentUser.uid != null) {
+        shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.child(req.params.shotlistID).update(req.body)
         res.send('success')
     } else {
@@ -387,8 +407,8 @@ function updateShotlist(req, res) {
 } // update shotlist by id with given data
 
 function deleteShotlist(req, res) {
-    if (req.session.user != undefined) {
-        shotlistsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists")
+    if (firebase.auth().currentUser.uid != null) {
+        shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.child(req.params.shotlistID).remove()
         res.send('success')
     } else {
@@ -398,9 +418,9 @@ function deleteShotlist(req, res) {
 
 
 function showShots(req, res) {
-    if (req.session.user != undefined) {
-        shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
-        shotsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
+        shotsRef.once("value", function (snapshot) {
             res.send(shotsFormatter(snapshot))
         })
     } else {
@@ -409,9 +429,9 @@ function showShots(req, res) {
 } // show all user shots
 
 function showShot(req, res) {
-    if (req.session.user != undefined) {
-        shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots/" + req.params.shotID)
-        shotsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots/" + req.params.shotID)
+        shotsRef.once("value", function (snapshot) {
             res.send(singleShotFormatter(snapshot))
         })
     } else {
@@ -420,22 +440,22 @@ function showShot(req, res) {
 } // show selected shot
 
 function addShot(req, res) {
-    if (req.session.user != undefined) {
-        shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
+    if (firebase.auth().currentUser.uid != null) {
+        shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.push(req.body)
-        shotsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        shotsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new shots
 
 function updateShot(req, res) {
-    if (req.session.user != undefined) {
-        shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
+    if (firebase.auth().currentUser.uid != null) {
+        shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.child(req.params.shotID).update(req.body)
         res.send('success')
     } else {
@@ -444,8 +464,8 @@ function updateShot(req, res) {
 } // create new shots
 
 function deleteShot(req, res) {
-    if (req.session.user != undefined) {
-        shotsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
+    if (firebase.auth().currentUser.uid != null) {
+        shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.child(req.params.shotID).remove()
         res.send('success')
     } else {
@@ -455,9 +475,9 @@ function deleteShot(req, res) {
 
 
 function showContacts(req, res) {
-    if (req.session.user != undefined) {
-        contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts")
-        contactsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
+        contactsRef.once("value", function (snapshot) {
             res.send(contactsFormatter(snapshot))
         })
     } else {
@@ -466,9 +486,9 @@ function showContacts(req, res) {
 } // show all user shotlists
 
 function showContact(req, res) {
-    if (req.session.user != undefined) {
-        contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts/" + req.params.contactID)
-        contactsRef.once("value", function(snapshot) {
+    if (firebase.auth().currentUser.uid != null) {
+        contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts/" + req.params.contactID)
+        contactsRef.once("value", function (snapshot) {
             res.send(singleContactFormatter(snapshot))
         })
     } else {
@@ -477,22 +497,22 @@ function showContact(req, res) {
 } // show selected shotlist
 
 function addContact(req, res) {
-    if (req.session.user != undefined) {
-        contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts")
+    if (firebase.auth().currentUser.uid != null) {
+        contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.push(req.body)
-        contactsRef.endAt().limitToLast(1).once('child_added', function(snapshot) {
+        contactsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
 
             res.send(snapshot.key)
-         
-         });
+
+        });
     } else {
         res.send('got to /login or /register')
     }
 } // create new shotlist
 
 function updateContact(req, res) {
-    if (req.session.user != undefined) {
-        contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts")
+    if (firebase.auth().currentUser.uid != null) {
+        contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.child(req.params.contactID).update(req.body)
         res.send('success')
     } else {
@@ -501,8 +521,8 @@ function updateContact(req, res) {
 } // update shotlist by id with given data
 
 function deleteContact(req, res) {
-    if (req.session.user != undefined) {
-        contactsRef = firebase.database().ref("/users/" + req.session.user + "/projects/" + req.params.projectID + "/contacts")
+    if (firebase.auth().currentUser.uid != null) {
+        contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.child(req.params.contactID).remove()
         res.send('success')
     } else {
@@ -514,7 +534,7 @@ function deleteContact(req, res) {
 function projectsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -613,7 +633,7 @@ function singleProjectFormatter(snapshot) {
 function documentsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -637,7 +657,7 @@ function singleDocumentFormatter(snapshot) {
 function locationsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -661,7 +681,7 @@ function singleLocationFormatter(snapshot) {
 function shotlistsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -703,7 +723,7 @@ function singleShotlistFormatter(snapshot) {
 function shotsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -727,7 +747,7 @@ function singleShotFormatter(snapshot) {
 function contactsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -751,7 +771,7 @@ function singleContactFormatter(snapshot) {
 function calendareventsFormatter(snapshot) {
     var returnArr = []
 
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val()
         item.id = childSnapshot.key
 
@@ -768,6 +788,8 @@ module.exports = {
     logout,
     showUserdetails,
     updateUserdetails,
+    updateUseremail,
+    updateUserpassword,
     showTableview,
     updateTableview,
     showCalendarevents,
