@@ -558,6 +558,7 @@ function projectsFormatter(snapshot) {
                 shotsArray.push(item.shotlists[shotlist].shots[shot])
             }
             item.shotlists[shotlist].shots = shotsArray
+            shotsArray = []
         }
         item.shotlists = shotlistsArray
 
@@ -605,6 +606,7 @@ function singleProjectFormatter(snapshot) {
             shotsArray.push(item.shotlists[shotlist].shots[shot])
         }
         item.shotlists[shotlist].shots = shotsArray
+        shotsArray = []
     }
     item.shotlists = shotlistsArray
 
