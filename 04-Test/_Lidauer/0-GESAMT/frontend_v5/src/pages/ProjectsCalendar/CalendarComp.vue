@@ -61,7 +61,7 @@ https://github.com/richardtallent/vue-simple-calendar
                             <!-- Add Event Button -->
                             <b-col>
                                 <b-button
-                                        @click="addEventAction(current_event)"
+                                        @click="addEventLocal()"
                                         :disabled="current_event.title.toString() === ''  || current_event.endDate < current_event.startDate"
                                 >
                                     Add Event
@@ -183,7 +183,7 @@ https://github.com/richardtallent/vue-simple-calendar
                 <!-- Calendar display -->
                 <calendar-view
                         :show-date="showDate"
-                        :events="allEvents"
+                        :events="localevents"
                         class="theme-default holiday-us-traditional holiday-us-official"
                         @click-event="onClickItem"
                         :startingDayOfWeek="startingDoW"
@@ -222,6 +222,8 @@ https://github.com/richardtallent/vue-simple-calendar
                 startingDoW: 1,
                 editingEntry: false,
 
+                localevents:[],
+
                 //Current vaules of the input fields
                 current_event: {
                     title: '',
@@ -254,7 +256,7 @@ https://github.com/richardtallent/vue-simple-calendar
         methods: {
 
             //VUEX ACTIONS
-            ...mapActions(["addEventAction", "deleteEvent", "updateEvent"]),
+            ...mapActions(["fetchEvents","addEventAction", "deleteEvent", "updateEvent"]),
 
             //VUEX MUTATIONS
             ...mapMutations(['addEventMut']),
@@ -292,12 +294,31 @@ https://github.com/richardtallent/vue-simple-calendar
             updateSelectedEvent() {
                 this.editingEntry=false;
                 this.updateEvent(this.selectedDate);
+                this.fetchEvents();
+            },
+
+            setLocalEvents(value) {
+                this.localevents = Object.assign([], value)
+            },
+
+            addEventLocal(){
+                // eslint-disable-next-line no-console
+                console.log(this.current_event)
+                this.addEventAction(this.current_event)
+                this.fetchEvents();
             }
 
         },
         computed: {
             ...mapGetters(["allEvents", "getEventByID"]),
         },
+        watch: {
+            allEvents: 'setLocalEvents',
+        },
+        created() {
+            this.fetchEvents();
+            this.localevents = Object.assign([], this.allEvents);
+        }
     }
 </script>
 

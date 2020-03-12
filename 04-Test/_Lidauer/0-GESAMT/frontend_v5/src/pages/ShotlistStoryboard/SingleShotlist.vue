@@ -9,7 +9,7 @@
                         <!-- Shotlist download to Excel -->
                         <downloadexcel
                                 class="btn btn-default"
-                                :data="shotlist_tab.shots"
+                                :data="shots"
                                 :fields="excel_fields"
                                 worksheet="My Shotlist"
                                 name="shotlist.xls">
@@ -23,7 +23,7 @@
 
                         <!-- Button "Add New Shot"-->
                         <b-button
-                                @click="$bvModal.show('create'+shotlist_tab.id)"
+                                @click="$bvModal.show('create'+shotlistId)"
                                 type="button"
                                 variant="outline-primary"
                                 class="float-right"
@@ -34,7 +34,7 @@
 
                         <!-- Modal Shot Creation-->
                         <b-modal
-                                :id="'create'+shotlist_tab.id"
+                                :id="'create'+shotlistId"
                                 hide-footer
                         >
                             <template v-slot:modal-title>
@@ -44,9 +44,7 @@
 
                             <CreateShotModal
                                     v-bind:shotlist_tab="shotlist_tab"
-                                    v-bind:modalindex="'create'+shotlist_tab.id"
-                                    v-bind:proj-id="id"
-                                    v-bind:selectedproject="selectedproject"
+                                    v-bind:modalindex="'create'+shotlistId"
                             />
                         </b-modal>
 
@@ -88,7 +86,7 @@
         <b-table
                 striped hover
                 :fields="visibleFields"
-                :items="shotlist_tab.shots"
+                :items="shots"
         >
             <template v-slot:cell(imageURL)="data">
                 <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
@@ -114,15 +112,15 @@
                     <b-col>
                         <!-- Edit Button -->
                         <b-button
-                                @click="$bvModal.show('edit'+data.item.id+shotlist_tab.id)"
+                                @click="$bvModal.show('edit'+data.item.id+shotlistId)"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'pen']"/>
                         </b-button>
-                        <b-modal :id="'edit'+data.item.id+shotlist_tab.id" hide-footer title="Make any changes">
+                        <b-modal :id="'edit'+data.item.id+shotlistId" hide-footer title="Make any changes">
                             <EditShotModal
                                     v-bind:currentshotID="data.item.id"
-                                    v-bind:modalindex="'edit'+data.item.id+shotlist_tab.id"
+                                    v-bind:modalindex="'edit'+data.item.id+shotlistId"
                                     v-bind:shotlist_tab="shotlist_tab"
                                     v-bind:proj-id="id"
                             />
@@ -130,19 +128,19 @@
 
                         <!-- Delete button -->
                         <b-button
-                                @click="$bvModal.show('delete'+data.item.id+shotlist_tab.id)"
+                                @click="$bvModal.show('delete'+data.item.id+shotlistId)"
                                 variant="outline"
                         >
                             <font-awesome-icon :icon="['fas', 'trash-alt']"/>
                         </b-button>
                         <!-- Modal to open after click -->
-                        <b-modal :id="'delete'+data.item.id+shotlist_tab.id" hide-footer title="Delete this shot?">
+                        <b-modal :id="'delete'+data.item.id+shotlistId" hide-footer title="Delete this shot?">
                             <b-button variant="outline-danger" block
-                                      @click="deleteShot(data.item.id); $bvModal.hide('delete'+data.item.id+shotlist_tab.id)">
+                                      @click="deleteShotLocal(data.item.id); $bvModal.hide('delete'+data.item.id+shotlistId)">
                                 Delete
                             </b-button>
                             <b-button variant="outline-warning" block
-                                      @click="$bvModal.hide('delete'+data.item.id+shotlist_tab.id)">Cancle
+                                      @click="$bvModal.hide('delete'+data.item.id+shotlistId)">Cancle
                             </b-button>
                         </b-modal>
 
@@ -158,7 +156,7 @@
     import CreateShotModal from "@/pages/ShotlistStoryboard/CreateShotModal";
     import EditShotModal from "@/pages/ShotlistStoryboard/EditShotModal";
     import downloadexcel from 'vue-json-excel'
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
 
 
     export default {
@@ -167,9 +165,8 @@
         //directives: { sortable },
         data() {
             return {
-
-                id:"",
-                selectedproject: {},
+                //VUEX ACTIONS
+                ...mapActions(["deleteShot"]),
 
                 imgsize: 70,
 
@@ -182,7 +179,7 @@
 
                 fields: [
                     {key: 'imageURL', label: 'Frame', sortable: false, visible: true, changeable: true},
-                    {key: 'id', label: 'Number', sortable: true, visible: true, changeable: false},
+                    {key: 'id', label: 'Number', sortable: true, visible: false, changeable: false},
                     {key: 'description', label: 'Description', sortable: true, visible: true, changeable: false},
                     {key: 'shotsize', label: 'Shotsize', visible: true, changeable: true},
                     {key: 'movement', label: 'Movement', visible: true, changeable: true},
@@ -207,30 +204,27 @@
 
             }
         },
-        computed: {
-            ...mapGetters(["getProjectByID"]),
-            visibleFields() {
-                return this.fields.filter(field => field.visible)
-            },
-        },
         props: {
             shotlist_tab: {
                 type: Object
             },
-            shotlistTabs: {
-                type: Array
+            shotlistId: {
+                required: true
             }
         },
         methods: {
-            deleteShot(index) {
-                //ID of the shotlist
-                let id = this.shotlist_tab.id;
-                // eslint-disable-next-line no-console
-                console.log(this.shotlistTabs[id]);
+            deleteShotLocal(index) {
 
-                if (index > -1) {
-                    this.shotlistTabs[id].shots.splice(index, 1);
+                let payload = {
+                    projId: this.id,
+                    shotlistId: this.shotlistId,
+                    shotId: index
                 }
+
+                // eslint-disable-next-line no-console
+                console.log(payload)
+
+                this.deleteShot(payload)
             },
 
             getImgUrl(pic) {
@@ -238,9 +232,20 @@
                 return image;
             }
         },
-        mounted() {
-            this.id = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.id);
+        computed: {
+            ...mapGetters(["getProjectByID"]),
+            visibleFields() {
+                return this.fields.filter(field => field.visible)
+            },
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
+            selectedproject(){
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID'));
+            },
+            shots(){
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists.find(shotlist => shotlist.id === this.shotlistId).shots
+            }
         },
     }
 </script>

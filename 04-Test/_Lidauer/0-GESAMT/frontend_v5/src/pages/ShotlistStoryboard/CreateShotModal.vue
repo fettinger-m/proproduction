@@ -79,12 +79,12 @@
                             placeholder="Location"
                             v-model="shot.location"
                     >
-                            <b-form-select-option
-                                    v-for="(location, index) in locations"
-                                    v-bind:key="index"
-                                    :value="location.name">
-                                {{ location.name }}
-                            </b-form-select-option>
+                        <b-form-select-option
+                                v-for="(location, index) in locations"
+                                v-bind:key="index"
+                                :value="location.name">
+                            {{ location.name }}
+                        </b-form-select-option>
                     </b-form-select>
                 </b-col>
                 <!-- Empty Col -->
@@ -111,7 +111,7 @@
                             variant="outline-primary"
                             type="submit"
                             block
-                            @click="addNewShot(shot);
+                            @click="addNewShot();
                           $bvModal.hide(modalindex); "
                             :disabled="shot.description.length < 1"
                     >
@@ -150,8 +150,6 @@
                 },
                     'Ultra Wide', 'Wide', 'Medium', 'CloseUp', 'Extreme CloseUp'],
 
-                //All Locations from the selected project
-                locations: [],
             }
         },
 
@@ -163,17 +161,11 @@
             modalindex: {
                 type: String
             },
-            projId: {
-                required: true
-            },
-            selectedproject: {
-                required: true
-            }
         },
 
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["addShot"]),
+            ...mapActions(["addShot", "fetchProjects"]),
 
             onFileSelected(event) {
                 const files = event.target.files
@@ -203,30 +195,26 @@
             },
 
             //Push new Shot to Table
-            addNewShot(newshot) {
+            addNewShot() {
                 let payload = {
-                    projId: this.projId,
+                    projId: this.id,
                     shotlistId: this.shotlist_tab.id,
-                    shot: newshot
+                    shot: this.shot
                 }
-
-                // eslint-disable-next-line no-console
-                console.log(payload)
-
                 this.addShot(payload)
-            },
-
-            setLocalLocations(value) {
-                this.locations = Object.assign({}, value)
             },
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
+
+            locations() {
+                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).locations
+            },
+
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
         },
-        created() {
-            //Get Locations from Location Table
-            this.locations = Object.assign([], this.selectedproject.locations);
-        }
     }
 </script>
 

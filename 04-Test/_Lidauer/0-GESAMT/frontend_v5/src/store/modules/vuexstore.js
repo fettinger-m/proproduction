@@ -67,18 +67,24 @@ const actions = {
         commit('updateProjectMut', updProject);
     },
     async addProject({commit}) {
+        let project = {
+            project_name: "New Project",
+            shotlists:[],
+            documents:[],
+            locations:[],
+            contacts:[]
+        }
 
         const response = await client.post(
             '/projects/add',
-            {}
+            project
         );
 
         // eslint-disable-next-line no-console
         console.log(response.data)
 
-        let project = {
-            id: response.data,
-        }
+        project.id = response.data;
+
         commit('addProjectRow', project);
     },
     async deleteProject({commit}, id) {
@@ -92,26 +98,32 @@ const actions = {
         const response = await client.get(
             '/calendarevents'
         );
-        commit('setEvents', response.data);
         // eslint-disable-next-line no-console
         console.log(response.data)
+        commit('setEvents', response.data);
     },
     async updateEvent({commit}, updEvent) {
         const response = await client.post(
             `/calendarevents/${updEvent.id}/update`,
             updEvent
         );
-        commit('updateEventMut', response.data);
+
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+
+        commit('updateEventMut', updEvent);
 
         CalendarComp.methods.resetSelectedDate(updEvent)
     },
-    async addEventAction({commit}, eventobj) {
+    async addEventAction ({commit}, eventobj) {
         const response = await client.post(
             '/calendarevents/add',
             eventobj
         );
 
-        commit('addEventMut', response.data);
+        eventobj.id = response.data
+
+        commit('addEventMut', eventobj);
 
         CalendarComp.methods.resetInputFields(eventobj)
     },
@@ -126,6 +138,10 @@ const actions = {
         const response = await client.get(
             '/tableview'
         );
+
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+
         commit('setTableView', response.data);
     },
     async updateTableview({commit}, updTableview) {
@@ -133,7 +149,11 @@ const actions = {
             `/tableview/update`,
             updTableview
         );
-        commit('updateTableviewMut', response.data);
+
+        // eslint-disable-next-line no-console
+        console.log(response.data)
+
+        commit('updateTableviewMut', updTableview);
     },
 
     //---DOCUMENTS
@@ -155,8 +175,10 @@ const actions = {
             payload.document
         );
 
+        payload.document.id = response.data
+
         // eslint-disable-next-line no-console
-        console.log(response.data)
+        console.log(payload)
 
         commit('addDocumentTab', payload);
     },
@@ -170,8 +192,6 @@ const actions = {
             `/projects/${payload.projId}/documents/${payload.updDocument.id}/update`,
             payload.updDocument
         );
-
-        //payload.updDocument = response.data
         // eslint-disable-next-line no-console
         console.log(response.data)
 
@@ -196,9 +216,10 @@ const actions = {
             payload.shotlist
         );
 
-        //payload.shotlist = response.data
+        payload.shotlist.id = response.data
+
         // eslint-disable-next-line no-console
-        console.log(response.data)
+        console.log(payload.shotlist)
 
         commit('addShotlistMut', payload);
     },
@@ -222,13 +243,17 @@ const actions = {
     async addShot({commit}, payload) {
 
         const response = await client.post(
-            `/projects/${payload.projId}/shotlists/${payload.shotlistId}/add`,
+            `/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/add`,
             payload.shot
         );
 
-        //payload.shot = response.data
+        payload.shot.id = response.data
+
         // eslint-disable-next-line no-console
-        console.log(response.data)
+        console.log("Add new Shot:")
+
+        // eslint-disable-next-line no-console
+        console.log(payload)
 
         commit('addShotMut', payload);
     },
@@ -243,7 +268,6 @@ const actions = {
             payload.updShot
         );
 
-        //payload.updShot = response.data
         // eslint-disable-next-line no-console
         console.log(response.data)
 
@@ -270,13 +294,13 @@ const actions = {
     //--USERDETAILS
     async fetchUserdetails({commit}) {
         const response = await client.get(
-            '/user'
+            '/userdetails'
         );
         commit('setUserdetails', response.data);
     },
     async updateUserdetails({commit}, updUserdetails) {
         const response = await client.post(
-            `/user/update`,
+            `/userdetails/update`,
             updUserdetails
         );
         commit('updateUserdetailsMut', response.data);
@@ -348,7 +372,7 @@ const mutations = {
 
     //Shots
     addShotMut:
-        (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).push(payload.shot),
+        (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.push(payload.shot),
     removeShot: (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots =
         state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.filter(shot => shot.id !== payload.shotId),
     updateShotMut: (state, payload) => {

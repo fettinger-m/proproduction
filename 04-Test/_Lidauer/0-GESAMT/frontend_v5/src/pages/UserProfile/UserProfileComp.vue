@@ -167,6 +167,7 @@
             allUserdetails: 'setLocalUserdetails',
         },
         created() {
+            this.fetchUserdetails();
             this.userdetails = Object.assign({}, this.allUserdetails)
         }
     }

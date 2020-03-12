@@ -44,8 +44,7 @@
                 shotlist: {
                     listName: '',
                     edit: false,
-                    shots: [{
-                    }],
+                    shots: [],
                 }
             }
         },
@@ -54,9 +53,6 @@
                 type: Array,
                 required: true
             },
-            projId: {
-                required: true
-            }
         },
         methods: {
             //VUEX ACTIONS
@@ -64,13 +60,18 @@
 
             addNewTab() {
                 let payload = {
-                    projId: this.projId,
+                    projId: this.id,
                     shotlist: this.shotlist
                 }
                 // eslint-disable-next-line no-console
                 console.log(payload)
                 this.addShotlist(payload)
             },
+        },
+        computed: {
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            }
         }
     }
 </script>
