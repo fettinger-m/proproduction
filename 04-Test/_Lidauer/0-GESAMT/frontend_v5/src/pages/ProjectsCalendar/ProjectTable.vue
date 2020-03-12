@@ -2,7 +2,6 @@
     <div>
         <!-- TITLE -->
         <h1>Projects</h1>
-
         <b-container>
             <div>
                 <b-row align-h="end">

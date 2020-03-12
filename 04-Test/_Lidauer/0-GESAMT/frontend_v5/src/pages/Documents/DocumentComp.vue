@@ -155,17 +155,14 @@
         components: {DocumentEditor, CreateEditDocumentModal},
         data() {
             return {
-                /*
-                id: "",
-                selectedproject: [],
-                docs: []
-
-                 */
+                testproject: {
+                    documents: []
+                }
             }
         },
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["updateDocument", "deleteDocument"]),
+            ...mapActions(["fetchProjects", "updateDocument", "deleteDocument"]),
 
             //Deletes the selected Document
             deleteDocumentLocal(document) {
@@ -188,9 +185,6 @@
                 this.updateDocument(payload)
             },
         },
-        mounted() {
-
-        },
         computed: {
             ...mapGetters(["getProjectByID"]),
 
@@ -199,15 +193,11 @@
             },
 
             getDocs() {
-                // eslint-disable-next-line no-console
-                console.log("Project: ")
-                // eslint-disable-next-line no-console
-                console.log(this.getProjectByID(sessionStorage.getItem('sessionProjectID')))
-                // eslint-disable-next-line no-console
-                console.log("getDocus")
                 return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).documents
             }
         },
+        created() {
+        }
     }
 </script>
 
