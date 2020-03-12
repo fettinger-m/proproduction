@@ -241,10 +241,20 @@
                 return sessionStorage.getItem('sessionProjectID');
             },
             selectedproject(){
-                return this.getProjectByID(sessionStorage.getItem('sessionProjectID'));
+                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                    this.fetchProjects();
+                    return 0
+                } else {
+                    return this.getProjectByID(sessionStorage.getItem('sessionProjectID'));
+                }
             },
             shots(){
-                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists.find(shotlist => shotlist.id === this.shotlistId).shots
+                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                    this.fetchProjects();
+                    return 0
+                } else {
+                    return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists.find(shotlist => shotlist.id === this.shotlistId).shots
+                }
             }
         },
     }

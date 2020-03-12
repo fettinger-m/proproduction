@@ -69,18 +69,17 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "NavBar",
         data() {
             return {
-                id: "",
-                projectName: "NoProjectSelected",
-                selectedproject: {},
             }
         },
         methods: {
+            ...mapActions(["fetchProjects"]),
+
             isActive(name) {
                 if (name === this.currentPage) {
                     return true;
@@ -96,21 +95,36 @@
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
-        },
-        mounted() {
-            if (!this.smallNav) {
-                this.id = sessionStorage.getItem('sessionProjectID')
-                this.selectedproject = this.getProjectByID(this.id)
-                this.projectName = this.selectedproject.project_name
+
+            selectedproject() {
+                if (!this.smallNav) {
+                    if (this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                        this.fetchProjects();
+                        return 0
+                    } else {
+                        return this.getProjectByID(sessionStorage.getItem('sessionProjectID'))
+                    }
+                } else {
+                    return {}
+                }
+
+            },
+
+            id() {
+                if (!this.smallNav) {
+                    return sessionStorage.getItem('sessionProjectID')
+                } else {
+                    return 0
+                }
+            },
+            projectName() {
+                if (!this.smallNav) {
+                    return this.selectedproject.project_name
+                } else {
+                    return "NoProjectSelected"
+                }
             }
         },
-        created() {
-            if (!this.smallNav) {
-                this.id = sessionStorage.getItem('sessionProjectID')
-                this.selectedproject = this.getProjectByID(this.id)
-                this.projectName = this.selectedproject.project_name
-            }
-        }
     }
 </script>
 

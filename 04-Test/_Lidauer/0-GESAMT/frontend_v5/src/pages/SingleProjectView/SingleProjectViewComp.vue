@@ -18,7 +18,7 @@
 <script>
 
     import CategoryElement from "@/pages/SingleProjectView/CategoryElement";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "SingleProjectView",
@@ -27,8 +27,6 @@
         },
         data() {
             return {
-                id: "",
-                selectedproject: {},
                 category_elements: [
                     {
                         category_icon: 'file-alt',
@@ -83,14 +81,28 @@
                  */
             }
         },
-        methods: {},
+        methods: {
+            ...mapActions(["fetchProjects"]),
+
+        },
         computed: {
             ...mapGetters(["allProjects","getProjectByID"]),
+
+            id(){
+                return sessionStorage.getItem('sessionProjectID');
+            },
+
+            selectedproject() {
+                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                    this.fetchProjects();
+                    return 0
+                } else {
+                    return this.getProjectByID(this.id);
+                }
+            }
+
         },
         mounted() {
-            this.id = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.id);
-
             //Read the lenght of each category elements
             if(this.selectedproject.documents != null){
                 this.category_elements[0].category_amount = this.selectedproject.documents.length;
@@ -112,9 +124,6 @@
             if(this.selectedproject.media != null){
                 this.category_elements[4].category_amount = this.selectedproject.media.length;
             }
-        },
-        created() {
-
         },
     }
 </script>

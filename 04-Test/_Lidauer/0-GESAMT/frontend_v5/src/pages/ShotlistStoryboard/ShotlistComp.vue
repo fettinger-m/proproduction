@@ -153,7 +153,7 @@
         },
         methods: {
             //VUEX ACTIONS
-            ...mapActions(["updateShotlist","deleteShotlist"]),
+            ...mapActions(["fetchProjects","updateShotlist","deleteShotlist"]),
 
             //Deletes the current Tab
             deleteTab(shotlist) {
@@ -187,7 +187,12 @@
             },
 
             getshotlistTabs(){
-                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists
+                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                    this.fetchProjects();
+                    return 0
+                } else {
+                    return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists
+                }
             }
         },
     }

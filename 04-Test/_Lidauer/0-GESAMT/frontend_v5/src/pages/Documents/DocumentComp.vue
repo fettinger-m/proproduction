@@ -193,7 +193,12 @@
             },
 
             getDocs() {
-                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).documents
+                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                    this.fetchProjects();
+                    return 0
+                } else {
+                    return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).documents
+                }
             }
         },
         created() {

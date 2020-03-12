@@ -261,18 +261,23 @@ https://github.com/richardtallent/vue-simple-calendar
             //VUEX MUTATIONS
             ...mapMutations(['addEventMut']),
 
-
             setShowDate(d) {
                 this.showDate = d;
             },
 
             onClickItem(e) {
-                // eslint-disable-next-line no-console
-                console.log("Item Clicked: " + e.title);
+                /*
                 this.selectedDate.id = e.id;
                 this.selectedDate.title = e.title;
                 this.selectedDate.startDate = e.startDate;
                 this.selectedDate.endDate = e.endDate;
+                this.selectedDate.description = this.getEventByID(e.id).description;
+                 */
+
+                this.selectedDate.id = e.originalEvent.id;
+                this.selectedDate.title = e.originalEvent.title;
+                this.selectedDate.startDate = e.originalEvent.startDate;
+                this.selectedDate.endDate = e.originalEvent.endDate;
                 this.selectedDate.description = this.getEventByID(e.id).description;
             },
 
@@ -292,9 +297,9 @@ https://github.com/richardtallent/vue-simple-calendar
             },
 
             updateSelectedEvent() {
-                this.editingEntry=false;
                 this.updateEvent(this.selectedDate);
                 this.fetchEvents();
+                this.editingEntry=false;
             },
 
             setLocalEvents(value) {
