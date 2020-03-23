@@ -82,7 +82,6 @@
         </b-row>
 
         <!-- THE TABLE-->
-        <!-- v-sortable="sortableOptions"-->
         <b-table
                 striped hover
                 :fields="visibleFields"
@@ -98,6 +97,8 @@
                 </div>
 
             </template>
+
+
 
             <!-- Number output -->
             <template v-slot:cell(id)="data">

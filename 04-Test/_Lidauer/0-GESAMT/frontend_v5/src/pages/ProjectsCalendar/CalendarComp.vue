@@ -205,9 +205,9 @@ https://github.com/richardtallent/vue-simple-calendar
 <script>
 
     import {CalendarView, CalendarViewHeader} from "vue-simple-calendar"
-
     require("vue-simple-calendar/static/css/default.css")
     require("vue-simple-calendar/static/css/holidays-us.css")
+
     import 'bootstrap/dist/css/bootstrap.css';
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';

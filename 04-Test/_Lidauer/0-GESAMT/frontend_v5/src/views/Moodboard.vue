@@ -7,25 +7,23 @@
     <NavBar
             current-page="moodboard"
     ></NavBar>
-    <!--
     <h2 class="categorytitle">Moodboard</h2>
     <MoodboardComp></MoodboardComp>
-    -->
-    <InProgress></InProgress>
+    <!-- <InProgress></InProgress> -->
   </div>
 </template>
 
 <script>
 
 import NavBar from "../components/Layout/NavBar";
-//import MoodboardComp from "@/pages/Moodboard/MoodboardComp";
-import InProgress from "@/pages/Moodboard/InProgress";
+import MoodboardComp from "@/pages/Moodboard/MoodboardComp";
+//import InProgress from "@/pages/Moodboard/InProgress";
 
 export default {
   name: 'moodboard',
   components: {
-    InProgress,
-    //MoodboardComp,
+    //InProgress,
+    MoodboardComp,
     NavBar,
   },
 }
