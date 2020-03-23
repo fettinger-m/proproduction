@@ -3,7 +3,7 @@
         <NavBar
                 current-page="documents"
         ></NavBar>
-        <h2 class="categorytitle">Documents & Scripts</h2>
+        <h2 class="categorytitle">Documents</h2>
         <DocumentComp/>
     </div>
 </template>

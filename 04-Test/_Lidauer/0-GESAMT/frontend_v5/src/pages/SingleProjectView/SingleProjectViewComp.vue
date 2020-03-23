@@ -30,7 +30,7 @@
                 category_elements: [
                     {
                         category_icon: 'file-alt',
-                        category_name: 'Documents & Script',
+                        category_name: 'Documents',
                         category_desc: 'create documents and scripts',
                         category_amount: 0,
                         category_hover: false,

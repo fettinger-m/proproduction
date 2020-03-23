@@ -142,6 +142,7 @@
         Underline,
         History,
     } from 'tiptap-extensions'
+
     import {Placeholder} from 'tiptap-extensions'
     import Doc from './Doc'
     import Title from './Title'
