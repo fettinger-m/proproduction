@@ -1,0 +1,120 @@
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "max.fettinger@gmail.com",
+    "password": "187istdiegang"
+}
+
+###
+
+GET http://localhost:3000/userdetails
+
+###
+
+POST http://localhost:3000/logout
+
+###
+
+POST http://localhost:3000/userdetails/password/update
+Content-Type: application/json
+
+{
+    "password": "12345678"
+}
+
+###
+POST http://localhost:3000/calendarevents/add
+Content-Type: application/json
+
+{
+    "startDate": "2020-02-18T23:00:00.000Z",
+    "endDate": "2020-02-19T23:00:00.000Z",
+    "title": "Videodreh Musikvideo12123231123233",
+    "description": "Drohne mitnehmen.\n19. - 20."
+}
+
+###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "first_name": "Stefan"
+}
+###
+
+GET http://localhost:3000/projects/-M2EUhvr1amPk3WB-OyS
+
+###
+
+POST http://localhost:3000/projects/-M22lu-tfBUyTbZ-u1vD/documents/add
+Content-Type: application/json
+
+{
+    "doc_name": "Docu3",
+    "content": "seas"
+}
+
+###
+
+POST http://localhost:3000/projects/-M2EUhvr1amPk3WB-OyS/shotlists/-M2EVAoVmEB76VFuo1ic/shots/add
+Content-Type: application/json
+
+{
+    "frame": null,
+    "description": "Shotlist 2 Shot 2",
+    "shotsize": "Wide",
+    "movement": "Forward",
+    "camera": "a7iii",
+    "lens": "50mm",
+    "framerate": "23.976",
+    "specialEquip": "Gimbal",
+    "location": "Timelkam"
+}
+
+###
+
+POST http://localhost:3000/projects/-M2EUhvr1amPk3WB-OyS/shotlists/add
+Content-Type: application/json
+
+{
+    "list_name": "Shotlist2",
+    "frame_c": true,
+    "shotsize_c": true,
+    "movement_c": true,
+    "camera_c": true,
+    "lens_c": true,
+    "framerate_c": true,
+    "specialEquip_c": true,
+    "location_c": true
+}
+
+###
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "email": "seas123@gmx.com",
+    "password": "seas123",
+    "first_name": "testing@gmx.at",
+    "last_name": "testing"
+}
+
+###
+
+POST http://localhost:3000/projects/add
+Content-Type: application/json
+
+{
+    "project_nbr": "P20-01",
+    "project_name": "Test",
+    "project_theme": "Musikvideo",
+    "project_state": "filming",
+    "star1": true,
+    "star2": true,
+    "star3": true,
+    "star4": false,
+    "star5": false,
+    "read_only": true
+}
