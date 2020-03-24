@@ -67,7 +67,7 @@
                 tableStyle: TableStyle,
                 selectedproject: {},
                 projectId: '',
-                url: null
+                url: 'https://da-production.herokuapp.com/'
             }
         },
         methods: {
@@ -87,7 +87,7 @@
             this.projectId = sessionStorage.getItem('sessionProjectID');
             this.selectedproject = this.getProjectByID(this.projectId);
 
-            this.url = "https://da-production.herokuapp.com/" + this.projectId + "/locations"
+            this.url = "https://da-production.herokuapp.com/projects/" + this.projectId + "/locations"
         }
     }
 </script>

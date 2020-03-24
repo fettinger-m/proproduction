@@ -77,6 +77,7 @@
                 //this.addContact(payload);
 
                 client.post(`projects/${this.projectId}/contacts/add`, this.form);
+
                 this.$root.$emit('reloadContactsTable');
             },
             onReset() {

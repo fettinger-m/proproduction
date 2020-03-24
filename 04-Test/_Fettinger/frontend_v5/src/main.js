@@ -27,6 +27,8 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 Vue.use(datePicker);
 
 
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+
 //Axios
 import axios from 'axios'
 Vue.prototype.$http = axios;

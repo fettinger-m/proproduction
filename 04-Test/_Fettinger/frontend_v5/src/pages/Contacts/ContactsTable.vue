@@ -136,7 +136,7 @@
             this.projectId = sessionStorage.getItem('sessionProjectID');
             this.selectedproject = this.getProjectByID(this.projectId);
 
-            this.url = "http://localhost:3000/projects/" + this.projectId + "/contacts"
+            this.url = "https://da-production.herokuapp.com/projects/" + this.projectId + "/contacts"
 
         }
     }

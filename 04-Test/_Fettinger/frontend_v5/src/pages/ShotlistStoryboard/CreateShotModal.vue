@@ -10,6 +10,7 @@
                             @change="onFileSelected"
                             placeholder="Choose an image or drop it here..."
                             drop-placeholder="Drop image here..."
+                            v-model="shot.image"
                     ></b-form-file>
                 </b-col>
             </b-row>
@@ -141,9 +142,8 @@
                     lens: "",
                     framerate: "",
                     specialEquip: "",
-                    location: ""
+                    location: "",
                 },
-
                 //Options to select
                 shotsize_options: [{
                     text: 'shotsize...', value: null
