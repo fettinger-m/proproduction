@@ -16,6 +16,7 @@ var storageRef = ''
 
 ////////// firebase instance of app //////////
 const firebase = require('firebase')
+const firebaseStorage = require('firebase/storage')
 
 ////////// functions //////////
 function register(req, res) {
@@ -82,17 +83,17 @@ function showUserdetails(req, res) {
             res.send(snapshot.val())
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show personal user data
 
 function updateUserdetails(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         userRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/userdetails")
         userRef.update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update personal user data
 
@@ -122,40 +123,40 @@ function updateUserpassword(req, res) {
 
 
 function showTableview(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         tableviewRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/tableview")
         tableviewRef.once("value", function (snapshot) {
             res.send(snapshot.val())
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show personal tableview
 
 function updateTableview(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         tableviewRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/tableview")
         tableviewRef.update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update personal tableview
 
 
 function showCalendarevents(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.once("value", function (snapshot) {
             res.send(calendareventsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user calendarevents
 
 function addCalendarevent(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.push(req.body)
         calendareventRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -164,55 +165,55 @@ function addCalendarevent(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new calendarevent
 
 function updateCalendarevent(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.child(req.params.calendareventID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update calendarevent by id with given data
 
 function deleteCalendarevent(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         calendareventRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/calendarevents")
         calendareventRef.child(req.params.calendareventID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // delete calendarevent by id
 
 
 function showProjects(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.once("value", function (snapshot) {
             res.send(projectsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user projects
 
 function showProject(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID)
         projectsRef.once("value", function (snapshot) {
             res.send(singleProjectFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show selected project
 
 function addProject(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.push(req.body)
         projectsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -221,55 +222,55 @@ function addProject(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new project
 
 function updateProject(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.child(req.params.projectID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update project by id with given data
 
 function deleteProject(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         projectsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects")
         projectsRef.child(req.params.projectID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // delete project by id
 
 
 function showDocuments(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.once("value", function (snapshot) {
             res.send(documentsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user documents
 
 function showDocument(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents/" + req.params.documentID)
         documentsRef.once("value", function (snapshot) {
             res.send(singleDocumentFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show selected document
 
 function addDocument(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.push(req.body)
         documentsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -278,55 +279,55 @@ function addDocument(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new document
 
 function updateDocument(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.child(req.params.documentID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update shotlist by id with given data
 
 function deleteDocument(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         documentsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/documents")
         documentsRef.child(req.params.documentID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // delete document by id
 
 
 function showLocations(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.once("value", function (snapshot) {
             res.send(locationsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user locations
 
 function showLocation(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations/" + req.params.locationID)
         locationsRef.once("value", function (snapshot) {
             res.send(singleLocationFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show selected location
 
 function addLocation(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.push(req.body)
         locationsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -335,55 +336,55 @@ function addLocation(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new location
 
 function updateLocation(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.child(req.params.locationID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update location by id with given data
 
 function deleteLocation(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         locationsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/locations")
         locationsRef.child(req.params.locationID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // delete location by id
 
 
 function showShotlists(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.once("value", function (snapshot) {
             res.send(shotlistsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user shotlists
 
 function showShotlist(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID)
         shotlistsRef.once("value", function (snapshot) {
             res.send(singleShotlistFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show selected shotlist
 
 function addShotlist(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.push(req.body)
         shotlistsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -392,55 +393,55 @@ function addShotlist(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new shotlist
 
 function updateShotlist(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.child(req.params.shotlistID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update shotlist by id with given data
 
 function deleteShotlist(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotlistsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists")
         shotlistsRef.child(req.params.shotlistID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // delete shotlist by id
 
 
 function showShots(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.once("value", function (snapshot) {
             res.send(shotsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user shots
 
 function showShot(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots/" + req.params.shotID)
         shotsRef.once("value", function (snapshot) {
             res.send(singleShotFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show selected shot
 
 function addShot(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.push(req.body)
         shotsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -449,55 +450,55 @@ function addShot(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new shots
 
 function updateShot(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.child(req.params.shotID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new shots
 
 function deleteShot(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         shotsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/shotlists/" + req.params.shotlistID + "/shots")
         shotsRef.child(req.params.shotID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new shots
 
 
 function showContacts(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.once("value", function (snapshot) {
             res.send(contactsFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show all user shotlists
 
 function showContact(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts/" + req.params.contactID)
         contactsRef.once("value", function (snapshot) {
             res.send(singleContactFormatter(snapshot))
         })
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // show selected shotlist
 
 function addContact(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.push(req.body)
         contactsRef.endAt().limitToLast(1).once('child_added', function (snapshot) {
@@ -506,27 +507,27 @@ function addContact(req, res) {
 
         });
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // create new shotlist
 
 function updateContact(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.child(req.params.contactID).update(req.body)
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // update shotlist by id with given data
 
 function deleteContact(req, res) {
-    if (firebase.auth().currentUser.uid != null) {
+    if (firebase.auth().currentUser != null) {
         contactsRef = firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/projects/" + req.params.projectID + "/contacts")
         contactsRef.child(req.params.contactID).remove()
         res.send('success')
     } else {
-        res.send('got to /login or /register')
+        res.send('unauthorized')
     }
 } // delete shotlist by id
 

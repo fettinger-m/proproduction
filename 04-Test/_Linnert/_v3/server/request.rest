@@ -2,8 +2,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "max.fettinger@gmail.com",
-    "password": "187istdiegang"
+    "email": "test@test.test",
+    "password": "testtest"
 }
 
 ###
@@ -44,7 +44,7 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:3000/projects/-M2EUhvr1amPk3WB-OyS
+GET http://localhost:3000/projects/-M37-oo_uTYVQ9cPW98O/shotlists
 
 ###
 
@@ -58,7 +58,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/projects/-M2EUhvr1amPk3WB-OyS/shotlists/-M2EVAoVmEB76VFuo1ic/shots/add
+POST http://localhost:3000/projects/-M37-oo_uTYVQ9cPW98O/shotlists/-M370XxHer6yAWt8SbD1/shots/add
 Content-Type: application/json
 
 {
