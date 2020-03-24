@@ -6,6 +6,11 @@ var router = express.Router();
 var user = require('../components/userFunctions')
 
 ////////// get and post //////////
+router.post('/test', (req, res) => {
+    console.log(req.body)
+    res.status(200).send()
+})
+
 router.get('/', (req, res) => {
     user.showProjects(req, res)
 }) // get for showProjects()
