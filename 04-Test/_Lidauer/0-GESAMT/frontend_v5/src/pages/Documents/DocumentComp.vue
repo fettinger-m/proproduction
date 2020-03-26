@@ -51,7 +51,6 @@
                             v-bind:key="index"
                     >
                         <template v-slot:title>
-
                             <b-container>
                                 <b-row>
                                     <!-- DOCUMENT NAME-->

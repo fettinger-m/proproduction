@@ -5,7 +5,6 @@
         <b-container>
             <div>
                 <b-row align-h="end">
-
                     <!-- Empty Col for layout -->
                     <b-col>
                     </b-col>

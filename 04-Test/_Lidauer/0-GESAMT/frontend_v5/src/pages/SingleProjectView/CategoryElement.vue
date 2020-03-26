@@ -1,6 +1,6 @@
 <template>
 
-    <div class="wholeComponent" @click="categoryOnClick(category_element.category_name, category_element.category_route)" >
+    <div class="wholeComponent" @click="categoryOnClick(category_element.category_route)" >
 
         <div>
             <b-row
@@ -45,7 +45,7 @@
             }
         },
         methods: {
-            categoryOnClick(category_name, category_route) {
+            categoryOnClick(category_route) {
                 this.$router.push({name: category_route, params: { project: this.selectedproject.project_name }})
             }
         },

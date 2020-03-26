@@ -31,7 +31,7 @@
                     {
                         category_icon: 'file-alt',
                         category_name: 'Documents',
-                        category_desc: 'create documents and scripts',
+                        category_desc: 'create documents',
                         category_amount: 0,
                         category_hover: false,
                         category_route: 'documents'

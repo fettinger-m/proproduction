@@ -225,7 +225,6 @@
             this.editor.destroy()
         },
         created() {
-            //Fill Content with saved text
             this.editor.setContent(this.document.documentcontent)
         }
     }
