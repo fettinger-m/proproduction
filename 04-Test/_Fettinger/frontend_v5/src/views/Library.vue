@@ -4,19 +4,19 @@
             current-page="media"
     ></NavBar>
     <h2 class="categorytitle">Media Library</h2>
-    <LibraryCompTest/>
+    <MediaComp/>
   </div>
 </template>
 
 <script>
 
 import NavBar from "../components/Layout/NavBar";
-import LibraryCompTest from "@/pages/MediaLibrary/LibraryCompTest";
+import MediaComp from "../pages/MediaLibrary/MediaComp";
 
 export default {
   name: 'library',
   components: {
-    LibraryCompTest,
+    MediaComp,
     NavBar,
   },
 }

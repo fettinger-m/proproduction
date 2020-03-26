@@ -116,6 +116,7 @@ a:not([href]).btn-primary {
 
 .categorytitle {
     margin: 20px;
+    color: orangered;
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {

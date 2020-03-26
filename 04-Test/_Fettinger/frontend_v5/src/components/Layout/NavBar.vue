@@ -30,7 +30,7 @@
                 <b-nav-item :to="{name: 'shotlist', params: { project: projectName }}" :active="isActive('shotlist')"
                             v-show="isShown()">
                     <font-awesome-icon :icon="['fas', 'clipboard-list']"/>
-                    Shotlist
+                    Shotlists
                 </b-nav-item>
 
                 <!--
@@ -50,7 +50,7 @@
                 <b-nav-item :to="{name: 'location', params: { project: projectName }}" :active="isActive('location')"
                             v-show="isShown()">
                     <font-awesome-icon :icon="['fas', 'map-marker-alt']"/>
-                    Location
+                    Locations
                 </b-nav-item>
 
                 <b-nav-item :to="{name: 'media', params: { project: projectName }}" :active="isActive('media')"

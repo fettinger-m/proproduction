@@ -1,30 +1,29 @@
 <template>
     <div>
+        <!-- GOOGLE MAP with Markers -->
         <gmap-map
                 :center="center"
                 :zoom="12"
                 :options="options"
-                style="width:100%;  height:35rem;"
-
+                class="gmap"
         >
             <gmap-marker
                     :key="index"
-                    v-for="(m, index) in selectedproject.locations"
+                    v-for="(m, index) in getLocations"
                     :position="m.marker"
-                    @click="center=m.marker"
+                    @click="changeCenter(m.marker)"
             ></gmap-marker>
         </gmap-map>
-        <div class="m-3">
+
+        <!-- INPUT field for Locations -->
+        <div class="mt-3">
             <b-input-group>
                 <gmap-autocomplete
                         @place_changed="setPlace"
                         class="form-control"
-                        :options="{
-                            radius: 10000,
-                            location: currentLocation
-                        }"
                 >
                 </gmap-autocomplete>
+
                 <b-input-group-append>
                     <b-btn @click="addMarker" variant="primary">Add</b-btn>
                 </b-input-group-append>
@@ -34,16 +33,20 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters, mapMutations} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
         name: "GoogleMap",
         data() {
             return {
-                selectedproject: {},
-                projectId: '',
-                center: {lat: 45.508, lng: -73.587},
+
+                //Current Center, gets adjusted to local place after site loads, current basic value: Wels
+                center: {lat: 48.16542, lng: 14.03664},
+
+                //Location in the Input Field
                 currentPlace: null,
+
+                //Google Map options
                 options: {
                     mapTypeControl: false,
                     streetViewControl: false,
@@ -51,20 +54,33 @@
                     fullscreenControl: false,
                     draggable: true
                 },
+
+                //Current Location
                 currentLocation: null
             };
         },
         methods: {
-            ...mapActions(["addLocation"]),
-            ...mapMutations(['addProjectRow']),
+            ...mapActions(["addLocation", "fetchProjects"]),
+
+            //Change Center of Google Map
+            changeCenter: function(e) {
+                this.center.lat = e.lat;
+                this.center.lng = e.lng;
+            },
+
             //Autocomplete change Place
             setPlace(place) {
                 this.currentPlace = place;
             },
+
+            //Gets triggered by add button
             addMarker() {
                 if (this.currentPlace) {
 
+                    //addr gets the address components from Google
                     let addr = this.currentPlace.address_components;
+
+                    //Local loaction Object
                     let location = {};
 
                     //---Build Location Object for Database
@@ -110,9 +126,7 @@
                     //Set new Center
                     this.center = marker;
 
-                    // eslint-disable-next-line no-console
-                    console.log(location);
-
+                    //Create a payload object for VUEX
                     let payload = {
                         projectId: this.projectId,
                         location: location
@@ -138,22 +152,35 @@
 
         },
         computed: {
-            ...mapGetters(["allLocations","getProjectByID"])
+            ...mapGetters(["allLocations","getProjectByID"]),
+
+            projectId() {
+                return sessionStorage.getItem('sessionProjectID');
+            },
+
+            getLocations() {
+                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                    this.fetchProjects();
+                    return 0
+                } else {
+                    return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).locations
+                }
+            }
         },
         mounted() {
             this.geoLocate();
-            this.projectId = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.projectId);
 
             this.$root.$on('changeCenter', (e) => {
-
-
-                this.center.lat = e.lat;
-                this.center.lng = e.lng;
-// eslint-disable-next-line no-console
-                console.log(this.center);
-
+                this.changeCenter(e);
             })
         },
     };
 </script>
+
+<style scoped>
+    /* Google Map style */
+    .gmap {
+        width: 100%;
+        height: 30rem;
+    }
+</style>

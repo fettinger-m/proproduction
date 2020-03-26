@@ -2,7 +2,7 @@
     <vuetable ref="locationTableRef"
               :api-url=url
               :fields="fields"
-              :css="tableStyle.table"
+              :css="tableStyle"
               data-path=""
               pagination-path=""
               @vuetable:row-clicked="onRowClicked"
@@ -13,17 +13,17 @@
 
 <script>
     import Vuetable from 'vuetable-2/src/components/Vuetable'
-    import TableStyle from "../../css/TableStyle";
     import Vue from 'vue'
     import LocationActions from "./LocationActions";
-    import {mapGetters} from "vuex";
+
+    import tableStyle from "../../css/tableStyle";
 
     Vue.component('location-actions', LocationActions);
 
     export default {
         name: "LocationTable",
         components: {
-            Vuetable
+            'vuetable': Vuetable
         },
         data() {
             return {
@@ -64,10 +64,10 @@
                         width: '12%'
                     }
                 ],
-                tableStyle: TableStyle,
-                selectedproject: {},
+                tableStyle: tableStyle,
+
                 projectId: '',
-                url: 'https://da-production.herokuapp.com/'
+                url: ''
             }
         },
         methods: {
@@ -75,19 +75,19 @@
                 this.$root.$emit('changeCenter', e.marker)
             }
         },
-        computed: {
-            ...mapGetters(["getProjectByID"]),
-        },
         mounted() {
+            //Collects the root emits and reloads the table
             this.$root.$on('reloadLocationTable', () => {
-                //this.reloadData();
                 this.$refs.locationTableRef.reload();
             });
-
+        },
+        created() {
             this.projectId = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.projectId);
 
             this.url = "https://da-production.herokuapp.com/projects/" + this.projectId + "/locations"
+
+            // eslint-disable-next-line no-console
+            console.log(this.url)
         }
     }
 </script>

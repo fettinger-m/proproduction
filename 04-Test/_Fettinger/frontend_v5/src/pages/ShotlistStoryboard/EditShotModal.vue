@@ -10,6 +10,7 @@
                             @change="onFileSelected"
                             placeholder="Choose an image or drop it here..."
                             drop-placeholder="Drop image here..."
+                            v-model="image"
                     ></b-form-file>
                 </b-col>
             </b-row>
@@ -135,6 +136,9 @@
                 //local shot
                 shot: {},
 
+                //Local Image
+                image: null,
+
                 //Options to select
                 shotsize_options: [{
                     text: 'shotsize...', value: null
@@ -166,13 +170,11 @@
 
             onFileSelected(event) {
                 const files = event.target.files
-                this.shot.image = files[0]
+                this.image = files[0]
             },
 
             // Clears all values in the Input fields
             clearModalInputFields() {
-                this.shot.imageURL = "";
-                this.shot.image = null;
                 this.shot.description = "";
                 this.shot.shotsize = "";
                 this.shot.movement = "";
@@ -184,13 +186,24 @@
             },
 
             updateThisShot(newshot) {
+                //Create new FormData object
+                const formData = new FormData();
+
+                if (this.image != null) {
+                    formData.append('file', this.image);
+                    newshot.imageAttached = true;
+                } else {
+                    newshot.imageAttached = false;
+                }
+
                 let payload = {
                     projId: this.projId,
                     shotlistId: this.shotlist_tab.id,
+                    imageFormData: formData,
                     updShot: newshot
-                }
+                };
                 // eslint-disable-next-line no-console
-                console.log(payload)
+                console.log(payload);
                 this.updateShot(payload)
             },
 

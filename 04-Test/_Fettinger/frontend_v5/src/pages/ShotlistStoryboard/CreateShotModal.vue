@@ -10,7 +10,7 @@
                             @change="onFileSelected"
                             placeholder="Choose an image or drop it here..."
                             drop-placeholder="Drop image here..."
-                            v-model="shot.image"
+                            v-model="image"
                     ></b-form-file>
                 </b-col>
             </b-row>
@@ -131,10 +131,10 @@
         name: "CreateShotModal",
         data() {
             return {
+                image: null,
                 //Local Shot Object
                 shot: {
-                    imageURL: "",
-                    image: null,
+                    downloadlink: "",
                     description: "",
                     shotsize: "",
                     movement: "",
@@ -143,6 +143,7 @@
                     framerate: "",
                     specialEquip: "",
                     location: "",
+                    imageAttached: false
                 },
                 //Options to select
                 shotsize_options: [{
@@ -168,19 +169,9 @@
             ...mapActions(["addShot", "fetchProjects"]),
 
             onFileSelected(event) {
-                const files = event.target.files
-                /*
-                let filename = files[0].name
-                if(filename.lastIndexOf('.') <= 0) {
-                    return alert('Please add a valid file!')
-                }
-                const fileReader = new FileReader()
-                fileReader.addEventListener('load', () => {
-                    this.shot.imageURL = fileReader.result
-                })
-                fileReader.readAsDataURL(files[0])
-                */
-                this.shot.image = files[0]
+                const files = event.target.files;
+
+                this.image = files[0];
             },
 
             clearModalInputFields() {
@@ -196,11 +187,26 @@
 
             //Push new Shot to Table
             addNewShot() {
+                //Create a new FormData object for backend to process
+                const formData = new FormData();
+
+                if (this.image != null) {
+                    formData.append('file', this.image);
+                    this.shot.imageAttached = true;
+                } else {
+                    this.shot.imageAttached = false;
+                }
+
+
                 let payload = {
                     projId: this.id,
                     shotlistId: this.shotlist_tab.id,
-                    shot: this.shot
-                }
+                    //Image File
+                    imageFormData: formData,
+                    //Object with Text Data
+                    shotObject: this.shot
+                };
+
                 this.addShot(payload)
             },
         },

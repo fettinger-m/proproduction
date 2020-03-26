@@ -1,10 +1,14 @@
 <template>
     <div class="custom-actions">
-        <b-modal v-model="deleteShow" :title=titleDel>Confirm that you want to delete contact: {{rowData.name}}
-        </b-modal>
-        <b-modal v-model="editShow" :title=titleEdit>
-            <EditContact :row-data="rowData" :row-index="rowIndex" ref="editContactRef"></EditContact>
+        <!-- EDIT modal -->
+        <b-modal
+                :title=titleEdit
+                v-model="editShow"
+        >
+            <!-- edit contact component -->
+            <EditContact :row-data="rowData" ref="editContactRef"></EditContact>
 
+            <!-- Edit standard template of the modal footer -->
             <template v-slot:modal-footer="{ cancel, ok }">
                 <b-button size="sm" @click="cancel()">
                     Cancel
@@ -18,11 +22,29 @@
             </template>
         </b-modal>
 
-        <b-button variant="outline-primary" size="sm" class="mr-1"
-                  @click="editItemAction('edit-item', rowData, rowIndex)">
+        <!-- DELETE modal -->
+        <b-modal
+                :title=titleDel
+        >
+            Confirm that you want to delete contact: {{rowData.name}}
+        </b-modal>
+
+        <!-- EDIT button -->
+        <b-button
+                variant="outline-primary"
+                size="sm"
+                class="mr-1"
+                @click="editItemAction(rowData)"
+        >
             <font-awesome-icon :icon="['fas', 'pen']" fixed-width/>
         </b-button>
-        <b-button variant="outline-primary" size="sm" @click="deleteItemAction('delete-item', rowData, rowIndex)">
+
+        <!-- DELETE button -->
+        <b-button
+                variant="outline-primary"
+                size="sm"
+                @click="deleteItemAction(rowData)"
+        >
             <font-awesome-icon :icon="['fas', 'trash']" fixed-width/>
         </b-button>
     </div>
@@ -30,9 +52,9 @@
 
 <script>
     import EditContact from "./EditContact";
-    import {mapGetters, mapActions} from "vuex";
     import axios from 'axios'
 
+    //Define axios client
     const client = axios.create({
         baseURL: 'https://da-production.herokuapp.com/',
         json: true
@@ -47,69 +69,70 @@
                 type: Object,
                 required: true
             },
-            rowIndex: {
-                type: Number
-            }
         },
+
         data() {
             return {
-                selectedproject: null,
-                projId: null,
+                projId: "",
+
                 editShow: false,
-                deleteShow: false,
+
+                //Title creation for both modals
                 titleDel: "Delete " + this.rowData.name,
                 titleEdit: "Edit " + this.rowData.name,
             }
         },
-        methods: {
-            ...mapActions(["deleteContact"]),
-            deleteItemAction(action, data, index) {
-                // eslint-disable-next-line no-console
-                console.log('custom-actions: ' + action, data.name, index);
-                this.$bvModal.msgBoxConfirm('Please confirm that you want to delete ' + this.rowData.name, {
-                    title: 'Please Confirm',
-                    buttonSize: 'sm',
-                    okVariant: 'primary',
-                    okTitle: 'YES',
-                    cancelTitle: 'NO',
-                    footerClass: 'p-2',
-                    hideHeaderClose: false,
-                    centered: true
-                })
-                    .then(value => {
-                        if (value) {
-                            client.post(`projects/${this.projId}/contacts/${data.id}/delete`);
 
-                            this.$root.$emit('reloadContactsTable');
+        methods: {
+            //Function for DELETE modal
+            deleteItemAction(data) {
+                this.$bvModal.msgBoxConfirm(
+                    'Please confirm that you want to delete ' + this.rowData.name,
+                    {
+                        title: 'Please Confirm',
+                        buttonSize: 'sm',
+                        okVariant: 'primary',
+                        okTitle: 'YES',
+                        cancelTitle: 'NO',
+                        footerClass: 'p-2',
+                        hideHeaderClose: false,
+                        centered: true
+                    }
+                )
+                    .then(
+                        value => {
+                            if (value) {
+                                client.post(`projects/${this.projId}/contacts/${data.id}/delete`)
+                                    .then(
+                                        this.$root.$emit('reloadContactsTable')
+                                    );
                         }
                     });
 
 
             },
-            editItemAction(action, data, index) {
-                // eslint-disable-next-line no-console
-                console.log('custom-actions: ' + action, data.name, index);
-                this.editShow = true;
 
+            //Function for EDIT Modal
+            editItemAction() {
+                this.editShow = true;
             },
+
+            //Reset function of the edit Modal
             resetForm: function () {
+                //Triggers the reset in the component over reference
                 this.$refs.editContactRef.onReset();
             },
+
+            //Submit function of the edit Modal
             onSubmit: function () {
+                //Triggers the submit in the component over reference
                 this.$refs.editContactRef.onSubmit();
                 this.editShow = false;
-                this.$root.$emit('reloadContactsTable');
+
             }
         },
         mounted() {
             this.projId = sessionStorage.getItem('sessionProjectID');
-            this.selectedproject = this.getProjectByID(this.projId);
-        },
-        computed: {
-            ...mapGetters(["getProjectByID"])
         }
     }
 </script>
-
-<style>
-</style>

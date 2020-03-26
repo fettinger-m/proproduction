@@ -1,7 +1,7 @@
 <template>
     <div id="singleproject">
 
-        <h1> {{ this.selectedproject.project_name }} </h1>
+        <h1 class="categorytitle"> {{ this.selectedproject.project_name }} </h1>
 
         <b-container id="categorysID">
             <b-col v-for="(category_element, index) in category_elements" v-bind:key="index">
@@ -30,7 +30,7 @@
                 category_elements: [
                     {
                         category_icon: 'file-alt',
-                        category_name: 'Documents & Script',
+                        category_name: 'Documents',
                         category_desc: 'create documents and scripts',
                         category_amount: 0,
                         category_hover: false,
@@ -79,6 +79,7 @@
                         category_route: 'moodboard'
                     },
                  */
+
             }
         },
         methods: {
@@ -86,28 +87,31 @@
 
         },
         computed: {
-            ...mapGetters(["allProjects","getProjectByID"]),
+            ...mapGetters(["allProjects", "getProjectByID"]),
 
-            id(){
+            id() {
                 return sessionStorage.getItem('sessionProjectID');
             },
 
+
             selectedproject() {
-                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+                if (this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
                     this.fetchProjects();
+                    //return this.getProjectByID(this.projectId);
                     return 0
                 } else {
                     return this.getProjectByID(this.id);
                 }
             }
 
+
         },
         mounted() {
             //Read the lenght of each category elements
-            if(this.selectedproject.documents != null){
+            if (this.selectedproject.documents != null) {
                 this.category_elements[0].category_amount = this.selectedproject.documents.length;
             }
-            if(this.selectedproject.shotlists != null){
+            if (this.selectedproject.shotlists != null) {
                 this.category_elements[1].category_amount = this.selectedproject.shotlists.length;
             }
             /*
@@ -115,13 +119,13 @@
                 this.category_elements[2].category_amount = this.selectedproject.moodboards.length;
             }
              */
-            if(this.selectedproject.locations != null){
+            if (this.selectedproject.locations != null) {
                 this.category_elements[2].category_amount = this.selectedproject.locations.length;
             }
-            if(this.selectedproject.contacts != null){
+            if (this.selectedproject.contacts != null) {
                 this.category_elements[3].category_amount = this.selectedproject.contacts.length;
             }
-            if(this.selectedproject.media != null){
+            if (this.selectedproject.media != null) {
                 this.category_elements[4].category_amount = this.selectedproject.media.length;
             }
         },

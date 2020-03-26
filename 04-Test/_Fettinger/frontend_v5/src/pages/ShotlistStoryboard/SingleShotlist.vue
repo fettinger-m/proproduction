@@ -90,11 +90,20 @@
         >
             <template v-slot:cell(imageURL)="data">
                 <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
-                <div v-if="data.value == null || data.value === ''">
+                <!-- //TODO BILD anzeigen -->
+                <div v-if="data.item.downloadlink ===''">
                     <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
                 </div>
                 <div v-else>
-                    <img :src="require(`@/assets/${data.item.imageURL}`)" :height="imgsize" :alt="data.item.imageURL"/>
+                    <!-- 16:9 Aspect Ratio, Cover -->
+                        <img
+                                :src="data.item.downloadlink"
+                                :alt="data.item.downloadlink"
+                                :height="imgsize"
+                                :width="(imgsize/9)*16"
+                                style="object-fit: cover"
+                                class="shotImg"
+                        />
                 </div>
 
             </template>
@@ -227,33 +236,33 @@
                 this.deleteShot(payload)
             },
 
-            getImgUrl(pic) {
-                let image = '../../assets/' + pic;
-                return image;
-            }
         },
         computed: {
             ...mapGetters(["getProjectByID"]),
             visibleFields() {
                 return this.fields.filter(field => field.visible)
             },
-            id(){
+            id() {
                 return sessionStorage.getItem('sessionProjectID');
             },
-            selectedproject(){
-                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+            selectedproject() {
+                if (this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
                     this.fetchProjects();
                     return 0
                 } else {
                     return this.getProjectByID(sessionStorage.getItem('sessionProjectID'));
                 }
             },
-            shots(){
-                if(this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
+            shots() {
+                if (this.getProjectByID(sessionStorage.getItem('sessionProjectID')) == null) {
                     this.fetchProjects();
                     return 0
                 } else {
+                    // eslint-disable-next-line no-console
+                    console.log(this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists.find(shotlist => shotlist.id === this.shotlistId).shots)
+
                     return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists.find(shotlist => shotlist.id === this.shotlistId).shots
+
                 }
             }
         },

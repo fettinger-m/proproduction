@@ -70,10 +70,10 @@ const actions = {
     async addProject({commit}) {
         let project = {
             project_name: "New Project",
-            shotlists:[],
-            documents:[],
-            locations:[],
-            contacts:[]
+            shotlists: [],
+            documents: [],
+            locations: [],
+            contacts: []
         }
 
         const response = await client.post(
@@ -116,7 +116,7 @@ const actions = {
 
         CalendarComp.methods.resetSelectedDate(updEvent)
     },
-    async addEventAction ({commit}, eventobj) {
+    async addEventAction({commit}, eventobj) {
         const response = await client.post(
             '/calendarevents/add',
             eventobj
@@ -242,20 +242,32 @@ const actions = {
         commit('updateShotlistMut', payload);
     },
     async addShot({commit}, payload) {
-
-        const response = await client.post(
+        //POST the shot object WITHOUT image
+        const responseShotObj = await client.post(
             `/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/add`,
-            payload.shot
+            payload.shotObject
         );
 
-        payload.shot.id = response.data
+        //IF successful, middleware sends id
+        if (responseShotObj.data.id) {
+            //set id of shot object
+            payload.shotObject.id = responseShotObj.data.id;
 
-        // eslint-disable-next-line no-console
-        console.log("Add new Shot:")
+            //IF a image was attached the image gets posted (seperately)
+            if (payload.shotObject.imageAttached) {
 
-        // eslint-disable-next-line no-console
-        console.log(payload)
+                //The FormData object gets posted
+                const responseImg = await client.post(
+                    `/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.shotObject.id}/image/add`,
+                    payload.imageFormData
+                );
 
+                //set download link of shot object
+                payload.shotObject.downloadlink = responseImg.data.downloadlink;
+            }
+        }
+
+        //commit mutation with payload object
         commit('addShotMut', payload);
     },
     async deleteShot({commit}, payload) {
@@ -264,27 +276,44 @@ const actions = {
         commit('removeShot', payload);
     },
     async updateShot({commit}, payload) {
-        const response = await client.post(
+        //POST the shot object WITHOUT image
+        const responseShotObj = await client.post(
             `/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.updShot.id}/update`,
             payload.updShot
         );
 
-        // eslint-disable-next-line no-console
-        console.log(response.data)
+        //IF successful, middleware sends "success"
+        if (responseShotObj.data === "success") {
 
+            //The FormData object gets posted
+            if (payload.updShot.imageAttached) {
+                const responseImg = await client.post(
+                    `/projects/${payload.projId}/shotlists/${payload.shotlistId}/shots/${payload.updShot.id}/image/add`,
+                    payload.imageFormData
+                );
+
+                //set new download link of shot object
+                payload.updShot.downloadlink = responseImg.data.downloadlink;
+            }
+        }
         commit('updateShotMut', payload);
     },
 
     //---LOCATION
     async addLocation({commit}, payload) {
-        await client.post(
+        const response = await client.post(
             `projects/${payload.projectId}/locations/add`,
             payload.location
         );
+
+        payload.location.id = response.data;
+
         commit('addLocation', payload);
     },
+
     async deleteLocation({commit}, payload) {
         await client.post(`/projects/${payload.projId}/locations/${payload.locId}/delete`);
+
         commit('removeLocation', payload);
     },
 
@@ -373,7 +402,7 @@ const mutations = {
 
     //Shots
     addShotMut:
-        (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.push(payload.shot),
+        (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.push(payload.shotObject),
     removeShot: (state, payload) => state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots =
         state.projects.find(project => project.id === payload.projId).shotlists.find(shotlist => shotlist.id === payload.shotlistId).shots.filter(shot => shot.id !== payload.shotId),
     updateShotMut: (state, payload) => {

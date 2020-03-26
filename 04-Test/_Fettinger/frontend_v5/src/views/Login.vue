@@ -63,8 +63,11 @@
     //import NavBar from "../components/Layout/NavBar";
     import axios from 'axios'
 
+
+
     const client = axios.create({
         baseURL: 'https://da-production.herokuapp.com/',
+        //baseURL: 'http://localhost:3000/',
         json: true
     });
     export default {
