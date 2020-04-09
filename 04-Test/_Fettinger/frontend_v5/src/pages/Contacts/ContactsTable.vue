@@ -14,10 +14,10 @@
 <script>
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import Vue from 'vue'
-    import ContactActions from "./ContactActions";
     import tableStyle from "../../css/tableStyle";
 
-    //Contact definition directly in the script because ESLint
+
+    import ContactActions from "./ContactActions";
     Vue.component('contact-actions', ContactActions);
 
     export default {
@@ -31,7 +31,7 @@
                     {
                         name: 'name',
                         width: '20%',
-                        dataClass: 'text-left'
+                        dataClass: 'fullname text-left'
                     },
                     {
                         name: 'group',
@@ -91,6 +91,9 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+    .fullname {
+        color: orangered;
+        font-weight: bold;
+    }
 </style>

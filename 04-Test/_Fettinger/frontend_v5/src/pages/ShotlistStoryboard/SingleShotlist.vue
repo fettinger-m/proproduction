@@ -90,7 +90,6 @@
         >
             <template v-slot:cell(imageURL)="data">
                 <!-- Wenn Element leer - icon anzeigen - ansonsten Bild -->
-                <!-- //TODO BILD anzeigen -->
                 <div v-if="data.item.downloadlink ===''">
                     <font-awesome-icon class="icon" :icon="['fas', 'image']"/>
                 </div>

@@ -5,8 +5,11 @@ import router from "./router";
 
 //Bootstrap
 import BootstrapVue from 'bootstrap-vue'
+
+//IMPORT von Bootstrap CSS Files
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+//IMPORT der eigenen CSS Files
 import './css/custom.css'
 Vue.use(BootstrapVue);
 
@@ -25,6 +28,7 @@ import datePicker from 'vue-bootstrap-datetimepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 Vue.use(datePicker);
+
 
 
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'

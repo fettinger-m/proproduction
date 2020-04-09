@@ -1,7 +1,7 @@
 <template>
     <b-navbar toggleable="lg" type="light" variant="light">
-        <b-navbar-brand href="#">
-            PRODUCTION
+        <b-navbar-brand :to="{name: 'projects'}">
+            <span class="logoOrange">PRO</span><span class="logoBlack">duction</span>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse" data-target="#navbarSupportedContent">
         </b-navbar-toggle>
@@ -12,23 +12,26 @@
                     All Projects
                 </b-nav-item>
 
-                <b-nav-text v-show="isShown()">
+                <b-nav-text v-show="!smallNav">
+                    <!-- Pfeil rechts Icon -->
                     <font-awesome-icon class="mr-2 ml-2" :icon="['fas', 'angle-right']"/>
                 </b-nav-text>
 
                 <b-nav-item :to="{name: 'project', params: { project: projectName }}" :active="isActive('project')"
-                            v-show="isShown()">
+                            v-show="!smallNav">
                     {{projectName}}
                 </b-nav-item>
 
-                <b-nav-item :to="{name: 'documents', params: { project: projectName }}" :active="isActive('documents')"
-                            v-show="isShown()">
+                <b-nav-item
+                        :to="{name: 'documents', params: { project: projectName }}"
+                        :active="isActive('documents')"
+                        v-show="!smallNav">
                     <font-awesome-icon :icon="['fas', 'file-alt']"/>
                     Documents
                 </b-nav-item>
 
                 <b-nav-item :to="{name: 'shotlist', params: { project: projectName }}" :active="isActive('shotlist')"
-                            v-show="isShown()">
+                            v-show="!smallNav">
                     <font-awesome-icon :icon="['fas', 'clipboard-list']"/>
                     Shotlists
                 </b-nav-item>
@@ -42,19 +45,19 @@
                 -->
 
                 <b-nav-item :to="{name: 'contacts', params: { project: projectName }}" :active="isActive('contacts')"
-                            v-show="isShown()">
+                            v-show="!smallNav">
                     <font-awesome-icon :icon="['fas', 'address-book']"/>
                     Contacts
                 </b-nav-item>
 
                 <b-nav-item :to="{name: 'location', params: { project: projectName }}" :active="isActive('location')"
-                            v-show="isShown()">
+                            v-show="!smallNav">
                     <font-awesome-icon :icon="['fas', 'map-marker-alt']"/>
                     Locations
                 </b-nav-item>
 
                 <b-nav-item :to="{name: 'media', params: { project: projectName }}" :active="isActive('media')"
-                            v-show="isShown()">
+                            v-show="!smallNav">
                     <font-awesome-icon :icon="['fas', 'paperclip']"/>
                     Media
                 </b-nav-item>
@@ -73,10 +76,6 @@
 
     export default {
         name: "NavBar",
-        data() {
-            return {
-            }
-        },
         methods: {
             ...mapActions(["fetchProjects"]),
 

@@ -96,6 +96,12 @@
     border-color: orangered;
 }
 
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: orangered;
+    border-color: orangered;
+}
+
 .btn-primary:not(:disabled):not(.disabled):active:focus,
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
@@ -107,6 +113,13 @@
     color: #fff;
     background-color: #6c757d;
     border-color: #6c757d;
+}
+
+.form-control:focus {
+    color: #495057;
+    border-color: orangered;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.5);
 }
 
 a:not([href]).btn-primary {
@@ -139,4 +152,14 @@ a:not([href]).btn-primary {
 .custom-select {
     border: 1px solid #ced4da;
     border-radius: 0.0rem;
+}
+
+.logoOrange {
+    color: orangered;
+    font-weight: bold !important;
+}
+
+.logoBlack {
+    color: black;
+    font-weight: normal !important;
 }

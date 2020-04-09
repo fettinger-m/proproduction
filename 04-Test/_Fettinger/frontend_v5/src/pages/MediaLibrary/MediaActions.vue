@@ -14,6 +14,7 @@
                 @click="downloadItemAction(rowData)"
         >
             <font-awesome-icon :icon="['fas', 'download']" fixed-width/>
+            <!-- DELETE button -->
         </b-button>
 
         <!-- DELETE button -->
@@ -86,9 +87,9 @@
                 //set the HREF attribute to the download link
                 link.href = data.downloadlink;
 
-                /*
-                link.setAttribute('download', "test.jpg");
-                 */
+
+                link.setAttribute('download', data.name);
+
 
                 //Append link object to HTML body
                 document.body.appendChild(link);

@@ -70,6 +70,10 @@
         mounted() {
             this.$root.$on('reloadMediaTable', () => {
                 this.$refs.mediaTableRef.reload();
+                this.$refs.mediaTableRef.reload();
+                this.$refs.mediaTableRef.reload();
+                this.$refs.mediaTableRef.reload();
+                this.$refs.mediaTableRef.reload();
             });
         },
 

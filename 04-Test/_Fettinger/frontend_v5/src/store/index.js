@@ -1,14 +1,15 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 
-import vuexstore from './modules/vuexstore';
+import module from './modules/module';
 // Load Vuex
 Vue.use(Vuex);
 
 // Create store
 export default new Vuex.Store({
+    // ...
     strict: false,
     modules: {
-        vuexstore
+        module
     }
 });
