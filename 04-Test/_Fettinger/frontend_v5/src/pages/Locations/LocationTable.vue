@@ -79,6 +79,12 @@
             //Collects the root emits and reloads the table
             this.$root.$on('reloadLocationTable', () => {
                 this.$refs.locationTableRef.reload();
+                this.$refs.locationTableRef.reload();
+                this.$refs.locationTableRef.reload();
+                this.$refs.locationTableRef.reload();
+                this.$refs.locationTableRef.reload();
+                this.$refs.locationTableRef.reload();
+
             });
         },
         created() {

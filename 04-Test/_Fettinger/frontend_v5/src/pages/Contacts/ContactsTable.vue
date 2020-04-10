@@ -82,6 +82,11 @@
             //Collects the root emits and reloads the table
             this.$root.$on('reloadContactsTable', () => {
                 this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
+                this.$refs.contactsTableRef.reload();
             });
         },
         created() {

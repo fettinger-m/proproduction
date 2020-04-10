@@ -93,7 +93,7 @@
             register() {
                 client.post('/register', this.form)
                     .then((response) => {
-                        if (response.data === 'login successful') {
+                        if (response.data === 'registration successful') {
                             this.$router.push('login')
                         } else {
                             this.errorMsg = response.data;
