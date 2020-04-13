@@ -1,7 +1,0 @@
-projId
-docId
-shotlistId
-shotId
-locationId
-locId
-eventId

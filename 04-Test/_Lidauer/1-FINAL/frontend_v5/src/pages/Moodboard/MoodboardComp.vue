@@ -1,47 +1,40 @@
 <template>
-    <div id="shotlist">
+    <div>
         <b-container>
-            <!-- Add Shotlist Button & Modal -->
+            <!-- Add Moodboard Button & Modal -->
             <b-row align-h="end">
                 <b-col cols="3">
                     <!-- Add Button-->
                     <b-button
                             type="button"
-                            @click="$bvModal.show('listcreation')"
+                            @click="$bvModal.show('boardcreation')"
                             variant="outline-primary"
                             class="float-right"
                     >
                         <font-awesome-icon :icon="['fas', 'plus-square']"/>
-                        Add New Shotlist
+                        Add New Moodboard
                     </b-button>
 
                     <!-- Add Shot Dialog-->
-                    <b-modal id="listcreation" hide-footer>
+                    <b-modal id="boardcreation" hide-footer >
                         <template v-slot:modal-title>
                             <font-awesome-icon :icon="['fas', 'clipboard-list']"/>
-                            Create a new shotlist
+                            Create a new Moodboard
                         </template>
-                        <CreateShotListModal
-                                v-bind:shotlist-tabs="getshotlistTabs"
+                        <CreateEditMoodboardModal
+                                v-bind:moodboards="moodboards"
                         />
                     </b-modal>
                 </b-col>
             </b-row>
 
-            <b-row v-if="getshotlistTabs==null">
-                <b-col>
-                    <b-card>
-                        You don't have any shotlists yet.
-                    </b-card>
-                </b-col>
-            </b-row>
             <!-- All tabs -->
             <b-tabs content-class="mt-3">
 
                 <!-- ONE SHOTLIST TAB -->
                 <b-tab
                         active
-                        v-for="(shotlistTab, index) in getshotlistTabs"
+                        v-for="(board, index) in moodboards"
                         v-bind:key="index"
                 >
                     <template v-slot:title>
@@ -54,15 +47,15 @@
                                     <div>
                                         <!-- Input file -->
                                         <b-input
-                                                v-if="shotlistTab.edit"
-                                                v-model="shotlistTab.listName"
-                                                :state="shotlistTab.listName.length >= 4"
+                                                v-if="board.edit"
+                                                v-model="board.boardname"
+                                                :state="board.boardname.length >= 4"
                                                 placeholder="Enter at least 4 characters"
 
                                         ></b-input>
                                         <!-- Normal Label-->
                                         <div v-else>
-                                            <label class="tabtitle"> {{shotlistTab.listName}} </label>
+                                            <label class="tabtitle"> {{board.boardname}} </label>
                                         </div>
                                     </div>
                                 </b-col>
@@ -70,19 +63,19 @@
                                 <!-- Edit & Save Button-->
                                 <b-col cols="2">
                                     <!-- Save Button -->
-                                    <div v-show="shotlistTab.edit">
+                                    <div v-show="board.edit">
                                         <b-button
-                                                @click="saveNameChange(shotlistTab)"
+                                                @click="saveNameChange(moodboards, board)"
                                                 variant="outline"
-                                                :disabled="shotlistTab.listName.length < 4"
+                                                :disabled="board.boardname.length < 4"
                                         >
                                             <font-awesome-icon :icon="['fas', 'check']"/>
                                         </b-button>
                                     </div>
                                     <!-- Edit Button -->
-                                    <div v-show="!shotlistTab.edit">
+                                    <div v-show="!board.edit">
                                         <b-button
-                                                @click="shotlistTab.edit = true;"
+                                                @click="board.edit = true;"
                                                 variant="outline"
                                         >
                                             <font-awesome-icon :icon="['fas', 'pen']"/>
@@ -104,13 +97,13 @@
                                                     variant="outline-danger"
                                             >
                                                 <font-awesome-icon :icon="['fas', 'trash-alt']"/>
-                                                Delete List
+                                                Delete Board
                                             </b-button>
 
                                             <!-- Delete Dialog-->
-                                            <b-modal :id="index.toString()" hide-footer title="Delete this shotlist?">
+                                            <b-modal :id="index.toString()" hide-footer title="Delete this moodboard?">
                                                 <b-button variant="outline-danger" block
-                                                          @click="deleteTab(shotlistTab); $bvModal.hide(index.toString())">
+                                                          @click="deleteTab(index, board); $bvModal.hide(index.toString())">
                                                     Delete
                                                 </b-button>
                                                 <b-button variant="outline-warning" block
@@ -128,10 +121,7 @@
 
                     <!-- Table Content -->
                     <div>
-                        <SingleShotlist
-                                v-bind:shotlist_tab="shotlistTab"
-                                v-bind:shotlist-id="shotlistTab.id"
-                        />
+                        <OneMoodboard/>
                     </div>
                 </b-tab>
             </b-tabs>
@@ -140,64 +130,58 @@
 </template>
 
 <script>
-    import CreateShotListModal from "@/pages/ShotlistStoryboard/CreateShotListModal";
-    import SingleShotlist from "@/pages/ShotlistStoryboard/SingleShotlist";
-    import {mapGetters, mapActions} from "vuex";
-
+    import CreateEditMoodboardModal from "@/pages/Moodboard/CreateEditMoodboardModal";
+    import OneMoodboard from "@/pages/Moodboard/OneMoodboard";
     export default {
-        name: "ShotlistComp",
-        components: {CreateShotListModal, SingleShotlist},
+        name: "MoodboardComp",
+        components: {OneMoodboard, CreateEditMoodboardModal},
         data() {
             return {
+                moodboards: [{
+                    boardname: 'First Moodboard',
+                    edit: false,
+
+                    //ToDo - Array of Pictures
+
+                }]
             }
         },
         methods: {
-            //VUEX ACTIONS
-            ...mapActions(["updateShotlist","deleteShotlist"]),
-
             //Deletes the current Tab
-            deleteTab(shotlist) {
-                let payload = {
-                    projId: this.id,
-                    shotlistId: shotlist.id
-                }
+            deleteTab(index, board) {
+                var idx = this.moodboards.indexOf(board);
                 // eslint-disable-next-line no-console
-                console.log(payload)
-                this.deleteShotlist(payload)
+                console.log('Tab deleted: ' + index);
+                if (idx > -1) {
+                    this.moodboards.splice(idx, 1);
+                }
             },
 
-            saveNameChange(shotlist) {
-                let payload = {
-                    projId: this.id,
-                    updShotlist: shotlist
+            saveNameChange(moodboards, board) {
+                //CHECK IF ID AND NAME FILLED
+                if (board.boardname != null) {
+
+                    if (board.boardname.length > 0) {
+
+                        // eslint-disable-next-line no-console
+                        console.log('change to read_only where NBR: ' + board.boardname)
+                        board.edit = false;
+                        // eslint-disable-next-line no-console
+                        console.log('Edit Mode is now: ' + board.edit)
+                    } else {
+                        // eslint-disable-next-line no-console
+                        console.log('Name not filled - State is false')
+                    }
+                } else {
+                    // eslint-disable-next-line no-console
+                    console.log('Name not filled - State is false 2')
                 }
-
-                // eslint-disable-next-line no-console
-                console.log(payload)
-                this.updateShotlist(payload)
-
-                shotlist.edit = false
-            }
-        },
-        computed: {
-            ...mapGetters(["getProjectByID"]),
-
-            id(){
-                return sessionStorage.getItem('sessionProjectID');
             },
-
-            getshotlistTabs(){
-                return this.getProjectByID(sessionStorage.getItem('sessionProjectID')).shotlists
-            }
-        },
+        }
     }
 </script>
 
 <style scoped>
-    #shotlist {
-
-    }
-
     .tabtitle {
         color: #FF6852;
         font-size: large;
