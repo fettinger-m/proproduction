@@ -19,7 +19,7 @@
     "fs-write-stream-atomic": "^1.0.10",
     "grpc": "^1.24.2",
     "mdbvue": "^6.1.1",
-    "sockjs": "^0.3.19",
+    "sockjs": "^0.3.20",
     "tiptap": "^1.26.6",
     "tiptap-extensions": "^1.28.6",
     "vue": "^2.6.10",
