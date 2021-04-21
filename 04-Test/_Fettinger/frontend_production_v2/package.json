@@ -17,7 +17,7 @@
     "core-js": "^3.1.2",
     "fs-write-stream-atomic": "^1.0.10",
     "mdbvue": "^6.1.1",
-    "sockjs": "^0.3.19",
+    "sockjs": "^0.3.20",
     "vue": "^2.6.10",
     "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-file-agent": "^1.5.0",
