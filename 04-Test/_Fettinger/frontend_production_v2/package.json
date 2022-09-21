@@ -25,7 +25,7 @@
     "vue-simple-calendar": "^4.3.2",
     "vue2-google-maps": "^0.10.7",
     "vuetable-2": "^1.7.5",
-    "vuetify": "^2.1.14"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.11.2",
